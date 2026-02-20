@@ -5,7 +5,8 @@ import { Button } from './ui/button'
 export default function LoginButton() {
   const handleLogin = () => {
     // Redirect to our custom login page for better UX
-    window.location.href = 'http://localhost:3001/login'
+    const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001').replace(/\/$/, '')
+    window.location.href = `${appUrl}/login`
   }
 
   return (

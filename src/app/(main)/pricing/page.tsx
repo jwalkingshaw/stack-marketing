@@ -7,6 +7,7 @@ import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components"
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001").replace(/\/$/, "");
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com' },
@@ -198,7 +199,7 @@ export default function PricingPage() {
 
                     {plan.monthlyPrice ? (
                       <RegisterLink 
-                        postLoginRedirectURL="http://localhost:3001/onboarding"
+                        postLoginRedirectURL={`${appUrl}/onboarding`}
                         authUrlParams={{
                           connection_id: plan.id,
                           billing_plan: billingPeriod === 'yearly' ? plan.yearlyPrice.toString() : plan.monthlyPrice.toString(),
@@ -318,7 +319,7 @@ export default function PricingPage() {
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <RegisterLink 
-                postLoginRedirectURL="http://localhost:3001/onboarding"
+                postLoginRedirectURL={`${appUrl}/onboarding`}
                 authUrlParams={{
                   connection_id: "starter",
                   billing_plan: "free_trial",

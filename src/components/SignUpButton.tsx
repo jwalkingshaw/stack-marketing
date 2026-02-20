@@ -4,9 +4,11 @@ import { Button } from './ui/button'
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components"
 
 export default function SignUpButton() {
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001").replace(/\/$/, "");
+
   return (
     <RegisterLink 
-      postLoginRedirectURL="http://localhost:3001/onboarding" // Redirect to onboarding flow
+      postLoginRedirectURL={`${appUrl}/onboarding`} // Redirect to onboarding flow
     >
       <Button 
         size="sm" 

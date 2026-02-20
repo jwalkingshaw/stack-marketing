@@ -9,13 +9,14 @@ interface MarketingLayoutWrapperProps {
 }
 
 export default function MarketingLayoutWrapper({ children }: MarketingLayoutWrapperProps) {
-  
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001").replace(/\/$/, "");
+
   const handleLogin = () => {
-    window.location.href = "http://localhost:3001/login"
+    window.location.href = `${appUrl}/login`
   }
   
   const handleRegister = () => {
-    window.location.href = "http://localhost:3001/api/auth/register"
+    window.location.href = `${appUrl}/api/auth/register`
   }
   
   return (

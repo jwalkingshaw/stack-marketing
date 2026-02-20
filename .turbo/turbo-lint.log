@@ -2,13 +2,19 @@
 > @tradetool/public-site@0.1.0 lint
 > next lint
 
- ⚠ Warning: Found multiple lockfiles. Selecting C:\Users\jason\tradetool\package-lock.json.
-   Consider removing the lockfiles at:
-   * C:\Users\jason\tradetool\apps\marketing-site\package-lock.json
+`next lint` is deprecated and will be removed in Next.js 16.
+For new projects, use create-next-app to choose your preferred linter.
+For existing projects, migrate to the ESLint CLI:
+npx @next/codemod@canary next-lint-to-eslint-cli .
 
-✔ No ESLint warnings or errors
-npm notice
-npm notice New minor version of npm available! 11.4.2 -> 11.5.2
-npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
-npm notice To update run: npm install -g npm@11.5.2
-npm notice
+
+./src/components/AnnouncementBar.tsx
+3:8  Warning: 'Link' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Footer.tsx
+4:8  Warning: 'Image' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/forms/EmailSignup.tsx
+5:19  Warning: 'Mail' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
