@@ -1,16 +1,126 @@
 'use client'
 
-import { generateBreadcrumbSchema } from '@/lib/schema'
-import SplitText from '@/components/SplitText'
-import { EmailSignup } from '@/components/forms'
 import Link from 'next/link'
+import { ArrowRight, CheckCircle2, Layers, ShieldCheck, Target } from 'lucide-react'
+import { EmailSignup } from '@/components/forms'
+import MarketingFunnelTracker from '@/components/MarketingFunnelTracker'
+import { buildAppAuthUrl } from '@/lib/app-links'
+import { trackMarketingEvent } from '@/lib/marketing-analytics'
+import { generateBreadcrumbSchema } from '@/lib/schema'
+
+type PlanId = 'starter' | 'growth' | 'scale'
+
+const problems = [
+  {
+    title: 'Stale assets still reach retail pages',
+    detail:
+      'Old pack shots and copy survive in inbox threads, so launch teams spend week one on rework instead of execution.',
+  },
+  {
+    title: 'Launch readiness is spread across too many tools',
+    detail:
+      'Catalog fields, labels, COAs, translations, and approvals are not in one operational view.',
+  },
+  {
+    title: 'Every market rollout repeats compliance work',
+    detail:
+      'Teams rebuild routing and document handoffs each cycle because distribution is not scoped by destination.',
+  },
+]
+
+const steps = [
+  {
+    title: 'Model products once',
+    detail: 'Create parent and variant structure once so every downstream launch starts from clean SKU data.',
+    icon: Layers,
+  },
+  {
+    title: 'Attach assets and compliance',
+    detail: 'Bind imagery, copy, labels, and COAs directly to SKU records with version history.',
+    icon: ShieldCheck,
+  },
+  {
+    title: 'Distribute by market and partner',
+    detail: 'Ship approved content to destination scopes only, with full audit visibility.',
+    icon: Target,
+  },
+]
+
+const faqItems = [
+  {
+    q: 'Do we pay per seat?',
+    a: 'No. Billing is workspace-based. Plan limits are operational caps, not per-user charges.',
+  },
+  {
+    q: 'Do partners need paid accounts?',
+    a: 'No. Partners can receive shared content for free. Invite capacity scales by plan.',
+  },
+  {
+    q: 'Are features locked by tier?',
+    a: 'No. Paid plans include the full product. Tiers differ by scale limits only.',
+  },
+  {
+    q: 'What happens when we hit limits?',
+    a: 'In-app threshold warnings appear and teams can upgrade immediately.',
+  },
+]
+
+const planRows: Array<{ id: PlanId; name: string; price: string; description: string }> = [
+  {
+    id: 'starter',
+    name: 'Starter',
+    price: '$49 / month',
+    description: 'Lower-volume entry for teams building launch discipline.',
+  },
+  {
+    id: 'growth',
+    name: 'Growth',
+    price: '$129 / month',
+    description: 'Default for active brand ops and marketing teams shipping across markets.',
+  },
+  {
+    id: 'scale',
+    name: 'Scale',
+    price: '$299 / month',
+    description: 'For global teams with high SKU, partner, and localization volume.',
+  },
+]
 
 export default function Home() {
-
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com' }
+    { name: 'Home', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com' },
   ])
 
+  const registerGrowthHref = buildAppAuthUrl('register', {
+    planInterest: 'growth',
+    postLoginRedirectPath: '/onboarding?create=1&origin=marketing_home',
+  })
+
+  const registerByPlan: Record<PlanId, string> = {
+    starter: buildAppAuthUrl('register', {
+      planInterest: 'starter',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_home_plan_starter',
+    }),
+    growth: buildAppAuthUrl('register', {
+      planInterest: 'growth',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_home_plan_growth',
+    }),
+    scale: buildAppAuthUrl('register', {
+      planInterest: 'scale',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_home_plan_scale',
+    }),
+  }
+
+  const salesHref = 'mailto:sales@stackcess.com?subject=Stackcess%20Demo%20Request'
+
+  const trackRegisterRedirect = (section: string, ctaLabel: string, planInterest: string) => {
+    trackMarketingEvent('redirect_to_register', {
+      page: 'home',
+      section,
+      ctaLabel,
+      planInterest,
+    })
+  }
 
   return (
     <>
@@ -20,375 +130,381 @@ export default function Home() {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      
-      <div className="bg-[#0a0a0a]">
-        {/* Hero Section */}
-        <section className="bg-[#0a0a0a] -mt-16 pt-24 pb-16 sm:pb-24 px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto pt-8">
-            {/* Subtle badge */}
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm mb-6">
-              <span className="text-xs !text-[#8a8f98] font-medium tracking-wide">SPORTS SUPPLEMENTS OPERATING SYSTEM</span>
+
+      <MarketingFunnelTracker page="home" trackScroll />
+
+      <div className="bg-[var(--color-background)]">
+        <section className="-mt-16 px-4 pb-20 pt-36 sm:px-6 sm:pb-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                  Stackcess for supplement brand ops and marketing
+                </p>
+                <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.9] text-[var(--color-foreground)] sm:text-6xl lg:text-7xl">
+                  Launch content should not live in inbox threads.
+                </h1>
+                <p className="mt-6 max-w-2xl text-base leading-[1.75] text-[var(--color-foreground-muted)] sm:text-lg">
+                  Stackcess connects SKU data, approved assets, compliance docs, and partner distribution so teams ship
+                  faster without version confusion.
+                </p>
+
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Link
+                    href={registerGrowthHref}
+                    onClick={() => {
+                      trackMarketingEvent('hero_cta_click', {
+                        page: 'home',
+                        section: 'hero',
+                        ctaLabel: 'Start free',
+                        planInterest: 'growth',
+                      })
+                      trackRegisterRedirect('hero', 'Start free', 'growth')
+                    }}
+                    className="inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] px-7 py-3.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-colors hover:bg-[var(--color-primary-hover)]"
+                  >
+                    Start free
+                    <ArrowRight size={16} />
+                  </Link>
+                  <Link
+                    href="/pricing"
+                    onClick={() => {
+                      trackMarketingEvent('pricing_cta_click', {
+                        page: 'home',
+                        section: 'hero',
+                        ctaLabel: 'See pricing',
+                      })
+                    }}
+                    className="inline-flex items-center justify-center bg-[var(--color-surface)] px-7 py-3.5 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-surface-muted)]"
+                  >
+                    See pricing
+                  </Link>
+                </div>
+
+                <p className="mt-4 text-xs text-[var(--color-foreground-subtle)]">
+                  No credit card required. Teams typically move to Growth when SKU, partner, or localization
+                  volume outgrows free limits.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-b from-[#07183d] via-[#0a1f4e] to-[#08142d] p-5 text-slate-100 shadow-[var(--shadow-card)]">
+                <div className="space-y-3">
+                  <div className="bg-slate-900/70 p-3.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-300">Launch status</p>
+                      <span className="bg-emerald-500/25 px-2.5 py-1 text-[11px] font-semibold text-emerald-200">
+                        18 of 22 SKUs approved
+                      </span>
+                    </div>
+                    <div className="mt-3 space-y-2">
+                      <div className="bg-slate-800/80 px-3 py-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span>Nitro Surge 30 Serve</span>
+                          <span className="bg-slate-700 px-2 py-0.5 text-[11px]">Ready</span>
+                        </div>
+                        <p className="mt-1 text-xs text-slate-400">Pack shots, label, COA, and copy linked</p>
+                      </div>
+                      <div className="bg-slate-800/80 px-3 py-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span>Hydrate Plus Orange</span>
+                          <span className="bg-amber-500/20 px-2 py-0.5 text-[11px] text-amber-200">In review</span>
+                        </div>
+                        <p className="mt-1 text-xs text-slate-400">EU label pending, AU packet ready</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="bg-slate-900/70 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-300">Distribution queue</p>
+                      <p className="mt-1 text-sm text-slate-100">EU Retail Bundle</p>
+                      <p className="mt-1 text-xs text-slate-400">12 partners, scoped docs and copy</p>
+                    </div>
+                    <div className="bg-slate-900/70 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-300">Progress</p>
+                      <div className="mt-2 h-2 bg-slate-700">
+                        <div className="h-2 w-[72%] bg-[#4ade80]" />
+                      </div>
+                      <p className="mt-1 text-xs text-slate-400">72% release complete</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            {/* Main headline */}
-            <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium !text-[#f7f8f8] mb-4 tracking-[-0.02em] leading-[1.05] max-w-4xl">
-              <h1><SplitText delay={0.1}>Your supplement content stack. Organized, shared, scaled.</SplitText></h1>
+
+            <div className="mt-10 grid gap-2 border-t border-[var(--color-border)] pt-4 text-xs font-semibold uppercase tracking-[0.07em] text-[var(--color-foreground-muted)] md:grid-cols-3">
+              {[
+                'SKU anchored launch packets',
+                'Market scoped compliance delivery',
+                'Partner access with audit trail',
+              ].map((item) => (
+                <div key={item} className="pl-3">
+                  {item}
+                </div>
+              ))}
             </div>
-            
-            {/* Clean subheadline */}
-            <p className="text-base sm:text-lg !text-[#8a8f98] mb-8 sm:mb-12 max-w-lg leading-[1.4] font-normal">
-              Connect supplement brands with retailers, distributors, and partners through one unified platform.
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-10 lg:grid-cols-[0.86fr_1.14fr]">
+              <div className="lg:sticky lg:top-28 lg:self-start">
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                  Problem Proof
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold leading-[1] text-[var(--color-foreground)] sm:text-5xl">
+                  Why launch operations break for supplement brands.
+                </h2>
+                <p className="mt-4 text-sm leading-[1.8] text-[var(--color-foreground-muted)] sm:text-base">
+                  The friction is structural, not tactical.
+                </p>
+              </div>
+
+              <div className="border-l border-[var(--color-border)] pl-6 sm:pl-10">
+                {problems.map((item, idx) => (
+                  <div key={item.title} className={`${idx > 0 ? 'mt-10 border-t border-[var(--color-border)] pt-10' : ''}`}>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-[var(--color-foreground-subtle)]">
+                      0{idx + 1}
+                    </p>
+                    <h3 className="mt-2 text-2xl font-semibold leading-[1.1] text-[var(--color-foreground)]">{item.title}</h3>
+                    <p className="mt-3 max-w-2xl text-sm leading-[1.8] text-[var(--color-foreground-muted)] sm:text-base">
+                      {item.detail}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="product-workflows" className="px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">Mechanism</p>
+            <h2 className="mt-3 max-w-4xl text-3xl font-semibold leading-[1] text-[var(--color-foreground)] sm:text-5xl">
+              One operating sequence from product model to partner release.
+            </h2>
+
+            <div className="mt-10 border-t border-[var(--color-border)]">
+              {steps.map((step, idx) => {
+                const Icon = step.icon
+                return (
+                  <div
+                    key={step.title}
+                    className={`grid gap-6 py-7 md:grid-cols-[120px_1fr_auto] md:items-start ${
+                      idx < steps.length - 1 ? 'border-b border-[var(--color-border)]' : ''
+                    }`}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                      Step {idx + 1}
+                    </p>
+                    <div>
+                      <h3 className="text-2xl font-semibold leading-[1.1] text-[var(--color-foreground)]">{step.title}</h3>
+                      <p className="mt-2 max-w-2xl text-sm leading-[1.8] text-[var(--color-foreground-muted)] sm:text-base">
+                        {step.detail}
+                      </p>
+                    </div>
+                    <Icon className="hidden h-5 w-5 text-[var(--color-accent)] md:block" />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">Workflow Proof</p>
+            <h2 className="mt-3 max-w-4xl text-3xl font-semibold leading-[1] text-[var(--color-foreground)] sm:text-5xl">
+              Two output bundles teams ship every week.
+            </h2>
+
+            <div className="mt-10 bg-gradient-to-b from-[#07183f] to-[#08142b] p-5 text-slate-100 shadow-[var(--shadow-card)]">
+              <div className="grid gap-4 lg:grid-cols-2">
+                <div className="bg-slate-900/70 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-300">Launch Kit Workflow</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                    <li>- Hero images and pack shots linked to launch SKUs</li>
+                    <li>- Approved product copy in market languages</li>
+                    <li>- Spec sheet and channel-ready product data</li>
+                    <li>- Scheduled partner release on launch date</li>
+                  </ul>
+                </div>
+                <div className="bg-slate-900/70 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-300">Regulatory Kit Workflow</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                    <li>- Version-locked COAs and approved labels</li>
+                    <li>- Market-specific document routing by scope</li>
+                    <li>- Full audit trail of partner delivery</li>
+                    <li>- Instant revocation when scope changes</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">Why Teams Pay</p>
+            <h2 className="mt-3 max-w-4xl text-3xl font-semibold leading-[1] text-[var(--color-foreground)] sm:text-5xl">
+              Upgrade is triggered by operational volume, not feature gating.
+            </h2>
+
+            <div className="mt-10 overflow-x-auto bg-[var(--color-surface)]">
+              <table className="w-full min-w-[760px] border-collapse">
+                <thead>
+                  <tr className="border-b border-[var(--color-border)] bg-[var(--color-surface-muted)]">
+                    <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                      Operational Limit
+                    </th>
+                    <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                      Starter
+                    </th>
+                    <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                      Growth
+                    </th>
+                    <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                      Scale
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  {[
+                    ['Active SKUs', '50', '500', '2,500'],
+                    ['Storage', '15 GB', '100 GB', '500 GB'],
+                    ['Partner Invites', '10', '100', 'Unlimited'],
+                    ['Translation Volume', '750K chars', '3M chars', '12M chars'],
+                  ].map((row, idx) => (
+                    <tr key={row[0]} className={idx < 3 ? 'border-b border-[var(--color-border)]' : ''}>
+                      <td className="px-5 py-3 font-semibold text-[var(--color-foreground)]">{row[0]}</td>
+                      <td className="px-5 py-3 text-[var(--color-foreground-muted)]">{row[1]}</td>
+                      <td className="px-5 py-3 text-[var(--color-foreground-muted)]">{row[2]}</td>
+                      <td className="px-5 py-3 text-[var(--color-foreground-muted)]">{row[3]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">Pricing Preview</p>
+            <h2 className="mt-3 max-w-4xl text-3xl font-semibold leading-[1] text-[var(--color-foreground)] sm:text-5xl">
+              Pick the plan that matches current volume.
+            </h2>
+
+            <div className="mt-10 border-y border-[var(--color-border)]">
+              {planRows.map((plan, idx) => (
+                <div
+                  key={plan.id}
+                  className={`grid gap-3 py-6 sm:grid-cols-[1fr_auto] sm:items-center ${idx < planRows.length - 1 ? 'border-b border-[var(--color-border)]' : ''}`}
+                >
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">
+                      {plan.name}
+                    </p>
+                    <p className="mt-1 text-xl font-semibold text-[var(--color-foreground)]">{plan.price}</p>
+                    <p className="mt-1 text-sm leading-[1.75] text-[var(--color-foreground-muted)]">{plan.description}</p>
+                  </div>
+                  <Link
+                    href={registerByPlan[plan.id]}
+                    onClick={() => {
+                      trackMarketingEvent('plan_cta_click', {
+                        page: 'home',
+                        section: 'pricing_preview',
+                        ctaLabel: `Start ${plan.name}`,
+                        planInterest: plan.id,
+                      })
+                      trackRegisterRedirect('pricing_preview', `Start ${plan.name}`, plan.id)
+                    }}
+                    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold ${
+                      plan.id === 'growth'
+                        ? 'bg-[var(--color-accent)] text-[var(--color-accent-foreground)]'
+                        : 'bg-[var(--color-surface-muted)] text-[var(--color-foreground)]'
+                    }`}
+                  >
+                    Start {plan.name}
+                    <ArrowRight size={14} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6">
+          <div className="mx-auto max-w-4xl">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-subtle)]">FAQ</p>
+            <h2 className="mt-3 text-center text-3xl font-semibold leading-[1] text-[var(--color-foreground)] sm:text-5xl">
+              Questions teams ask before buying
+            </h2>
+
+            <div className="mt-10 border-y border-[var(--color-border)]">
+              {faqItems.map((item, idx) => (
+                <div key={item.q} className={`py-5 ${idx < faqItems.length - 1 ? 'border-b border-[var(--color-border)]' : ''}`}>
+                  <h3 className="text-base font-semibold text-[var(--color-foreground)]">{item.q}</h3>
+                  <p className="mt-2 text-sm leading-[1.8] text-[var(--color-foreground-muted)]">{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-24 pt-18 sm:px-6">
+          <div className="mx-auto max-w-6xl bg-gradient-to-br from-[#08183f] via-[#0f2f71] to-[#174792] p-8 shadow-[var(--shadow-card)] sm:p-10">
+            <h2 className="mx-auto max-w-3xl text-center text-3xl font-semibold leading-[0.95] text-white sm:text-5xl">
+              Ready to run launches without content chaos?
+            </h2>
+            <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-[1.7] text-blue-100 sm:text-xl">
+              Start free now. Upgrade only when your team reaches production limits.
             </p>
-            
-            {/* Focused CTA */}
-            <div id="hero-signup" className="mb-6 sm:mb-8 mt-4 sm:mt-6">
+
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Link
+                href={registerGrowthHref}
+                onClick={() => {
+                  trackMarketingEvent('hero_cta_click', {
+                    page: 'home',
+                    section: 'final_cta',
+                    ctaLabel: 'Start free',
+                    planInterest: 'growth',
+                  })
+                  trackRegisterRedirect('final_cta', 'Start free', 'growth')
+                }}
+                className="inline-flex items-center justify-center gap-2 bg-[#ff5a1f] px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-[#df4a1a]"
+              >
+                Start free
+                <ArrowRight size={18} />
+              </Link>
+              <a
+                href={salesHref}
+                className="inline-flex items-center justify-center bg-white/10 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/15"
+              >
+                Talk to sales
+              </a>
+            </div>
+
+            <div className="mx-auto mt-8 max-w-md bg-[var(--color-surface)] p-4">
               <EmailSignup
-                source="waitlist"
-                placeholder="Enter your work email"
-                buttonText="Join Waitlist"
-                successMessage="Welcome to the journey!"
+                source="newsletter"
+                placeholder="Get product updates by email"
+                buttonText="Subscribe"
+                successMessage="Thanks. You are subscribed."
                 size="default"
                 variant="secondary"
               />
             </div>
-            
-            {/* Minimal feature indicators */}
-            <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0a0a0a]/5 border border-white/10">
-                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                <span className="text-xs !text-[#8a8f98] font-medium">Product Management</span>
-              </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0a0a0a]/5 border border-white/10">
-                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                <span className="text-xs !text-[#8a8f98] font-medium">Asset Management</span>
-              </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0a0a0a]/5 border border-white/10">
-                <div className="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
-                <span className="text-xs !text-[#8a8f98] font-medium">Partner Collaboration</span>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Problem Section */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="mb-8 sm:mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium !text-[#f7f8f8] mb-4 sm:mb-6 tracking-[-0.02em] leading-[1.1]">
-                Scattered systems are <br className="hidden sm:block" />breaking your teams
-              </h2>
-              <div className="flex justify-center">
-                <p className="text-lg sm:text-xl !text-[#f7f8f8]/60 max-w-2xl leading-[1.4] text-center px-4 sm:px-0">
-                  Sports supplement brands struggle with fragmented operations across multiple platforms that are disconnected from stakeholders.
-                </p>
-              </div>
-            </div>
-            
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              <div className="text-center sm:text-left">
-                <div className="w-2 h-2 bg-red-500 rounded-full mb-4 sm:mb-6 mx-auto sm:mx-0"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Product Chaos</h3>
-                <p className="!text-[#f7f8f8]/60 leading-[1.4] text-sm sm:text-base">
-                  Product information scattered across emails, drives, and spreadsheets. 
-                  Partners working with outdated materials.
-                </p>
-              </div>
-              
-              <div className="text-center sm:text-left">
-                <div className="w-2 h-2 bg-red-500 rounded-full mb-4 sm:mb-6 mx-auto sm:mx-0"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Compliance Issues</h3>
-                <p className="!text-[#f7f8f8]/60 leading-[1.4] text-sm sm:text-base">
-                  Regulatory documents buried when changes hit. Manual tracking leads to costly compliance failures.
-                </p>
-              </div>
-              
-              <div className="text-center sm:text-left sm:col-span-2 lg:col-span-1">
-                <div className="w-2 h-2 bg-red-500 rounded-full mb-4 sm:mb-6 mx-auto sm:mx-0"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Launch Delays</h3>
-                <p className="!text-[#f7f8f8]/60 leading-[1.4] text-sm sm:text-base">
-                  New product launches delayed by coordination chaos across your team and partner netork.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Solution Section */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="mb-8 sm:mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium !text-[#f7f8f8] mb-4 sm:mb-6 tracking-[-0.02em] leading-[1.1]">
-                One system.<br />
-                Stronger together.
-              </h2>
-              <div className="flex justify-center">
-                <p className="text-lg sm:text-xl !text-[#8a8f98] max-w-2xl leading-[1.4] text-center px-4 sm:px-0">
-                  Centralize operations, documenentation and assets, and connect your entire supplement ecosystem.
-                </p>
-              </div>
-            </div>
-            
-            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
-              <div className="p-6 sm:p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-green-400 rounded-full mb-4 sm:mb-6"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Unified Database</h3>
-                <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                  Centralized product database with real-time updates. 
-                  All stakeholders stay synchronized automatically.
-                </p>
-              </div>
-              
-              <div className="p-6 sm:p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-blue-400 rounded-full mb-4 sm:mb-6"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Automated Compliance</h3>
-                <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                  Automated compliance tracking and alert system. 
-                  Never miss regulatory changes again.
-                </p>
-              </div>
-              
-              <div className="p-6 sm:p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-orange-400 rounded-full mb-4 sm:mb-6"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Partner Portal</h3>
-                <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                  Partner portal for instant access to latest assets. 
-                  Self-service reduces support burden.
-                </p>
-              </div>
-              
-              <div className="p-6 sm:p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-purple-400 rounded-full mb-4 sm:mb-6"></div>
-                <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Launch Workflows</h3>
-                <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                  Project workflows for seamless new product rollouts. 
-                  Coordinate launches across channels.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Engagement Section*/}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium !text-[#f7f8f8] mb-4 sm:mb-6 tracking-[-0.02em] leading-[1.1]">
-              Help us build the platform</h2>
-            <p className="text-lg sm:text-xl !text-[#f7f8f8]/60 mb-6 sm:mb-8 leading-[1.4] px-4 sm:px-0">
-              We&apos;re building Stackcess with the sports supplement community. 
-              Your input shapes every feature we develop.
-            </p>
-            
-            <Link
-              href="/roadmap"
-              className="bg-white !text-black font-medium px-6 py-3 rounded-lg text-base hover:bg-white/90 transition-colors w-full sm:w-auto inline-flex items-center justify-center mt-4 sm:mt-6"
-            >
-              Submit Feature Request
-            </Link>
-          </div>
-        </section>
-
-        {/* Stakeholder Section - Linear clean style */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-8 sm:mb-12">
-              <div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium !text-[#f7f8f8] mb-4 sm:mb-6 tracking-[-0.02em] leading-[1.1]">
-                  Built for every stakeholder
-                </h2>
-              </div>
-              <div>
-                <p className="text-lg sm:text-xl !text-[#8a8f98] mb-4 sm:mb-6 leading-[1.4]">
-                  Stackcess connects brands, distributors, and retailers through a unified platform designed for the supplement industry&apos;s unique needs.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 text-sm">
-                  <Link href="/roadmap" className="!text-[#8a8f98] hover:!text-[#f7f8f8] transition-colors">
-                    Help us build →
-                  </Link>
-                  <button 
-                    onClick={() => document.getElementById('hero-signup')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="!text-[#8a8f98] hover:!text-[#f7f8f8] transition-colors text-left sm:text-center"
-                  >
-                    Join the ecosystem →
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {/* Brands */}
-              <div className="p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="mb-6">
-                  <div className="w-2 h-2 bg-[#0a0a0a] rounded-full mb-6"></div>
-                  <h3 className="text-xl font-medium !text-[#f7f8f8] mb-4">Supplement Brands</h3>
-                  <p className="!text-[#8a8f98] mb-6 leading-[1.4]">
-                    Organize products, manage compliance, and scale partnerships
-                  </p>
-                </div>
-                <div className="space-y-3">
-                  <div className="text-sm !text-[#8a8f98]">
-                    Product catalog & specifications
-                  </div>
-                  <div className="text-sm !text-[#8a8f98]">
-                    Marketing asset library
-                  </div>
-                  <div className="text-sm !text-[#8a8f98]">
-                    Regulatory compliance
-                  </div>
-                </div>
-              </div>
-
-              {/* Distributors */}
-              <div className="p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="mb-6">
-                  <div className="w-2 h-2 bg-[#0a0a0a] rounded-full mb-6"></div>
-                  <h3 className="text-xl font-medium !text-[#f7f8f8] mb-4">Distributors</h3>
-                  <p className="!text-[#8a8f98] mb-6 leading-[1.4]">
-                    Access brand portfolios and coordinate retail relationships
-                  </p>
-                </div>
-                <div className="space-y-3">
-                  <div className="text-sm !text-[#8a8f98]">
-                    Multi-brand dashboard
-                  </div>
-                  <div className="text-sm !text-[#8a8f98]">
-                    Current pricing & specs
-                  </div>
-                  <div className="text-sm !text-[#8a8f98]">
-                    Sales support materials
-                  </div>
-                </div>
-              </div>
-
-              {/* Retailers */}
-              <div className="p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="mb-6">
-                  <div className="w-2 h-2 bg-[#0a0a0a] rounded-full mb-6"></div>
-                  <h3 className="text-xl font-medium !text-[#f7f8f8] mb-4">Retailers</h3>
-                  <p className="!text-[#8a8f98] mb-6 leading-[1.4]">
-                    Fresh content and materials to drive sales
-                  </p>
-                </div>
-                <div className="space-y-3">
-                  <div className="text-sm !text-[#8a8f98]">
-                    Brand asset library
-                  </div>
-                  <div className="text-sm !text-[#8a8f98]">
-                    Campaign materials
-                  </div>
-                  <div className="text-sm !text-[#8a8f98]">
-                    Product education
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-8 sm:mb-12 tracking-[-0.02em] leading-[1.1]">
-              Measurable impact<br />
-              <span className="!text-[#f7f8f8]/60">across your value chain</span>
-            </h2>
-            
-            <div className="grid sm:grid-cols-3 gap-8 sm:gap-12">
-              <div>
-                <div className="text-4xl sm:text-6xl font-light !text-[#f7f8f8] mb-3 sm:mb-4">67%</div>
-                <div className="text-base sm:text-lg font-medium !text-[#f7f8f8] mb-2 sm:mb-3">Faster Compliance</div>
-                <p className="!text-[#f7f8f8]/60 text-xs sm:text-sm leading-[1.4]">
-                  Regulatory updates pushed instantly across all stakeholders
-                </p>
-              </div>
-              
-              <div>
-                <div className="text-4xl sm:text-6xl font-light !text-[#f7f8f8] mb-3 sm:mb-4">2.3x</div>
-                <div className="text-base sm:text-lg font-medium !text-[#f7f8f8] mb-2 sm:mb-3">Launch Velocity</div>
-                <p className="!text-[#f7f8f8]/60 text-xs sm:text-sm leading-[1.4]">
-                  New supplements reach retailers faster with synchronized rollouts
-                </p>
-              </div>
-              
-              <div>
-                <div className="text-4xl sm:text-6xl font-light !text-[#f7f8f8] mb-3 sm:mb-4">89%</div>
-                <div className="text-base sm:text-lg font-medium !text-[#f7f8f8] mb-2 sm:mb-3">Partner Satisfaction</div>
-                <p className="!text-[#f7f8f8]/60 text-xs sm:text-sm leading-[1.4]">
-                  Higher satisfaction with streamlined brand collaboration
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Industry Problems */}
-        <section className="py-24 px-6 bg-[#0a0a0a]">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl sm:text-5xl font-medium !text-[#f7f8f8] mb-6 tracking-[-0.02em] leading-[1.1]">
-                Common challenges<br />
-                <span className="!text-[#8a8f98]">across the industry.</span>
-              </h2>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-red-400 rounded-full mb-6"></div>
-                <h3 className="text-xl font-medium !text-[#f7f8f8] mb-4">Fragmented Operations</h3>
-                <p className="!text-[#8a8f98] leading-[1.4]">
-                  Product data scattered across multiple systems makes it impossible to maintain consistency across your distribution network.
-                </p>
-              </div>
-              
-              <div className="p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full mb-6"></div>
-                <h3 className="text-xl font-medium !text-[#f7f8f8] mb-4">Manual Compliance Tracking</h3>
-                <p className="!text-[#8a8f98] leading-[1.4]">
-                  Regulatory changes buried in email chains while partners work with outdated compliance documentation.
-                </p>
-              </div>
-              
-              <div className="p-8 rounded-xl bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-orange-400 rounded-full mb-6"></div>
-                <h3 className="text-xl font-medium !text-[#f7f8f8] mb-4">Partnership Bottlenecks</h3>
-                <p className="!text-[#8a8f98] leading-[1.4]">
-                  Retailers and distributors constantly requesting updated materials while brands struggle to keep everyone synchronized.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA - Clean & focused */}
-        <section id="final-cta" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-4 sm:mb-6 tracking-[-0.02em] leading-[1.1]">
-              Ready to stack<br />
-              <span className="!text-[#f7f8f8]/60">your success?</span>
-            </h2>
-            <p className="text-lg sm:text-xl !text-[#f7f8f8]/60 mb-6 sm:mb-8 leading-[1.4] px-4 sm:px-0">
-              Join the waitlist for early access and exclusive updates.
-            </p>
-            
-            <div className="flex flex-col items-center justify-center gap-4 mb-6 sm:mb-8 mt-4 sm:mt-6">
-              <div className="w-full max-w-md">
-                <EmailSignup
-                  source="waitlist"
-                  placeholder="Enter your work email"
-                  buttonText="Join Waitlist"
-                  successMessage="You're in! We'll keep you updated."
-                  size="lg"
-                  variant="secondary"
-                />
-              </div>
-              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-                <span className="!text-[#f7f8f8]/40 text-sm hidden sm:inline">or</span>
-                <Link 
-                  href="/roadmap"
-                  className="!text-[#f7f8f8]/60 hover:!text-[#f7f8f8] text-sm font-medium transition-colors text-center"
-                >
-                  Shape our roadmap
-                </Link>
-              </div>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-blue-100">
+              {['No per-seat surprises', 'Partners can receive content free', 'Usage-based upgrade path'].map((item) => (
+                <span key={item} className="inline-flex items-center gap-1 bg-white/10 px-3 py-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  {item}
+                </span>
+              ))}
             </div>
           </div>
         </section>

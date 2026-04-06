@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { Button } from '../ui/button'
-import { Loader2, Mail, Check } from 'lucide-react'
+import { Check } from 'lucide-react'
+import { Skeleton } from '../ui/skeleton'
 
 interface EmailSignupProps {
   source: 'beta' | 'newsletter' | 'footer' | 'hero' | string
@@ -108,10 +109,10 @@ export function EmailSignup({
           onChange={(e) => setEmail(e.target.value)}
           placeholder={placeholder}
           className={`
-            w-full sm:w-60 px-4 py-2 border border-gray-300 rounded-md text-[15px]
-            focus:ring-2 focus:ring-blue-500 focus:border-transparent
+            w-full sm:w-60 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-[15px] text-[var(--color-foreground)]
+            focus:border-transparent focus:ring-2 focus:ring-[var(--color-focus)]
             disabled:opacity-50 disabled:cursor-not-allowed
-            placeholder:text-gray-500
+            placeholder:text-[var(--color-foreground-subtle)]
             ${size === 'sm' ? 'text-sm py-1.5 h-8' : 'h-10'}
             ${size === 'lg' ? 'text-lg py-3 h-12' : ''}
           `}
@@ -124,14 +125,14 @@ export function EmailSignup({
           variant={variant}
           size="default"
           className={`
-            w-full sm:w-auto px-6
+            w-full sm:w-auto px-6 font-semibold
             ${size === 'sm' ? 'h-8 text-sm' : 'h-10'}
             ${size === 'lg' ? 'h-12 text-lg' : ''}
           `}
         >
           {state.status === 'loading' ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              <Skeleton className="mr-2 h-4 w-4 rounded-full" />
               Subscribing...
             </>
           ) : (
@@ -144,7 +145,7 @@ export function EmailSignup({
         <p className="text-sm text-red-600">{state.message}</p>
       )}
       
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-[var(--color-foreground-subtle)]">
         {source === 'beta' 
           ? 'Get early access to our trading platform.'
           : 'We\'ll never spam you. Unsubscribe at any time.'

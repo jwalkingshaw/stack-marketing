@@ -1,103 +1,106 @@
-"use client";
+﻿'use client'
 
-import { useState } from "react";
-import { FeatureSubmissionData } from "../types";
+import { useState } from 'react'
+import { FeatureSubmissionData } from '../types'
 
 interface FeatureSubmissionFormProps {
-  onFeatureSubmitted: () => void;
+  onFeatureSubmitted: () => void
 }
 
 export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionFormProps) {
   const [formData, setFormData] = useState<FeatureSubmissionData>({
-    name: "",
-    email: "",
-    title: "",
-    description: "",
+    name: '',
+    email: '',
+    title: '',
+    description: '',
     marketingOptIn: false,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleInputChange = (field: keyof FeatureSubmissionData) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const value = event.target.type === "checkbox" 
-      ? (event.target as HTMLInputElement).checked 
-      : event.target.value;
-    
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+  const handleInputChange =
+    (field: keyof FeatureSubmissionData) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const value =
+        event.target.type === 'checkbox'
+          ? (event.target as HTMLInputElement).checked
+          : event.target.value
+
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }))
+    }
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    setError("");
+    event.preventDefault()
+    setIsSubmitting(true)
+    setError('')
 
     try {
-      const response = await fetch(`/api/roadmap/feature-requests`, {
-        method: "POST",
+      const response = await fetch('/api/roadmap/feature-requests', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      });
+      })
 
       if (response.ok) {
-        setSuccess(true);
+        setSuccess(true)
         setFormData({
-          name: "",
-          email: "",
-          title: "",
-          description: "",
+          name: '',
+          email: '',
+          title: '',
+          description: '',
           marketingOptIn: false,
-        });
-        onFeatureSubmitted();
-        
-        // Hide success message after 5 seconds
-        setTimeout(() => setSuccess(false), 5000);
+        })
+        onFeatureSubmitted()
+
+        setTimeout(() => setSuccess(false), 5000)
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Failed to submit feature request");
+        const errorData = await response.json()
+        setError(errorData.message || 'Failed to submit feature request')
       }
     } catch {
-      setError("Network error. Please try again.");
+      setError('Network error. Please try again.')
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   if (success) {
     return (
-      <div className="text-center py-8">
+      <div className="py-8 text-center">
         <div className="mb-4 text-green-600">
           <svg className="mx-auto h-12 w-12" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
           </svg>
         </div>
-        <h3 className="text-lg font-medium !text-gray-900 mb-2">Feature Request Submitted!</h3>
-        <p className="!text-gray-600">
-          Thank you for your suggestion. We&apos;ll review it and add it to the community voting once approved.
+        <h3 className="mb-2 text-lg font-medium text-[var(--color-foreground)]">Feature request submitted</h3>
+        <p className="text-[var(--color-foreground-muted)]">
+          Thanks. We will review it and add it to community voting once approved.
         </p>
       </div>
-    );
+    )
   }
 
-  const inputClasses = "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors placeholder:!text-gray-500";
-  const labelClasses = "block text-sm font-medium !text-gray-900 mb-2";
+  const inputClasses =
+    'w-full rounded-lg border border-[var(--color-border)] px-4 py-3 text-[var(--color-foreground)] placeholder:text-[var(--color-foreground-subtle)] transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500'
+  const labelClasses = 'mb-2 block text-sm font-medium text-[var(--color-foreground)]'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-          {error}
-        </div>
-      )}
+      {error ? (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">{error}</div>
+      ) : null}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClasses}>
             Name *
@@ -106,13 +109,13 @@ export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionF
             id="name"
             type="text"
             value={formData.name}
-            onChange={handleInputChange("name")}
+            onChange={handleInputChange('name')}
             placeholder="Your full name"
             required
             className={inputClasses}
           />
         </div>
-        
+
         <div>
           <label htmlFor="email" className={labelClasses}>
             Email *
@@ -121,7 +124,7 @@ export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionF
             id="email"
             type="email"
             value={formData.email}
-            onChange={handleInputChange("email")}
+            onChange={handleInputChange('email')}
             placeholder="your.email@example.com"
             required
             className={inputClasses}
@@ -137,7 +140,7 @@ export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionF
           id="title"
           type="text"
           value={formData.title}
-          onChange={handleInputChange("title")}
+          onChange={handleInputChange('title')}
           placeholder="Brief title for your feature request"
           required
           maxLength={200}
@@ -152,14 +155,14 @@ export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionF
         <textarea
           id="description"
           value={formData.description}
-          onChange={handleInputChange("description")}
-          placeholder="Describe the feature you'd like to see, the problem it would solve, and how it would benefit the sports supplement community..."
+          onChange={handleInputChange('description')}
+          placeholder="Describe the feature, the problem it solves, and why it matters in supplement operations."
           required
           rows={6}
           maxLength={2000}
           className={inputClasses}
         />
-        <div className="text-sm !text-gray-500 mt-1">
+        <div className="mt-1 text-sm text-[var(--color-foreground-subtle)]">
           {formData.description.length}/2000 characters
         </div>
       </div>
@@ -169,10 +172,10 @@ export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionF
           id="marketing"
           type="checkbox"
           checked={formData.marketingOptIn}
-          onChange={handleInputChange("marketingOptIn")}
-          className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          onChange={handleInputChange('marketingOptIn')}
+          className="mt-1 h-4 w-4 rounded border-[var(--color-border)] text-blue-600 focus:ring-blue-500"
         />
-        <label htmlFor="marketing" className="text-sm !text-gray-700">
+        <label htmlFor="marketing" className="text-sm text-[var(--color-foreground-muted)]">
           Keep me updated on platform developments and new features (optional)
         </label>
       </div>
@@ -180,10 +183,10 @@ export function FeatureSubmissionForm({ onFeatureSubmitted }: FeatureSubmissionF
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-black hover:bg-black/90 disabled:bg-black/50 text-white font-medium py-2 px-4 h-10 rounded-lg text-sm"
+        className="h-10 w-full rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-[var(--color-primary-foreground)] hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Submitting..." : "Submit Feature Request"}
+        {isSubmitting ? 'Submitting...' : 'Submit Feature Request'}
       </button>
     </form>
-  );
+  )
 }

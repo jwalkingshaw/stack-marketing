@@ -1,9 +1,26 @@
 import { NextResponse } from 'next/server'
 import { client, type BlogPost } from '@/lib/sanity'
-import { connectRedis } from '@/lib/redis'
+import {
+  cache,
+  connectRedis,
+  MarketingCacheKeys,
+  MarketingCacheTTL,
+} from '@/lib/redis'
+
+type PopularArticlesResponse = {
+  articles: Array<BlogPost & { views: number }>
+  lastUpdated: string
+  fallback: boolean
+}
 
 export async function GET() {
   try {
+    const responseCacheKey = MarketingCacheKeys.popularArticlesResponse()
+    const cached = await cache.get<PopularArticlesResponse>(responseCacheKey)
+    if (cached) {
+      return NextResponse.json(cached)
+    }
+
     // Get all blog posts from Sanity first
     const allPostsQuery = `
       *[_type == "blogPost"] | order(publishedAt desc) {
@@ -21,35 +38,28 @@ export async function GET() {
       }
     `
     
-    const allPosts = await client.fetch(allPostsQuery)
+    const allPosts = await client.fetch<BlogPost[]>(allPostsQuery)
     
     // Connect to Redis and get view counts for each post
     const redis = await connectRedis()
-    const postsWithViews = await Promise.all(
-      allPosts.map(async (post: BlogPost) => {
-        if (!redis) {
-          return {
-            ...post,
-            views: 0
-          }
+    let viewValues: Array<string | null> = []
+    if (redis) {
+      try {
+        const viewKeys = allPosts.map((post: BlogPost) =>
+          MarketingCacheKeys.postViews(post.slug.current)
+        )
+        if (viewKeys.length > 0) {
+          viewValues = await redis.mGet(viewKeys)
         }
-        
-        try {
-          const viewKey = `views:${post.slug.current}`
-          const views = await redis.get(viewKey) || 0
-          return {
-            ...post,
-            views: Number(views)
-          }
-        } catch (error) {
-          console.error(`Failed to get views for ${post.slug.current}:`, error)
-          return {
-            ...post,
-            views: 0
-          }
-        }
-      })
-    )
+      } catch (error) {
+        console.error('Failed to batch read view counts:', error)
+      }
+    }
+
+    const postsWithViews: Array<BlogPost & { views: number }> = allPosts.map((post, index) => ({
+      ...post,
+      views: Number(viewValues[index] || 0),
+    }))
     
     // Sort by view count and get top 5, then fall back to recent posts
     const topPosts = postsWithViews
@@ -59,11 +69,13 @@ export async function GET() {
     // Determine if we're showing actual popular content or just recent content
     const hasViewData = topPosts.some(post => post.views > 0)
 
-    return NextResponse.json({
+    const payload: PopularArticlesResponse = {
       articles: topPosts,
       lastUpdated: new Date().toISOString(),
       fallback: !hasViewData
-    })
+    }
+    await cache.set(responseCacheKey, payload, MarketingCacheTTL.POPULAR_ARTICLES)
+    return NextResponse.json(payload)
 
   } catch (error) {
     console.error('Error fetching popular articles:', error)
@@ -86,13 +98,19 @@ export async function GET() {
         }
       `
       
-      const fallbackPosts = await client.fetch(fallbackQuery)
+      const fallbackPosts = await client.fetch<BlogPost[]>(fallbackQuery)
       
-      return NextResponse.json({
+      const fallbackPayload: PopularArticlesResponse = {
         articles: fallbackPosts.map((post: BlogPost) => ({ ...post, views: 0 })),
         lastUpdated: new Date().toISOString(),
         fallback: true
-      })
+      }
+      await cache.set(
+        MarketingCacheKeys.popularArticlesResponse(),
+        fallbackPayload,
+        MarketingCacheTTL.POPULAR_ARTICLES
+      )
+      return NextResponse.json(fallbackPayload)
     } catch {
       return NextResponse.json(
         { error: 'Failed to fetch popular articles' },

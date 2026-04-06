@@ -1,17 +1,17 @@
-"use client";
+﻿'use client'
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react'
 
 interface VotingButtonProps {
-  featureId: string;
-  voteCount: number;
-  onVoteUpdate: (featureId: string, newVoteCount: number) => void;
+  featureId: string
+  voteCount: number
+  onVoteUpdate: (featureId: string, newVoteCount: number) => void
 }
 
 export function VotingButton({ featureId, voteCount, onVoteUpdate }: VotingButtonProps) {
-  const [hasVoted, setHasVoted] = useState(false);
-  const [isVoting, setIsVoting] = useState(false);
-  const [currentVoteCount, setCurrentVoteCount] = useState(voteCount);
+  const [hasVoted, setHasVoted] = useState(false)
+  const [isVoting, setIsVoting] = useState(false)
+  const [currentVoteCount, setCurrentVoteCount] = useState(voteCount)
 
   const checkVoteStatus = useCallback(async () => {
     try {
@@ -21,100 +21,90 @@ export function VotingButton({ featureId, voteCount, onVoteUpdate }: VotingButto
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          voterIdentifier: getVoterIdentifier()
-        })
-      });
+          voterIdentifier: getVoterIdentifier(),
+        }),
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        setHasVoted(data.hasVoted);
+        const data = await response.json()
+        setHasVoted(data.hasVoted)
       }
     } catch (error) {
-      console.error('Failed to check vote status:', error);
+      console.error('Failed to check vote status:', error)
     }
-  }, [featureId]);
+  }, [featureId])
 
   useEffect(() => {
-    // Check if user has already voted for this feature
-    checkVoteStatus();
-  }, [featureId, checkVoteStatus]);
+    void checkVoteStatus()
+  }, [featureId, checkVoteStatus])
 
   useEffect(() => {
-    setCurrentVoteCount(voteCount);
-  }, [voteCount]);
+    setCurrentVoteCount(voteCount)
+  }, [voteCount])
 
   const getVoterIdentifier = () => {
-    // Use a combination of browser fingerprinting for anonymous voting
-    // In a real app, you might want to use a more sophisticated approach
-    let identifier = localStorage.getItem('voter_id');
+    let identifier = localStorage.getItem('voter_id')
     if (!identifier) {
-      identifier = `anon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      localStorage.setItem('voter_id', identifier);
+      identifier = `anon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      localStorage.setItem('voter_id', identifier)
     }
-    return identifier;
-  };
+    return identifier
+  }
 
   const handleVote = async () => {
-    setIsVoting(true);
+    setIsVoting(true)
 
     try {
-      const response = await fetch(`/api/roadmap/votes`, {
+      const response = await fetch('/api/roadmap/votes', {
         method: hasVoted ? 'DELETE' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           featureRequestId: featureId,
-          voterIdentifier: getVoterIdentifier()
-        })
-      });
+          voterIdentifier: getVoterIdentifier(),
+        }),
+      })
 
       if (response.ok) {
-        await response.json();
-        const newVoteCount = hasVoted ? currentVoteCount - 1 : currentVoteCount + 1;
-        
-        setHasVoted(!hasVoted);
-        setCurrentVoteCount(newVoteCount);
-        onVoteUpdate(featureId, newVoteCount);
+        await response.json()
+        const newVoteCount = hasVoted ? currentVoteCount - 1 : currentVoteCount + 1
+
+        setHasVoted(!hasVoted)
+        setCurrentVoteCount(newVoteCount)
+        onVoteUpdate(featureId, newVoteCount)
       } else {
-        const errorData = await response.json();
-        console.error('Vote failed:', errorData.message);
+        const errorData = await response.json()
+        console.error('Vote failed:', errorData.message)
       }
     } catch (error) {
-      console.error('Failed to vote:', error);
+      console.error('Failed to vote:', error)
     } finally {
-      setIsVoting(false);
+      setIsVoting(false)
     }
-  };
+  }
 
   return (
     <div className="text-center">
       <button
         onClick={handleVote}
         disabled={isVoting}
-        className={`flex flex-col items-center justify-center w-16 h-16 rounded-lg ${
-          hasVoted 
-            ? "bg-blue-600 text-white" 
-            : "bg-gray-100 text-gray-600 border border-gray-200"
-        } ${isVoting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`flex h-16 w-16 flex-col items-center justify-center rounded-lg ${
+          hasVoted
+            ? 'bg-blue-600 text-white'
+            : 'border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-foreground-muted)]'
+        } ${isVoting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
       >
-        <svg 
-          className="w-5 h-5 mb-1"
-          fill={hasVoted ? "currentColor" : "none"}
-          stroke="currentColor" 
+        <svg
+          className="mb-1 h-5 w-5"
+          fill={hasVoted ? 'currentColor' : 'none'}
+          stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M5 15l7-7 7 7" 
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </svg>
-        <span className="text-sm font-semibold">
-          {currentVoteCount}
-        </span>
+        <span className="text-sm font-semibold">{currentVoteCount}</span>
       </button>
     </div>
-  );
+  )
 }

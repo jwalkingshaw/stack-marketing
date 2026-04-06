@@ -1,14 +1,10 @@
-'use client'
-
-import Link from 'next/link'
+﻿'use client'
 
 export default function AnnouncementBar() {
   return (
-    <div className="fixed top-0 left-0 right-0 z-[70] bg-[#1a1a1a] text-white w-full h-[3rem] px-3 font-ibm-plex-mono font-normal text-xs sm:text-sm leading-tight flex items-center justify-center">
-      <div className="text-center max-w-full overflow-hidden">
-        <div className="line-clamp-2" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
-          <span className="inline">NEW: Discover the operating system built for the sports nutrition industry.</span>
-        </div>
+    <div className="fixed left-0 right-0 top-0 z-[70] h-[3rem] border-b border-[#1d315f] bg-gradient-to-r from-[#0a1a41] via-[#10295d] to-[#15397b] px-3 font-ibm-plex-mono text-xs font-medium tracking-[0.02em] text-slate-100 sm:text-sm">
+      <div className="mx-auto flex h-full max-w-6xl items-center justify-center text-center">
+        Live now: launch products, manage assets, and share partner-ready content from one workspace.
       </div>
     </div>
   )

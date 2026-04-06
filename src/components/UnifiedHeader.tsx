@@ -1,9 +1,11 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect } from 'react'
 import { ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Menu, X } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 interface UnifiedHeaderProps {
   variant: 'marketing'
@@ -16,62 +18,155 @@ interface UnifiedHeaderProps {
 }
 
 export function UnifiedHeader({
-  logoHref = "/",
-  children
+  logoHref = '/',
+  onLogin,
+  onRegister,
+  children,
 }: UnifiedHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
-  
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+
+  const navItems = [
+    { label: 'Product', href: '/#product-workflows' },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'Help', href: '/help' },
+    { label: 'Roadmap', href: '/roadmap' },
+    { label: 'About', href: '/about' },
+  ]
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0)
+      setIsScrolled(window.scrollY > 6)
     }
-    
+
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-  
-  // Marketing header with secondary background - positioned below announcement bar
-  const headerClasses = `fixed top-[3rem] left-0 right-0 z-[60] h-[67px] transition-all duration-300 ${isScrolled ? 'border-b border-border' : 'border-b border-transparent'}`
-  
+
+  const headerClasses = `fixed left-0 right-0 top-[3rem] z-[60] h-[67px] transition-all duration-300 ${
+    isScrolled
+      ? 'border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 shadow-[var(--shadow-soft)] backdrop-blur'
+      : 'border-b border-[var(--color-border)]/65 bg-[var(--color-background-elevated)]/85 backdrop-blur'
+  }`
+
   return (
-    <header className={headerClasses} style={{ backgroundColor: '#0a0a0a' }}>
-      <div className="w-full px-4">
-        <div className="flex items-center justify-between h-[67px] w-full relative">
-          {/* Left side: Logo */}
+    <header className={headerClasses}>
+      <div className="mx-auto w-full max-w-7xl px-4">
+        <div className="relative flex h-[67px] w-full items-center justify-between">
           <div className="flex items-center">
             <Link href={logoHref} className="flex items-center space-x-2">
-              {/* Mobile: Show just white icon */}
               <Image
-                src="/stackcess-icon-white-logo.svg"
+                src="/stackcess-icon-b-logo.svg"
                 alt="Stackcess"
                 width={24}
                 height={24}
                 className="h-6 w-6 flex-shrink-0 sm:hidden"
               />
-              {/* Desktop: Show full white logo */}
               <Image
-                src="/stackcess-full-logo-white.svg"
+                src="/stackcess-full-logo.svg"
                 alt="Stackcess"
                 width={120}
                 height={24}
-                className="h-6 w-auto hidden sm:block flex-shrink-0"
+                className="hidden h-6 w-auto flex-shrink-0 sm:block"
               />
             </Link>
           </div>
 
-          {/* Center: Navigation - absolutely positioned to true center */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
-            <nav className="hidden md:flex items-center space-x-1">
-              {/* Navigation items can be added here if needed */}
+          <div className="absolute left-1/2 hidden -translate-x-1/2 transform items-center justify-center md:flex">
+            <nav className="flex items-center gap-1">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
+                      isActive
+                        ? 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)]'
+                        : 'border-transparent text-[var(--color-foreground-muted)] hover:border-[var(--color-border)] hover:bg-[var(--color-surface)] hover:text-[var(--color-foreground)]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
             </nav>
           </div>
 
-          {/* Right side: Auth + Actions */}
-          <div className="flex items-center">
+          <div className="hidden items-center gap-2 md:flex">
+            {onLogin ? (
+              <button
+                type="button"
+                onClick={onLogin}
+                className="h-9 rounded-md px-3 text-sm font-medium text-[var(--color-foreground-muted)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-foreground)]"
+              >
+                Log in
+              </button>
+            ) : null}
+            {onRegister ? (
+              <button
+                type="button"
+                onClick={onRegister}
+                className="h-9 rounded-md bg-[var(--color-primary)] px-3 text-sm font-semibold text-[var(--color-primary-foreground)] shadow-[var(--shadow-soft)] transition-colors hover:bg-[var(--color-primary-hover)]"
+              >
+                Start free
+              </button>
+            ) : null}
             {children}
+          </div>
+
+          <div className="flex items-center gap-2 md:hidden">
+            {onRegister ? (
+              <button
+                type="button"
+                onClick={onRegister}
+                className="h-8 rounded-md bg-[var(--color-primary)] px-3 text-xs font-semibold text-[var(--color-primary-foreground)] shadow-[var(--shadow-soft)] transition-colors hover:bg-[var(--color-primary-hover)]"
+              >
+                Start free
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--color-foreground-muted)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-foreground)]"
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+            </button>
           </div>
         </div>
       </div>
+
+      {mobileMenuOpen ? (
+        <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 py-3 backdrop-blur md:hidden">
+          <nav className="grid gap-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-md px-3 py-2 text-sm text-[var(--color-foreground-muted)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-foreground)]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          {onLogin ? (
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false)
+                onLogin()
+              }}
+              className="mt-2 w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-surface-muted)]"
+            >
+              Log in
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </header>
   )
 }

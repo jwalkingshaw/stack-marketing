@@ -1,143 +1,293 @@
+﻿import type { Metadata } from 'next'
+import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy - Stackcess',
+  description: 'Privacy Policy for the Stackcess platform - how we collect, use, and protect your data.',
+  alternates: { canonical: '/privacy' },
+  robots: { index: false, follow: false },
+}
+
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-[67px]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-        <div className="mb-12 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4 sm:mb-6 tracking-[-0.02em] leading-[1.1]">Privacy Policy</h1>
-          <p className="!text-[#8a8f98] text-lg sm:text-xl leading-[1.4]">Last updated: {new Date().toLocaleDateString()}</p>
+    <div className="min-h-screen bg-[var(--color-background)]">
+      <div className="max-w-3xl mx-auto px-6 py-16 sm:py-24">
+
+        <div className="mb-12">
+          <h1 className="text-3xl sm:text-4xl font-medium text-[var(--color-foreground)] mb-4 tracking-[-0.02em] leading-[1.1]">
+            Privacy Policy
+          </h1>
+          <p className="text-[var(--color-foreground-muted)]">Last updated: 23 March 2026</p>
         </div>
 
-        <div className="max-w-none">
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">1. Information We Collect</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We collect information you provide directly to us when you create an account, use our Service, 
-              or communicate with us. This includes your name, email address, company information, and any 
-              content you submit through our platform.
+        <div className="space-y-10 text-sm text-[var(--color-foreground-muted)] leading-[1.7]">
+
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">1. Who We Are</h2>
+            <p className="mb-3">
+              Stackcess is a software-as-a-service platform for the sports supplement industry,
+              incorporated in New Zealand and serving customers globally. This Privacy Policy explains
+              how we collect, use, and protect personal information when you use our platform.
             </p>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We automatically collect certain information when you use our Service, including your IP address, 
-              browser type, device information, and usage patterns. We may use cookies and similar technologies 
-              to collect this information.
+            <p>
+              Because we serve customers across multiple regions, we are committed to meeting the
+              privacy standards of the New Zealand Privacy Act 2020, the EU General Data Protection
+              Regulation (GDPR), and the UK GDPR where applicable. If you are located in the EU or
+              UK, the relevant sections below describe your specific rights.
             </p>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">2. How We Use Your Information</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">We use the information we collect to:</p>
-            <ul className="list-disc pl-6 !text-[#8a8f98] space-y-2 mb-3 sm:mb-4">
-              <li>Provide, maintain, and improve our Service</li>
-              <li>Process transactions and send related information</li>
-              <li>Send technical notices and support messages</li>
-              <li>Respond to your comments and questions</li>
-              <li>Monitor and analyze usage patterns and trends</li>
-              <li>Detect and prevent fraudulent or unauthorized activity</li>
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">2. The B2B Context</h2>
+            <p>
+              Stackcess is a business-to-business platform. Most of the personal information we process
+              relates to individuals acting in a professional capacity on behalf of their organisation -
+              for example, a brand&apos;s marketing manager or a retailer&apos;s buying team. We process
+              this information to provide a service to the organisation, not for personal profiling or
+              consumer-marketing purposes.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">3. Information We Collect</h2>
+            <p className="mb-3">We collect the following categories of information:</p>
+            <ul className="list-disc pl-5 space-y-3">
+              <li>
+                <strong className="text-[var(--color-foreground)]">Account and identity data</strong> - name, work email
+                address, and organisation name when you register or are invited to a workspace.
+                Authentication is handled via Kinde (see section 6).
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Workspace and organisation data</strong> - your
+                organisation&apos;s workspace settings, team member roles, and partner relationship
+                configurations.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Product and asset content</strong> - product catalog
+                data, digital assets (images, PDFs), regulatory documents (COAs, labels, certifications),
+                and associated metadata that you upload to the platform. This is your data; we process
+                it only to provide the Service.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Partner sharing data</strong> - records of which
+                content has been shared with which partner organisations, including market and locale
+                scoping, access grant history, and revocation records.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Partner Update analytics</strong> - when a Partner
+                Update or Kit is delivered, we record basic engagement data: whether it was viewed, when,
+                and by which partner workspace. This analytics data is visible to both the sending brand
+                and the receiving partner in their respective workspaces.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Billing data</strong> - subscription plan, billing
+                contact details, and payment transaction records. Payment card data is handled entirely
+                by Stripe and never stored on Stackcess servers (see section 6).
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Usage and technical data</strong> - IP address,
+                browser and device type, session activity, and feature usage patterns collected
+                automatically when you use the platform. Used for security monitoring, performance
+                improvement, and support.
+              </li>
             </ul>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">3. Information Sharing</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, 
-              except as described in this Privacy Policy. We may share your information in the following circumstances:
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">4. How We Use Your Information</h2>
+            <p className="mb-3">We use the information we collect to:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>Provide, operate, and maintain the Service and your workspace</li>
+              <li>Authenticate users and manage workspace access and roles</li>
+              <li>Process and deliver partner sharing grants and Partner Updates</li>
+              <li>Generate and record Update analytics visible within the platform</li>
+              <li>Process subscription payments and send billing communications</li>
+              <li>Send transactional emails - workspace invitations, product updates, support responses</li>
+              <li>Monitor for security threats and prevent unauthorised access</li>
+              <li>Improve platform performance and develop new features</li>
+            </ul>
+            <p className="mt-3">
+              We do not use your product content, regulatory documents, or business data for advertising,
+              profiling, or any purpose outside of providing the Service.
             </p>
-            <ul className="list-disc pl-6 !text-[#8a8f98] space-y-2 mb-3 sm:mb-4">
-              <li>With service providers who assist us in operating our platform</li>
-              <li>When required by law or to respond to legal process</li>
-              <li>To protect our rights, property, or safety, or that of our users</li>
-              <li>In connection with a merger, acquisition, or sale of assets</li>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">5. AI Translation</h2>
+            <p className="mb-3">
+              When you use the AI translation feature, product content you select for translation is
+              transmitted to DeepL to generate the translated output. DeepL does not use
+              API-submitted content for model training, and content is not retained beyond the
+              translation request.
+            </p>
+            <p>
+              You are responsible for reviewing AI-generated translations before distributing them to
+              partners or publishing them in any market. Do not send content containing sensitive
+              personal data through the translation feature.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">6. Third-Party Service Providers</h2>
+            <p className="mb-3">
+              We use the following third-party providers to operate the Service. Each processes data
+              on our behalf under appropriate data processing agreements:
+            </p>
+            <ul className="list-disc pl-5 space-y-3">
+              <li>
+                <strong className="text-[var(--color-foreground)]">Kinde</strong> - authentication and identity
+                management. Handles user login, session tokens, and multi-factor authentication.
+                See <a href="https://kinde.com/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-[var(--color-foreground)] underline underline-offset-2 hover:text-[var(--color-foreground)] transition-colors">Kinde&apos;s Privacy Policy</a>.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Stripe</strong> - payment processing. All payment
+                card data is collected and stored by Stripe; Stackcess receives only a token reference.
+                See <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-[var(--color-foreground)] underline underline-offset-2 hover:text-[var(--color-foreground)] transition-colors">Stripe&apos;s Privacy Policy</a>.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Resend</strong> - transactional email delivery
+                for workspace invitations and platform notifications.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Supabase</strong> - database infrastructure and
+                file storage hosting for the platform.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">DeepL</strong> - processes product content
+                you submit for AI translation. DeepL does not use API-submitted content for model
+                training. Content is not retained beyond the translation request. See{' '}
+                <a href="https://www.deepl.com/en/privacy" target="_blank" rel="noopener noreferrer" className="text-[var(--color-foreground)] underline underline-offset-2 hover:text-[var(--color-foreground)] transition-colors">DeepL&apos;s Privacy Policy</a>.
+              </li>
+              <li>
+                <strong className="text-[var(--color-foreground)]">Crowdin</strong> - used to manage and deliver
+                localised versions of the Stackcess platform interface. Crowdin processes platform
+                UI strings only - not your product content or business data.
+              </li>
             </ul>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">4. Data Security</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We implement appropriate technical and organizational measures to protect your personal information 
-              against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission 
-              over the internet or electronic storage is completely secure.
-            </p>
-          </section>
-
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">5. Data Retention</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We retain your personal information for as long as necessary to provide our Service and fulfill the 
-              purposes outlined in this Privacy Policy, unless a longer retention period is required by law. 
-              When we no longer need your information, we will securely delete or anonymize it.
-            </p>
-          </section>
-
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">6. Your Rights and Choices</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              Depending on your location, you may have certain rights regarding your personal information, including:
-            </p>
-            <ul className="list-disc pl-6 !text-[#8a8f98] space-y-2 mb-3 sm:mb-4">
-              <li>The right to access and receive a copy of your personal information</li>
-              <li>The right to rectify inaccurate personal information</li>
-              <li>The right to erase your personal information in certain circumstances</li>
-              <li>The right to restrict processing of your personal information</li>
-              <li>The right to data portability</li>
-              <li>The right to object to processing</li>
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">7. Information Sharing</h2>
+            <p className="mb-3">We do not sell your personal information. We share information only in these circumstances:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>With the service providers listed in section 6, as necessary to operate the platform</li>
+              <li>
+                With partner organisations you explicitly grant access to - limited to the content
+                and analytics data within the scope of that grant
+              </li>
+              <li>When required by applicable law, court order, or regulatory request</li>
+              <li>In connection with a merger, acquisition, or asset sale, with appropriate notice to affected users</li>
             </ul>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">7. Cookies and Tracking Technologies</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We use cookies and similar tracking technologies to collect information about your browsing activities 
-              and to provide personalized content. You can control cookies through your browser settings, though 
-              disabling cookies may affect the functionality of our Service.
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">8. International Data Transfers</h2>
+            <p>
+              Stackcess is incorporated in New Zealand and our infrastructure providers operate globally,
+              including in the United States and European Union. When personal data is transferred outside
+              your home jurisdiction, we rely on appropriate transfer mechanisms - including standard
+              contractual clauses for EU/UK data - to ensure your data is protected to the standard
+              required by applicable law.
             </p>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">8. Third-Party Services</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              Our Service may contain links to third-party websites or integrate with third-party services. 
-              We are not responsible for the privacy practices of these third parties. We encourage you to 
-              review their privacy policies before providing any information.
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">9. Data Security</h2>
+            <p>
+              We implement technical and organisational security measures appropriate to the sensitivity
+              of the data we process, including encrypted data transmission (TLS), access controls,
+              row-level security on the database, and regular security reviews. No method of electronic
+              storage is completely secure; in the event of a data breach affecting your information,
+              we will notify you as required by applicable law.
             </p>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">9. Children&apos;s Privacy</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              Our Service is not intended for children under 13 years of age. We do not knowingly collect 
-              personal information from children under 13. If we become aware that we have collected personal 
-              information from a child under 13, we will take steps to delete such information.
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">10. Data Retention</h2>
+            <p className="mb-3">
+              We retain your workspace data for as long as your account is active. If you downgrade
+              your plan, data is retained in full - you are not penalised for reducing your subscription.
+            </p>
+            <p>
+              On account deletion, we retain your data for 30 days to allow for export requests before
+              permanent deletion. Billing records may be retained for longer where required by tax or
+              financial reporting obligations.
             </p>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">10. International Data Transfers</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              Your information may be transferred to and processed in countries other than your own. We ensure 
-              that such transfers comply with applicable data protection laws and that appropriate safeguards 
-              are in place to protect your information.
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">11. Your Rights</h2>
+            <p className="mb-3">
+              Depending on where you are located, you may have the following rights regarding your
+              personal information:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 mb-3">
+              <li>Access - request a copy of the personal data we hold about you</li>
+              <li>Correction - request correction of inaccurate data</li>
+              <li>Erasure - request deletion of your personal data in certain circumstances</li>
+              <li>Restriction - request that we limit how we process your data</li>
+              <li>Portability - receive your data in a portable format</li>
+              <li>Objection - object to processing based on legitimate interests</li>
+            </ul>
+            <p>
+              To exercise any of these rights, contact us at{' '}
+              <a href="mailto:hello@stackcess.com" className="text-[var(--color-foreground)] underline underline-offset-2 hover:text-[var(--color-foreground)] transition-colors">
+                hello@stackcess.com
+              </a>. EU and UK residents may also lodge a complaint with their local supervisory authority.
             </p>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">11. Changes to This Privacy Policy</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              We may update this Privacy Policy from time to time. We will notify you of any material changes 
-              by posting the new Privacy Policy on our website and updating the &quot;Last updated&quot; date. Your 
-              continued use of our Service after any changes constitutes acceptance of the new Privacy Policy.
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">12. Cookies</h2>
+            <p>
+              We use session cookies to keep you logged in and functional cookies required for the
+              platform to operate. We do not use third-party advertising cookies or cross-site tracking.
+              You can control cookies through your browser settings, though disabling functional cookies
+              will prevent you from using the platform.
             </p>
           </section>
 
-          <section className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">12. Contact Us</h2>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4] mb-3 sm:mb-4">
-              If you have any questions about this Privacy Policy or our privacy practices, please contact us at:
-            </p>
-            <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">
-              Email: <a href="mailto:hello@stackcess.com" className="text-blue-600 hover:text-blue-800">hello@stackcess.com</a>
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">13. Children&apos;s Privacy</h2>
+            <p>
+              The Service is intended for business use by adults. We do not knowingly collect personal
+              information from anyone under 18. If we become aware of such data having been collected,
+              we will delete it promptly.
             </p>
           </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">14. Changes to This Policy</h2>
+            <p>
+              We may update this Privacy Policy to reflect changes in the platform or applicable law.
+              We will notify you of material changes by email or in-app notice at least 14 days before
+              they take effect. The &quot;Last updated&quot; date at the top of this page reflects the most
+              recent revision.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">15. Contact</h2>
+            <p>
+              Privacy questions or requests:{' '}
+              <a href="mailto:hello@stackcess.com" className="text-[var(--color-foreground)] underline underline-offset-2 hover:text-[var(--color-foreground)] transition-colors">
+                hello@stackcess.com
+              </a>
+            </p>
+          </section>
+
         </div>
+
+        <div className="mt-14 pt-8 border-t border-[var(--color-border)] text-xs text-[var(--color-foreground-muted)]">
+          Also see our{' '}
+          <Link href="/terms" className="text-[var(--color-foreground-muted)] hover:text-[var(--color-foreground)] underline underline-offset-2 transition-colors">
+            Terms and Conditions
+          </Link>
+        </div>
+
       </div>
     </div>
-  );
+  )
 }
+
+

@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from '@supabase/supabase-js';
 
+// Simple in-memory rate limiter: max 3 submissions per IP per minute
+const rateMap = new Map<string, number[]>()
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const windowMs = 60_000
+  const limit = 3
+  const hits = (rateMap.get(ip) ?? []).filter((t) => now - t < windowMs)
+  if (hits.length >= limit) return true
+  rateMap.set(ip, [...hits, now])
+  return false
+}
+
 function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -51,6 +63,11 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    }
+
     const supabase = getSupabaseClient()
     
     if (!supabase) {

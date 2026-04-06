@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectRedis } from '@/lib/redis'
+import { connectRedis, MarketingCacheKeys, MarketingCacheTTL } from '@/lib/redis'
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,12 +27,15 @@ export async function POST(request: NextRequest) {
     
     try {
       // Increment view count for this post
-      const viewKey = `views:${slug}`
+      const viewKey = MarketingCacheKeys.postViews(slug)
       const newCount = await redis.incr(viewKey)
+      await redis.expire(viewKey, MarketingCacheTTL.VIEW_COUNT)
       
       // Also track when it was last viewed
-      const lastViewedKey = `last_viewed:${slug}`
-      await redis.set(lastViewedKey, new Date().toISOString())
+      const lastViewedKey = MarketingCacheKeys.postLastViewed(slug)
+      await redis.set(lastViewedKey, new Date().toISOString(), {
+        EX: MarketingCacheTTL.LAST_VIEWED
+      })
 
       return NextResponse.json({ 
         success: true, 

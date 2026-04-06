@@ -10,8 +10,18 @@ export default function MainLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const showTopArticles = pathname !== '/marketing' && pathname !== '/' && pathname !== '/pricing' && pathname !== '/roadmap' && pathname !== '/about' && pathname !== '/terms' && pathname !== '/privacy'
-  const isMarketingPage = pathname === '/marketing' || pathname === '/' || pathname === '/pricing' || pathname === '/roadmap' || pathname === '/about' || pathname === '/terms' || pathname === '/privacy'
+  const coreMarketingPaths = new Set([
+    '/marketing',
+    '/',
+    '/pricing',
+    '/roadmap',
+    '/about',
+    '/terms',
+    '/privacy',
+  ])
+  const isHelpPage = pathname === '/help' || pathname.startsWith('/help/')
+  const isMarketingPage = coreMarketingPaths.has(pathname) || isHelpPage
+  const showTopArticles = !isMarketingPage
   return (
     <div className="w-full min-h-screen">
       {/* Mobile layout */}

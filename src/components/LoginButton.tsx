@@ -1,22 +1,24 @@
-'use client'
+﻿'use client'
 
 import { Button } from './ui/button'
+import { buildAppAuthUrl } from '@/lib/app-links'
 
 export default function LoginButton() {
   const handleLogin = () => {
-    // Redirect to our custom login page for better UX
-    const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001').replace(/\/$/, '')
-    window.location.href = `${appUrl}/login`
+    const loginUrl = buildAppAuthUrl('login', {
+      postLoginRedirectPath: '/',
+    })
+    window.location.assign(loginUrl)
   }
 
   return (
-    <Button 
+    <Button
       onClick={handleLogin}
       variant="outline"
-      size="sm" 
-      className="transition-all duration-200 font-medium"
+      size="sm"
+      className="border-[var(--color-border)] text-[var(--color-foreground)] transition-all duration-200"
     >
-      Login
+      Log In
     </Button>
   )
 }

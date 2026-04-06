@@ -28,28 +28,24 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     }
   }
 
-  const imageUrl = post.coverImage?.asset?.url || '/og-image.jpg'
+  const imageUrl = post.coverImage?.asset?.url || undefined
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/post/${resolvedParams.slug}`
 
   return {
-    title: `${post.title} | NewsFlow`,
+    title: `${post.title} | Stackcess`,
     description: post.excerpt,
     keywords: post.tags,
-    authors: [{ name: 'NewsFlow' }],
+    authors: [{ name: post.author?.name || 'Stackcess' }],
+    alternates: { canonical: `/post/${resolvedParams.slug}` },
     openGraph: {
       type: 'article',
       title: post.title,
       description: post.excerpt,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: post.coverImage?.alt || post.title,
-        },
-      ],
+      ...(imageUrl && {
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: post.coverImage?.alt || post.title }],
+      }),
       publishedTime: post.publishedAt,
-      authors: ['NewsFlow'],
+      authors: ['Stackcess'],
       tags: post.tags,
       url,
     },
@@ -57,7 +53,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [imageUrl],
+      ...(imageUrl && { images: [imageUrl] }),
     },
   }
 }
@@ -71,8 +67,8 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const fullUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/post/${resolvedParams.slug}`
-  const imageUrl = post.coverImage?.asset?.url || '/og-image.jpg'
-  
+  const imageUrl = post.coverImage?.asset?.url || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'}/opengraph-image`
+
   const newsArticleSchema = generateNewsArticleSchema(
     post,
     fullUrl,

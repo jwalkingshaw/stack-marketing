@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import BlogPostCard from './BlogPostCard'
 import { BlogPost, client } from '@/lib/sanity'
-import { Loader2 } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Pagination,
   PaginationContent,
@@ -92,9 +92,16 @@ export default function NewsFeed() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6">
-        <div className="flex flex-col items-center justify-center py-16">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-          <p className="text-gray-500 text-sm">Loading latest articles...</p>
+        <div className="space-y-6 py-8">
+          <Skeleton className="h-8 w-48" />
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="space-y-3 rounded-xl border border-border/60 p-4">
+              <Skeleton className="h-44 w-full rounded-lg" />
+              <Skeleton className="h-5 w-2/3" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
+            </div>
+          ))}
         </div>
       </div>
     )

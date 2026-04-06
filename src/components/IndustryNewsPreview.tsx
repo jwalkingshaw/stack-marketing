@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import BlogPostCard from './BlogPostCard'
 import { BlogPost, client } from '@/lib/sanity'
-import { Loader2 } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function IndustryNewsPreview() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -53,8 +53,14 @@ export default function IndustryNewsPreview() {
     return (
       <section className="py-24 px-6 bg-white border-t border-gray-100">
         <div className="mx-auto max-w-6xl">
-          <div className="flex justify-center py-16">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <div className="grid gap-6 md:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="space-y-3 rounded-xl border border-gray-100 p-4">
+                <Skeleton className="h-40 w-full rounded-lg" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
           </div>
         </div>
       </section>

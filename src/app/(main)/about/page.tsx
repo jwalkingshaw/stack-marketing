@@ -1,201 +1,115 @@
+﻿import type { Metadata } from 'next'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { buildAppAuthUrl } from '@/lib/app-links'
+
+export const metadata: Metadata = {
+  title: 'About - Stackcess',
+  description:
+    'We built Stackcess because the sports supplement industry deserved better than spreadsheets, shared drives, and email threads.',
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    title: 'About - Stackcess',
+    description:
+      'We built Stackcess because the sports supplement industry deserved better than spreadsheets, shared drives, and email threads.',
+    url: '/about',
+  },
+  twitter: {
+    title: 'About - Stackcess',
+    description:
+      'We built Stackcess because the sports supplement industry deserved better than spreadsheets, shared drives, and email threads.',
+  },
+}
+
 export default function AboutPage() {
+  const registerHref = buildAppAuthUrl('register', {
+    planInterest: 'growth',
+    postLoginRedirectPath: '/onboarding?create=1&origin=marketing_about',
+  })
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-[67px]">
-      {/* Hero Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium !text-[#f7f8f8] mb-6 sm:mb-8 tracking-[-0.02em] leading-[1.05]">
-            About Stackcess
-          </h1>
-          <p className="text-lg sm:text-xl !text-[#8a8f98] max-w-3xl mx-auto leading-[1.4] px-4 sm:px-0">
-            We&apos;re building the unified operating system for the sports supplement industry, connecting brands, distributors, and retailers in one seamless platform.
+    <div className="min-h-screen bg-[var(--color-background)]">
+      <div className="mx-auto max-w-2xl px-6 py-20 sm:py-28">
+        <p className="mb-8 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-muted)]">
+          Why we built this
+        </p>
+
+        <h1 className="mb-10 text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--color-foreground)] sm:text-4xl">
+          We got tired of watching great products get managed badly.
+        </h1>
+
+        <div className="space-y-6 text-base leading-[1.75] text-[var(--color-foreground-muted)] sm:text-lg">
+          <p>
+            Spend time inside sports supplement brands and you find the same picture. Box over here.
+            Google Drive over there. An internal build that only two people understand. Ops teams still
+            sending giant attachment threads. Nobody has the same version of anything.
+          </p>
+          <p>
+            Teams tried to fix it with generic DAMs and file-sharing tools, but those tools do not understand
+            supplement workflows. A COA belongs to a specific product. An approved label can be market-specific.
+            Onboarding a retailer in Germany should not mean blasting all files to everyone.
+          </p>
+          <p>
+            Launches became improvised projects: hero images, pack shots, approved copy, specs, regulatory docs,
+            and variant details spread everywhere. Every new market registration restarted the same scramble.
+          </p>
+          <p>
+            We built Stackcess to replace that scramble with a system: one workspace where catalog, assets,
+            documents, and partner relationships live together, and where distribution is a workflow instead of a fire drill.
           </p>
         </div>
-      </section>
 
-      {/* Mission Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div>
-              <div className="mb-3 sm:mb-4">
-                <span className="text-xs font-medium text-blue-400 uppercase tracking-wider">
-                  Our Mission
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-6 sm:mb-8 tracking-[-0.02em] leading-[1.1]">
-                Simplify the complex
-              </h2>
-              <p className="text-lg sm:text-xl !text-[#8a8f98] leading-[1.4] mb-4 sm:mb-6">
-                The sports supplement industry thrives on innovation, but struggles with fragmented operations. 
-                We believe brands should focus on creating great products, not managing scattered systems.
-              </p>
-              <p className="text-base sm:text-lg !text-[#8a8f98] leading-[1.4]">
-                Our mission is to eliminate operational chaos by providing one unified platform where 
-                supplement brands, distributors, and retailers can collaborate seamlessly—turning complexity 
-                into competitive advantage.
-              </p>
-            </div>
-            <div className="lg:pl-12">
-              <div className="bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm rounded-xl p-6 sm:p-8">
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="font-medium !text-[#f7f8f8] mb-2 text-base sm:text-lg">Unified Operations</h3>
-                      <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">One platform for products, compliance, and partnerships</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="font-medium !text-[#f7f8f8] mb-2 text-base sm:text-lg">Industry Focus</h3>
-                      <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">Built specifically for sports supplement workflows</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="font-medium !text-[#f7f8f8] mb-2 text-base sm:text-lg">Ecosystem Growth</h3>
-                      <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">Connecting all stakeholders for mutual success</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        <div className="my-14 h-px bg-[var(--color-border)]" />
 
-      {/* Vision Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1 lg:pr-12">
-              <div className="bg-[#0a0a0a]/5 border border-white/10 backdrop-blur-sm rounded-xl p-6 sm:p-8">
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="font-medium !text-[#f7f8f8] mb-2 text-base sm:text-lg">Global Network</h3>
-                      <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">The go-to platform for supplement industry collaboration worldwide</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="font-medium !text-[#f7f8f8] mb-2 text-base sm:text-lg">Smart Automation</h3>
-                      <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">AI-powered workflows that eliminate manual coordination</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="font-medium !text-[#f7f8f8] mb-2 text-base sm:text-lg">Industry Growth</h3>
-                      <p className="!text-[#8a8f98] text-sm sm:text-base leading-[1.4]">Empowering the entire ecosystem to reach more consumers</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="mb-3 sm:mb-4">
-                <span className="text-xs font-medium text-orange-400 uppercase tracking-wider">
-                  Our Vision
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-6 sm:mb-8 tracking-[-0.02em] leading-[1.1]">
-                The future of supplements
-              </h2>
-              <p className="text-lg sm:text-xl !text-[#8a8f98] leading-[1.4] mb-4 sm:mb-6">
-                We envision a world where launching a new supplement, expanding distribution, or managing 
-                compliance happens in minutes, not months.
-              </p>
-              <p className="text-base sm:text-lg !text-[#8a8f98] leading-[1.4]">
-                By 2030, Stackcess will be the backbone of the global sports supplement industry—the platform 
-                that connects every brand with every retailer, automates every workflow, and accelerates 
-                innovation across the entire ecosystem.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12 sm:mb-20">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-6 sm:mb-8 tracking-[-0.02em] leading-[1.1]">
-              Built on strong foundations
-            </h2>
-            <p className="text-lg sm:text-xl !text-[#8a8f98] max-w-3xl mx-auto leading-[1.4] px-4 sm:px-0">
-              Our values guide every decision we make and every feature we build.
+        <h2 className="mb-8 text-xl font-semibold tracking-[-0.01em] text-[var(--color-foreground)]">
+          What we believe
+        </h2>
+        <div className="space-y-8">
+          <div>
+            <p className="mb-2 text-sm font-semibold text-[var(--color-foreground)]">Built for this industry, not adapted for it.</p>
+            <p className="text-sm leading-[1.7] text-[var(--color-foreground-muted)]">
+              Generic tools can be bent into supplement workflows. We build directly for SKU hierarchies,
+              regulatory docs, and multi-market partner relationships.
             </p>
           </div>
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
-            <div className="text-center">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full"></div>
-              </div>
-              <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Industry First</h3>
-              <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                Every feature is designed with deep understanding of supplement industry workflows, 
-                regulations, and relationships.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-600 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full"></div>
-              </div>
-              <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Ecosystem Thinking</h3>
-              <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                We build for the entire network—brands, distributors, retailers—because 
-                everyone wins when the ecosystem thrives.
-              </p>
-            </div>
-            
-            <div className="text-center sm:col-span-2 lg:col-span-1">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full"></div>
-              </div>
-              <h3 className="text-lg sm:text-xl font-medium !text-[#f7f8f8] mb-3 sm:mb-4">Radical Simplicity</h3>
-              <p className="!text-[#8a8f98] leading-[1.4] text-sm sm:text-base">
-                Complex operations should feel effortless. We obsess over removing friction 
-                from every workflow and interaction.
-              </p>
-            </div>
+          <div>
+            <p className="mb-2 text-sm font-semibold text-[var(--color-foreground)]">The whole network matters.</p>
+            <p className="text-sm leading-[1.7] text-[var(--color-foreground-muted)]">
+              A brand content problem is also a retailer problem and a distributor problem. The system works
+              when every participant gets operational value.
+            </p>
+          </div>
+          <div>
+            <p className="mb-2 text-sm font-semibold text-[var(--color-foreground)]">Complexity should feel simple.</p>
+            <p className="text-sm leading-[1.7] text-[var(--color-foreground-muted)]">
+              Market scoping, variant structures, and partner access control should be usable without consultants.
+            </p>
           </div>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-[#0a0a0a]">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium !text-[#f7f8f8] mb-6 sm:mb-8 tracking-[-0.02em] leading-[1.1]">
-            Join the movement
-          </h2>
-          <p className="text-lg sm:text-xl !text-[#8a8f98] mb-6 sm:mb-8 leading-[1.4] px-4 sm:px-0">
-            We&apos;re building Stackcess with the community. Your input shapes our roadmap.
+        <div className="mt-16 border-t border-[var(--color-border)] pt-10">
+          <p className="mb-5 text-sm text-[var(--color-foreground-muted)]">
+            If this sounds like your operation, the free plan is the fastest way to validate it.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            <a 
+          <div className="flex items-center gap-5">
+            <Link
+              href={registerHref}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
+            >
+              Start free
+              <ArrowRight size={14} />
+            </Link>
+            <Link
               href="/roadmap"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white !text-black font-medium rounded-lg hover:bg-white/90 transition-colors w-full sm:w-auto"
+              className="text-sm text-[var(--color-foreground-muted)] transition-colors hover:text-[var(--color-foreground)]"
             >
-              Share Your Ideas
-            </a>
-            <span className="!text-[#8a8f98] text-sm hidden sm:inline">or</span>
-            <a 
-              href="mailto:hello@stackcess.com"
-              className="!text-[#8a8f98] hover:!text-[#f7f8f8] text-sm font-medium transition-colors text-center"
-            >
-              Get in touch
-            </a>
+              Shape the roadmap
+            </Link>
           </div>
         </div>
-      </section>
+      </div>
     </div>
-  );
+  )
 }
