@@ -7,7 +7,7 @@ import { buildAppAuthUrl } from '@/lib/app-links'
 import { formatBillingGigabytes, formatBillingLimit, formatDeepLUsage, formatUploadBytes } from '@/lib/billing-display'
 import { trackMarketingEvent } from '@/lib/marketing-analytics'
 import { generateBreadcrumbSchema } from '@/lib/schema'
-import { BILLING_PLAN_CATALOG, shouldShowMaxUploadInMarketing } from '@tradetool/types'
+import { BILLING_PLAN_CATALOG, shouldShowMaxUploadInMarketing } from '@/lib/billing-catalog'
 
 type PlanId = 'free' | 'starter' | 'growth' | 'scale'
 type DisplayPlan = (typeof BILLING_PLAN_CATALOG)[number] & { id: PlanId }
@@ -307,12 +307,12 @@ export default function PricingPage() {
                   trackMarketingEvent('pricing_cta_click', { page: 'pricing', section: 'final_cta', ctaLabel: 'Start sandbox', planInterest: 'free' })
                   trackRegisterRedirect('final_cta', 'Start sandbox', 'free')
                 }}
-                className="marketing-primary-button inline-flex items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
+                className="marketing-primary-button inline-flex w-full items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
               >
                 Start sandbox
                 <ArrowRight size={16} />
               </Link>
-              <a href="mailto:sales@stackcess.com?subject=Stackcess%20Pricing%20Questions" className="inline-flex items-center justify-center border border-[var(--color-border-strong)] px-6 py-3 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)]">
+              <a href="mailto:sales@stackcess.com?subject=Stackcess%20Pricing%20Questions" className="inline-flex w-full items-center justify-center border border-[var(--color-border-strong)] px-6 py-3 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)] sm:w-auto">
                 Talk to sales
               </a>
             </div>

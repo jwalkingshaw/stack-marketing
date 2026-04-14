@@ -1,4 +1,4 @@
-import { isUnlimitedBillingLimit } from "@tradetool/types";
+import { isUnlimitedBillingLimit } from './billing-catalog'
 
 export function formatBillingLimit(value: number): string {
   return isUnlimitedBillingLimit(value) ? "Unlimited" : value.toLocaleString("en-US");

@@ -1,5 +1,5 @@
 import { BlogPost } from './sanity'
-import { BILLING_PLAN_CATALOG } from '@tradetool/types'
+import { BILLING_PLAN_CATALOG } from './billing-catalog'
 
 export interface OrganizationSchema {
   '@context': 'https://schema.org'
