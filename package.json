@@ -29,7 +29,7 @@
     "@sanity/preview-url-secret": "^2.1.13",
     "@sanity/schema": "^3.95.0",
     "@sanity/ui": "^2.16.7",
-    "@sanity/vision": "^4.1.1",
+    "@sanity/vision": "^3.95.0",
     "@supabase/supabase-js": "^2.52.0",
     "@tanstack/react-query": "^5.83.0",
     "@tradetool/types": "*",
