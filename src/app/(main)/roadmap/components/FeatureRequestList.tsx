@@ -87,20 +87,20 @@ export function FeatureRequestList({
         <div className="flex gap-2">
           <button
             onClick={() => setSortBy('votes')}
-            className={`h-8 rounded-lg px-3 text-xs font-medium transition-colors ${
+            className={`h-8 border px-3 text-xs font-medium transition-colors ${
               sortBy === 'votes'
-                ? 'bg-[var(--color-primary)] text-[var(--color-primary-foreground)]'
-                : 'bg-[var(--color-surface-muted)] text-[var(--color-foreground)]'
+                ? 'marketing-primary-button border-[var(--color-primary)] bg-[var(--color-primary)]'
+                : 'border-[var(--color-border)] text-[var(--color-foreground)]'
             }`}
           >
             Most Voted
           </button>
           <button
             onClick={() => setSortBy('date')}
-            className={`h-8 rounded-lg px-3 text-xs font-medium transition-colors ${
+            className={`h-8 border px-3 text-xs font-medium transition-colors ${
               sortBy === 'date'
-                ? 'bg-[var(--color-primary)] text-[var(--color-primary-foreground)]'
-                : 'bg-[var(--color-surface-muted)] text-[var(--color-foreground)]'
+                ? 'marketing-primary-button border-[var(--color-primary)] bg-[var(--color-primary)]'
+                : 'border-[var(--color-border)] text-[var(--color-foreground)]'
             }`}
           >
             Newest
@@ -110,13 +110,13 @@ export function FeatureRequestList({
 
       <div className="space-y-4">
         {sortedRequests.map((request) => (
-          <div key={request.id} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6">
+          <div key={request.id} className="border-t border-[var(--color-border)] p-4 sm:p-6">
             <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex-1">
                 <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center">
                   <h3 className="text-lg font-semibold text-[var(--color-foreground)]">{request.title}</h3>
                   <span
-                    className={`inline-flex self-start rounded-full border px-2 py-1 text-xs font-medium ${
+                    className={`inline-flex self-start border px-2 py-1 text-xs font-medium ${
                       statusColors[request.status]
                     }`}
                   >

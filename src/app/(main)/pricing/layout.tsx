@@ -1,22 +1,22 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Pricing — Stackcess',
+  title: 'Pricing - Stackcess',
   description:
-    'Flat monthly pricing per workspace. No per-seat billing. Free plan available — includes PIM, DAM, partner sharing, regulatory document storage, and translation workflows.',
+    'Workspace pricing for Stackcess. Free sandbox available. Paid plans scale by SKUs, storage, bandwidth, internal users, partner invites, and translation volume.',
   alternates: {
     canonical: '/pricing',
   },
   openGraph: {
-    title: 'Pricing — Stackcess',
+    title: 'Pricing - Stackcess',
     description:
-      'Flat monthly pricing per workspace. No per-seat billing. Free plan available — includes PIM, DAM, partner sharing, regulatory document storage, and translation workflows.',
+      'Workspace pricing for Stackcess. Free sandbox available. Paid plans scale by SKUs, storage, bandwidth, internal users, partner invites, and translation volume.',
     url: '/pricing',
   },
   twitter: {
-    title: 'Pricing — Stackcess',
+    title: 'Pricing - Stackcess',
     description:
-      'Flat monthly pricing per workspace. No per-seat billing. Free plan available — includes PIM, DAM, partner sharing, regulatory document storage, and translation workflows.',
+      'Workspace pricing for Stackcess. Free sandbox available. Paid plans scale by SKUs, storage, bandwidth, internal users, partner invites, and translation volume.',
   },
 }
 

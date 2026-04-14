@@ -1,4 +1,5 @@
 import { BlogPost } from './sanity'
+import { BILLING_PLAN_CATALOG } from '@tradetool/types'
 
 export interface OrganizationSchema {
   '@context': 'https://schema.org'
@@ -81,9 +82,7 @@ export const generateOrganizationSchema = (): OrganizationSchema => ({
     '@type': 'ImageObject',
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'}/stackcess-full-logo.svg`
   },
-  sameAs: [
-    'https://x.com/stackcessapp'
-  ]
+  sameAs: ['https://x.com/stackcessapp']
 })
 
 export const generatePersonSchema = (author: BlogPost['author']): PersonSchema => ({
@@ -124,7 +123,7 @@ export const generateWebSiteSchema = (): WebSiteSchema => ({
   '@type': 'WebSite',
   name: 'Stackcess',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com',
-  description: 'The operating system for supplement brands and partners to manage products, assets, localization, and collaboration.',
+  description: 'Product content system for supplement brands and partners. Manage structured products, assets, localization, and portal delivery from one workspace.',
   publisher: generateOrganizationSchema(),
   potentialAction: {
     '@type': 'SearchAction',
@@ -144,13 +143,16 @@ export const generateSoftwareApplicationSchema = () => ({
   operatingSystem: 'Web',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com',
   description:
-    'The operating system for sports supplement brands, distributors, and retailers. Manage product content, digital assets, regulatory documents, partner sharing, and localisation in one platform.',
-  offers: [
-    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD', description: '10 SKUs, 2 GB storage, 1 user, 2 partner invites.' },
-    { '@type': 'Offer', name: 'Starter', price: '49', priceCurrency: 'USD', description: '50 SKUs, 15 GB storage, 2 internal users.' },
-    { '@type': 'Offer', name: 'Growth', price: '129', priceCurrency: 'USD', description: '250 SKUs, 100 GB storage, 8 internal users.' },
-    { '@type': 'Offer', name: 'Scale', price: '299', priceCurrency: 'USD', description: '2,500 SKUs, 500 GB storage, unlimited users.' },
-  ],
+    'Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.',
+  offers: BILLING_PLAN_CATALOG.filter((plan) => plan.id !== 'enterprise').map((plan) => ({
+    '@type': 'Offer',
+    name: plan.name,
+    price: String(plan.price),
+    priceCurrency: plan.currency,
+    description: `${plan.activeSkuLimit.toLocaleString()} SKUs, ${plan.storageLimitGb} GB storage, ${
+      plan.internalUserLimit >= 2_147_483_647 ? 'unlimited' : plan.internalUserLimit
+    } internal users.`,
+  })),
   publisher: {
     '@type': 'Organization',
     name: 'Stackcess',

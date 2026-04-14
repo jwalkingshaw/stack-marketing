@@ -16,7 +16,7 @@ export default function SignUpButton() {
     <Button
       onClick={handleSignUp}
       size="sm"
-      className="border border-[var(--color-primary)] bg-[var(--color-primary)] text-[var(--color-primary-foreground)] transition-all duration-200 hover:bg-[var(--color-primary-hover)]"
+      className="marketing-primary-button border border-[var(--color-primary)] bg-[var(--color-primary)] transition-all duration-200 hover:bg-[var(--color-primary-hover)]"
     >
       Start Free
     </Button>

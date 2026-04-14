@@ -91,7 +91,7 @@ export function VotingButton({ featureId, voteCount, onVoteUpdate }: VotingButto
         disabled={isVoting}
         className={`flex h-16 w-16 flex-col items-center justify-center rounded-lg ${
           hasVoted
-            ? 'bg-blue-600 text-white'
+            ? 'marketing-primary-button bg-[var(--color-primary)]'
             : 'border border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-foreground-muted)]'
         } ${isVoting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
       >

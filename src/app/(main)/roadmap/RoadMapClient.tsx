@@ -50,7 +50,7 @@ export default function RoadMapClient() {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 w-full rounded-lg bg-[var(--color-primary)] px-6 py-3 text-base font-medium text-[var(--color-primary-foreground)] transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
+            className="marketing-primary-button mt-6 w-full border border-[var(--color-primary)] bg-[var(--color-primary)] px-6 py-3 text-base font-medium transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
           >
             Submit a Feature Request
           </button>
@@ -58,7 +58,7 @@ export default function RoadMapClient() {
       </section>
 
       <section className="px-4 py-16 sm:px-6 sm:py-24">
-        <div className="mx-auto max-w-7xl rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8">
+        <div className="mx-auto max-w-7xl border-t border-[var(--color-border)] pt-6 sm:pt-8">
           <div className="mb-8">
             <h2 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-3xl">
               Community Feature Requests

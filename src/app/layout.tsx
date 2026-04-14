@@ -1,47 +1,51 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next"
-import { Geist, Geist_Mono, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, DM_Sans, DM_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { generateWebSiteSchema, generateOrganizationSchema, generateSoftwareApplicationSchema } from "@/lib/schema";
 import MarketingLayoutWrapper from "@/components/MarketingLayoutWrapper";
 import Footer from "@/components/Footer";
 import { FloatingHaveYourSayButton } from "@/components/FloatingHaveYourSayButton";
 
-const geistSans = Geist({
+const geistSans = Plus_Jakarta_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
+const inter = DM_Sans({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
+const ibmPlexMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  display: "swap",
+  variable: "--font-ibm-plex-mono",
+});
 
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['300', '400'],
-  display: 'swap',
-  variable: '--font-ibm-plex-mono',
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-display-serif",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://stackcess.com"),
   icons: {
-    icon: [
-      { url: '/stackcess-icon-wb-logo.png', type: 'image/png' },
-    ],
+    icon: [{ url: '/stackcess-favicon.svg', type: 'image/svg+xml' }, { url: '/stackcess-icon-wb-logo.png', type: 'image/png' }],
     shortcut: '/stackcess-icon-wb-logo.png',
     apple: '/stackcess-icon-wb-logo.png',
   },
-  title: "Stackcess - Sports Supplements Operating System",
-  description: "The unified platform connecting supplement brands, distributors, and retailers. Manage products, assets, localization, and partner workflows in one place.",
-  keywords: ["sports supplements", "supplement brands", "product management", "compliance tracking", "partner collaboration", "asset management", "supplement industry", "distributors", "retailers"],
+  title: "Stackcess - Product Content System For Supplement Brands",
+  description: "Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.",
+  keywords: ["supplement brands", "product information management", "PIM", "DAM", "partner portal", "retailer portal", "compliance tracking", "localization", "product content operations"],
   authors: [{ name: "Stackcess Team" }],
   creator: "Stackcess",
   publisher: "Stackcess",
@@ -59,13 +63,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Stackcess',
-    title: 'Stackcess - Sports Supplements Operating System',
-    description: 'The unified platform connecting supplement brands, distributors, and retailers. Manage products, assets, localization, and partner workflows in one place.',
+    title: 'Stackcess - Product Content System For Supplement Brands',
+    description: 'Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stackcess - Sports Supplements Operating System',
-    description: 'The unified platform connecting supplement brands, distributors, and retailers. Manage products, assets, localization, and partner workflows in one place.',
+    title: 'Stackcess - Product Content System For Supplement Brands',
+    description: 'Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.',
   },
 };
 
@@ -80,34 +84,15 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <head>
-        {/* Favicon handled automatically by Next.js from app/favicon.ico and app/icon.svg */}
-      </head>
+      <head />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${ibmPlexMono.variable} antialiased bg-[var(--color-background)] text-[var(--color-foreground)]`}
+        className={`${geistSans.variable} ${inter.variable} ${ibmPlexMono.variable} ${instrumentSerif.variable} antialiased bg-[var(--color-background)] text-[var(--color-foreground)]`}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(softwareSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <MarketingLayoutWrapper>
-          <div className="flex-1">
-            {children}
-          </div>
+          <div className="flex-1">{children}</div>
           <div className="w-full">
             <Footer />
           </div>

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { buildAppAuthUrl } from '@/lib/app-links'
@@ -98,7 +98,7 @@ export default function AboutPage() {
               href={registerHref}
               className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
             >
-              Start free
+              Start sandbox
               <ArrowRight size={14} />
             </Link>
             <Link
@@ -113,3 +113,4 @@ export default function AboutPage() {
     </div>
   )
 }
+

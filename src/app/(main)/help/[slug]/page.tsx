@@ -47,9 +47,9 @@ export default async function HelpArticlePage({ params }: HelpArticlePageProps) 
             Back to Help Center
           </Link>
 
-          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8">
+          <div className="border-b border-[var(--color-border)] pb-8">
             <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--color-foreground-muted)]">
-              <span className="rounded-full border border-[var(--color-border)] px-2 py-0.5">{article.category}</span>
+              <span className="border border-[var(--color-border)] px-2 py-0.5">{article.category}</span>
               <span className="inline-flex items-center gap-1">
                 <BookOpenText className="h-3.5 w-3.5" />
                 {article.readTime}
@@ -64,7 +64,7 @@ export default async function HelpArticlePage({ params }: HelpArticlePageProps) 
             </h1>
             <p className="mt-3 text-base text-[var(--color-foreground-muted)]">{article.summary}</p>
             {article.appPaths.length > 0 ? (
-              <div className="mt-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3">
+              <div className="mt-4 border border-[var(--color-border)] p-3">
                 <p className="text-xs uppercase tracking-wide text-[var(--color-foreground-muted)]">Common paths</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {article.appPaths.map((path) => (
@@ -83,7 +83,7 @@ export default async function HelpArticlePage({ params }: HelpArticlePageProps) 
 
         <div className="space-y-4">
           {article.sections.map((section) => (
-            <section key={section.title} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 sm:p-6">
+            <section key={section.title} className="border-t border-[var(--color-border)] py-5 sm:py-6">
               <h2 className="text-xl font-semibold text-[var(--color-foreground)]">{section.title}</h2>
               <p className="mt-2 text-sm leading-7 text-[var(--color-foreground-muted)]">{section.body}</p>
 
@@ -110,7 +110,7 @@ export default async function HelpArticlePage({ params }: HelpArticlePageProps) 
           {previous ? (
             <Link
               href={`/help/${previous.slug}`}
-              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition-colors hover:border-[var(--color-border-strong)]"
+              className="border-t border-[var(--color-border)] p-4 transition-colors hover:border-[var(--color-border-strong)]"
             >
               <p className="text-xs text-[var(--color-foreground-muted)]">Previous</p>
               <p className="mt-1 text-sm font-semibold text-[var(--color-foreground)]">{previous.title}</p>
@@ -122,7 +122,7 @@ export default async function HelpArticlePage({ params }: HelpArticlePageProps) 
           {next ? (
             <Link
               href={`/help/${next.slug}`}
-              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-left transition-colors hover:border-[var(--color-border-strong)] sm:text-right"
+              className="border-t border-[var(--color-border)] p-4 text-left transition-colors hover:border-[var(--color-border-strong)] sm:text-right"
             >
               <p className="text-xs text-[var(--color-foreground-muted)]">Next</p>
               <p className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-foreground)] sm:justify-end">

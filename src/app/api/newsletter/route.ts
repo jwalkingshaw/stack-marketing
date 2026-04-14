@@ -163,7 +163,7 @@ function getWelcomeEmailHtml(source: string): string {
     case 'waitlist':
       return baseHtml + `
         <p>You're now on our exclusive waitlist! We'll notify you as soon as Stackcess is ready for early access.</p>
-        <p>Stay tuned for exciting updates about the Sports Supplements Operating System that will revolutionize how brands, distributors, and retailers collaborate.</p>
+        <p>Stay tuned for updates about Stackcess and how structured product content can improve collaboration across brands, distributors, retailers, and partners.</p>
         <p>Best regards,<br>The Stackcess Team</p>
       </div>`
     

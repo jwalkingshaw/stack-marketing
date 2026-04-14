@@ -14,10 +14,10 @@ export default function HelpCenterPage() {
   return (
     <div className="bg-[var(--color-background)] px-4 pb-16 pt-10 sm:px-6">
       <div className="mx-auto w-full max-w-6xl space-y-10">
-        <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] px-3 py-1 text-xs font-semibold tracking-[0.06em] text-[var(--color-foreground-muted)]">
+        <section className="border-b border-[var(--color-border)] pb-8">
+          <div className="inline-flex items-center gap-2 font-[var(--font-ibm-plex-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
             <CircleHelp className="h-3.5 w-3.5" />
-            STACKCESS HELP CENTER
+            Stackcess Help Center
           </div>
           <h1 className="mt-4 text-3xl font-semibold leading-tight text-[var(--color-foreground)] sm:text-4xl">
             Product Documentation And Help Guides
@@ -26,7 +26,7 @@ export default function HelpCenterPage() {
             Screen-by-screen documentation for onboarding, catalog workflows, updates, partner collaboration,
             and settings.
           </p>
-          <div className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-3 py-2 text-xs text-[var(--color-foreground-muted)]">
+          <div className="mt-5 inline-flex items-center gap-2 border border-[var(--color-border)] px-3 py-2 text-xs text-[var(--color-foreground-muted)]">
             <LayoutList className="h-3.5 w-3.5" />
             {helpArticles.length} guides available
           </div>
@@ -41,7 +41,7 @@ export default function HelpCenterPage() {
                   <Link
                     key={article.slug}
                     href={`/help/${article.slug}`}
-                    className="group rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 transition-colors hover:border-[var(--color-border-strong)]"
+                    className="group border-t border-[var(--color-border)] p-5 transition-colors hover:border-[var(--color-border-strong)]"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <span className="inline-flex items-center gap-2 text-xs text-[var(--color-foreground-muted)]">
