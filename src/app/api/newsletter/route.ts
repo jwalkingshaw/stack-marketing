@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       if (resend) {
         const emailTemplate = {
           to: email,
-          from: 'hello@tradetool.com',
+          from: 'hello@stackcess.com',
           subject: 'Welcome to TradeTools!',
           html: getWelcomeEmailHtml(source)
         }
