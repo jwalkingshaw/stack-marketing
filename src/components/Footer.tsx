@@ -33,7 +33,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li><Link href={appHref} className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Open App</Link></li>
               <li><Link href={loginHref} className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Log In</Link></li>
-              <li><Link href={registerHref} className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Start Sandbox</Link></li>
+              <li><Link href={registerHref} className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Start Free</Link></li>
             </ul>
           </div>
 

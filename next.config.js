@@ -1,5 +1,3 @@
-import type { NextConfig } from "next";
-
 const securityHeaders = [
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -26,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   turbopack: {},
   images: {
     remotePatterns: [
@@ -42,8 +40,8 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [{ source: '/(.*)', headers: securityHeaders }];
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

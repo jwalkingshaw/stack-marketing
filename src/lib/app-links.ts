@@ -1,4 +1,6 @@
 const DEFAULT_APP_URL = "http://localhost:3001";
+const STACKCESS_LOGIN_URL = "https://app.stackcess.com/api/auth/login";
+const STACKCESS_REGISTER_URL = "https://app.stackcess.com/api/auth/register";
 const DEFAULT_KINDE_PRICING_TABLE_KEY = "organization_plans";
 
 type AuthAction = "login" | "register";
@@ -47,7 +49,9 @@ export function buildAppAuthUrl(
     options.postLoginRedirectPath,
     action === "register" ? "/onboarding?create=1" : "/"
   );
-  const url = new URL(buildAppUrl(`/api/auth/${action}`));
+  const url = new URL(
+    action === "register" ? STACKCESS_REGISTER_URL : STACKCESS_LOGIN_URL
+  );
 
   if (postLoginRedirectPath) {
     url.searchParams.set("post_login_redirect_url", postLoginRedirectPath);

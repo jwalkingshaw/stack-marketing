@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: 'When do public share links become available?',
-    a: 'Public share links are disabled on the free sandbox and available from Starter upward.',
+    a: 'Public share links are disabled on the free plan and available from Starter upward.',
   },
 ]
 
@@ -102,7 +102,7 @@ export default function PricingPage() {
                   Scale on catalog volume, delivery, and partner access. Not on seat count.
                 </h1>
                 <p className="mt-5 max-w-3xl text-base leading-[1.8] text-[var(--color-foreground-muted)] sm:text-lg">
-                  The free sandbox gets you started. Every paid plan includes the full platform. You move up
+                  The free plan gets you started. Every paid plan includes the full platform. You move up
                   only when you need more SKUs, storage, bandwidth, internal users, partner invites, or
                   translation volume.
                 </p>
@@ -110,7 +110,7 @@ export default function PricingPage() {
 
               <div className="border-t border-[var(--color-border)] pt-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
                 {[
-                  ['Free sandbox', '10 active SKUs and 2 GB storage'],
+                  ['Free plan', '10 active SKUs and 2 GB storage'],
                   ['Starter', 'Public share links and 10 partner invites'],
                   ['Growth', '500 SKUs, 100 GB storage, 100 partner invites'],
                 ].map(([label, value], index) => (
@@ -130,7 +130,7 @@ export default function PricingPage() {
         <section className="px-4 pb-8 sm:px-6">
           <div className="mx-auto max-w-6xl border-y border-[var(--color-border)]">
             {plans.map((plan) => {
-              const ctaLabel = plan.id === 'free' ? 'Start sandbox' : `Start ${plan.name}`
+              const ctaLabel = plan.id === 'free' ? 'Start Free' : `Start ${plan.name}`
               return (
                 <div
                   key={plan.id}
@@ -294,7 +294,7 @@ export default function PricingPage() {
           <div className="mx-auto grid max-w-6xl gap-8 border-t border-[var(--color-border)] pt-10 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <p className="font-[var(--font-ibm-plex-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-                Start in the sandbox
+                Start free
               </p>
               <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-4xl">
                 Upgrade when your operation actually needs more headroom.
@@ -304,12 +304,12 @@ export default function PricingPage() {
               <Link
                 href={registerByPlan.free}
                 onClick={() => {
-                  trackMarketingEvent('pricing_cta_click', { page: 'pricing', section: 'final_cta', ctaLabel: 'Start sandbox', planInterest: 'free' })
-                  trackRegisterRedirect('final_cta', 'Start sandbox', 'free')
+                  trackMarketingEvent('pricing_cta_click', { page: 'pricing', section: 'final_cta', ctaLabel: 'Start Free', planInterest: 'free' })
+                  trackRegisterRedirect('final_cta', 'Start Free', 'free')
                 }}
                 className="marketing-primary-button inline-flex w-full items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
               >
-                Start sandbox
+                Start Free
                 <ArrowRight size={16} />
               </Link>
               <a href="mailto:sales@stackcess.com?subject=Stackcess%20Pricing%20Questions" className="inline-flex w-full items-center justify-center border border-[var(--color-border-strong)] px-6 py-3 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)] sm:w-auto">

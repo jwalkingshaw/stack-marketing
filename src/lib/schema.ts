@@ -129,7 +129,7 @@ export const generateWebSiteSchema = (): WebSiteSchema => ({
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'}/industry-news?query={search_term_string}`
+      urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'}/news?query={search_term_string}`
     },
     'query-input': 'required name=search_term_string'
   }

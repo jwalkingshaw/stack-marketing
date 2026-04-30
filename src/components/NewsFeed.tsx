@@ -33,8 +33,8 @@ export default function NewsFeed() {
       const offset = (page - 1) * POSTS_PER_PAGE
       
       // Get total count and posts in parallel
-      const [postsResult, countResult] = await Promise.all([
-        client.fetch(`
+      const [postsResult, countResult] = (await Promise.all([
+        client.fetch<BlogPost[]>(`
           *[_type == "blogPost"] | order(publishedAt desc) [${offset}...${offset + POSTS_PER_PAGE}] {
             _id,
             title,
@@ -57,7 +57,7 @@ export default function NewsFeed() {
           }
         `),
         client.fetch(`count(*[_type == "blogPost"])`)
-      ])
+      ])) as [BlogPost[], number]
 
       setPosts(postsResult || [])
       setTotalPosts(countResult || 0)

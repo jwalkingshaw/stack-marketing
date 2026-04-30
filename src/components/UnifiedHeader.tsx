@@ -30,6 +30,7 @@ export function UnifiedHeader({
   const navItems = [
     { label: 'Product', href: '/#product-workflows' },
     { label: 'Pricing', href: '/pricing' },
+    { label: 'News', href: '/news' },
     { label: 'Help', href: '/help' },
     { label: 'Roadmap', href: '/roadmap' },
     { label: 'About', href: '/about' },
@@ -110,7 +111,7 @@ export function UnifiedHeader({
                 onClick={onRegister}
                 className="marketing-primary-button h-9 border border-[var(--color-primary)] bg-[var(--color-primary)] px-3 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
               >
-                Start sandbox
+                Start Free
               </button>
             ) : null}
             {children}
@@ -123,7 +124,7 @@ export function UnifiedHeader({
                 onClick={onRegister}
                 className="marketing-primary-button h-8 border border-[var(--color-primary)] bg-[var(--color-primary)] px-3 text-xs font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
               >
-                Start sandbox
+                Start Free
               </button>
             ) : null}
             <button
@@ -170,4 +171,3 @@ export function UnifiedHeader({
     </header>
   )
 }
-

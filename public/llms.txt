@@ -46,7 +46,7 @@ Invited partner access is always free and does not count toward user limits.
 - Pricing: https://stackcess.com/pricing
 - About: https://stackcess.com/about
 - Help Center: https://stackcess.com/help
-- Industry News: https://stackcess.com/industry-news
+- News: https://stackcess.com/news
 - Contact: hello@stackcess.com
 - Sales: sales@stackcess.com
 - X / Twitter: @stackcessapp

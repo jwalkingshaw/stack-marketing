@@ -98,7 +98,7 @@ export default function AboutPage() {
               href={registerHref}
               className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
             >
-              Start sandbox
+              Start Free
               <ArrowRight size={14} />
             </Link>
             <Link
@@ -113,4 +113,3 @@ export default function AboutPage() {
     </div>
   )
 }
-

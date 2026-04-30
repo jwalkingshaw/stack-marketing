@@ -247,12 +247,12 @@ export default function Home() {
                   <Link
                     href={registerByPlan.free}
                     onClick={() => {
-                      trackMarketingEvent('hero_cta_click', { page: 'home', section: 'hero', ctaLabel: 'Start sandbox', planInterest: 'free' })
-                      trackRegisterRedirect('hero', 'Start sandbox', 'free')
+                      trackMarketingEvent('hero_cta_click', { page: 'home', section: 'hero', ctaLabel: 'Start Free', planInterest: 'free' })
+                      trackRegisterRedirect('hero', 'Start Free', 'free')
                     }}
                     className="marketing-primary-button inline-flex w-full items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-7 py-3.5 text-sm font-bold transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
                   >
-                    Start sandbox
+                    Start Free
                     <ArrowRight size={15} />
                   </Link>
                   <a href={salesHref} className="inline-flex w-full items-center justify-center border border-[var(--color-border-strong)] px-7 py-3.5 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)] sm:w-auto">
@@ -375,7 +375,7 @@ export default function Home() {
                 </thead>
                 <tbody>
                   {plans.map((plan) => {
-                    const ctaLabel = plan.id === 'free' ? 'Start sandbox' : `Start ${plan.name}`
+                    const ctaLabel = plan.id === 'free' ? 'Start Free' : `Start ${plan.name}`
                     return (
                       <tr key={plan.id} className="border-b border-[var(--color-border)] last:border-b-0">
                         <td className="px-4 py-5">
@@ -437,12 +437,12 @@ export default function Home() {
               <Link
                 href={registerByPlan.free}
                 onClick={() => {
-                  trackMarketingEvent('hero_cta_click', { page: 'home', section: 'final_cta', ctaLabel: 'Start sandbox', planInterest: 'free' })
-                  trackRegisterRedirect('final_cta', 'Start sandbox', 'free')
+                  trackMarketingEvent('hero_cta_click', { page: 'home', section: 'final_cta', ctaLabel: 'Start Free', planInterest: 'free' })
+                  trackRegisterRedirect('final_cta', 'Start Free', 'free')
                 }}
                 className="marketing-primary-button inline-flex w-full items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-8 py-4 text-base font-bold transition-colors hover:bg-[var(--color-primary-hover)] lg:w-auto"
               >
-                Start sandbox
+                Start Free
                 <ArrowRight size={17} />
               </Link>
               <a href={salesHref} className="inline-flex w-full items-center justify-center border border-[var(--color-border-strong)] px-8 py-4 text-base font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)] lg:w-auto">

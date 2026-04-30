@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
       }
     `
     
-    const relatedPosts = await client.fetch(relatedPostsQuery, {
+    const relatedPosts = await client.fetch<BlogPost[]>(relatedPostsQuery, {
       currentSlug, 
       tags: cleanTags,
     })

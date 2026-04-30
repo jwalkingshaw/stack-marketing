@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 import { Plus_Jakarta_Sans, DM_Sans, DM_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { generateWebSiteSchema, generateOrganizationSchema, generateSoftwareApplicationSchema } from "@/lib/schema";

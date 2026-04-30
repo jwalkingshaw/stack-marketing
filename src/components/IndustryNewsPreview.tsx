@@ -14,7 +14,7 @@ export default function IndustryNewsPreview() {
     async function fetchPosts() {
       try {
         // Get only the latest 3 posts
-        const postsResult = await client.fetch(`
+        const postsResult = await client.fetch<BlogPost[]>(`
           *[_type == "blogPost"] | order(publishedAt desc) [0...3] {
             _id,
             title,
@@ -87,7 +87,7 @@ export default function IndustryNewsPreview() {
             </p>
           </div>
           <Link 
-            href="/industry-news" 
+            href="/news" 
             className="text-sm text-gray-600 hover:text-black transition-colors duration-200 flex items-center gap-2"
           >
             View all insights 
@@ -107,7 +107,7 @@ export default function IndustryNewsPreview() {
         
         <div className="text-center mt-12">
           <Link 
-            href="/industry-news"
+            href="/news"
             className="inline-flex items-center px-6 py-3 border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 transition-all duration-200"
           >
             Explore More Industry News
