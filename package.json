@@ -2,7 +2,7 @@
   "name": "@stack-marketing/public-site",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "npm@11.4.2",
+  "packageManager": "npm@10.9.2",
   "engines": {
     "node": "22.x"
   },
@@ -33,7 +33,7 @@
     "@sanity/preview-url-secret": "^2.1.13",
     "@sanity/schema": "^3.95.0",
     "@sanity/ui": "^3.1.14",
-    "@sanity/vision": "^3.89.0",
+    "@sanity/vision": "^3.99.0",
     "@supabase/supabase-js": "^2.52.0",
     "@tanstack/react-query": "^5.83.0",
     "@vercel/analytics": "^1.1.4",
@@ -49,7 +49,7 @@
     "react-is": "^19.2.3",
     "redis": "^5.8.1",
     "resend": "^6.0.3",
-    "sanity": "^3.70.0",
+    "sanity": "^3.99.0",
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1"
   },
