@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import BlogPostCard from './BlogPostCard'
-import { BlogPost, client } from '@/lib/sanity'
+import { BlogPost } from '@/lib/sanity'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Pagination,
@@ -13,8 +13,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
-
-const POSTS_PER_PAGE = 6
 
 export default function NewsFeed() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -30,41 +28,14 @@ export default function NewsFeed() {
     setLoading(true)
 
     try {
-      const offset = (page - 1) * POSTS_PER_PAGE
-      
-      // Get total count and posts in parallel
-      const [postsResult, countResult] = (await Promise.all([
-        client.fetch<BlogPost[]>(`
-          *[_type == "blogPost"] | order(publishedAt desc) [${offset}...${offset + POSTS_PER_PAGE}] {
-            _id,
-            title,
-            slug,
-            excerpt,
-            coverImage {
-              asset->{
-                _id,
-                url
-              },
-              alt
-            },
-            author->{
-              name,
-              image
-            },
-            publishedAt,
-            tags,
-            estimatedReadingTime
-          }
-        `),
-        client.fetch(`count(*[_type == "blogPost"])`)
-      ])) as [BlogPost[], number]
+      const res = await fetch(`/api/news-feed?page=${page}`)
+      if (!res.ok) throw new Error('Failed to fetch')
+      const { posts: postsResult, total } = await res.json()
 
       setPosts(postsResult || [])
-      setTotalPosts(countResult || 0)
+      setTotalPosts(total || 0)
     } catch (error) {
       console.error('Error fetching posts:', error)
-      // Show user-friendly error message
-      console.error('Failed to connect to Sanity. Please check your Sanity configuration.')
       setPosts([])
       setTotalPosts(0)
     } finally {
@@ -87,7 +58,7 @@ export default function NewsFeed() {
     fetchPosts(initialPage)
   }, [searchParams, fetchPosts])
 
-  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
+  const totalPages = Math.ceil(totalPosts / 6)
 
   if (loading) {
     return (

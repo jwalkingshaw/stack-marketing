@@ -99,7 +99,9 @@ p {
   margin: 0;
 }
 
-a {
+a,
+button {
+  cursor: pointer;
   color: inherit;
   text-decoration: none;
   transition: color 0.15s ease;
