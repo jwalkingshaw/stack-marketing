@@ -6,20 +6,20 @@ import { buildAppAuthUrl } from '@/lib/app-links'
 export const metadata: Metadata = {
   title: 'About - Stackcess',
   description:
-    'We built Stackcess because the sports supplement industry deserved better than spreadsheets, shared drives, and email threads.',
+    'We built Stackcess because sales and marketing teams needed one place to manage product data, approved assets, localization, and partner syndication.',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
     title: 'About - Stackcess',
     description:
-      'We built Stackcess because the sports supplement industry deserved better than spreadsheets, shared drives, and email threads.',
+      'We built Stackcess because sales and marketing teams needed one place to manage product data, approved assets, localization, and partner syndication.',
     url: '/about',
   },
   twitter: {
     title: 'About - Stackcess',
     description:
-      'We built Stackcess because the sports supplement industry deserved better than spreadsheets, shared drives, and email threads.',
+      'We built Stackcess because sales and marketing teams needed one place to manage product data, approved assets, localization, and partner syndication.',
   },
 }
 
@@ -31,67 +31,71 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
-      <div className="mx-auto max-w-2xl px-6 py-20 sm:py-28">
+      <div className="mx-auto max-w-3xl px-5 py-16 sm:px-6 sm:py-28">
         <p className="mb-8 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-muted)]">
           Why we built this
         </p>
 
-        <h1 className="mb-10 text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--color-foreground)] sm:text-4xl">
-          We got tired of watching great products get managed badly.
+        <h1 className="mb-10 font-[var(--font-display-serif)] text-[2.3rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:mb-12 sm:text-[3.65rem]">
+          We built Stackcess because product content operations should not depend on spreadsheets, folders, and resend requests.
         </h1>
 
-        <div className="space-y-6 text-base leading-[1.75] text-[var(--color-foreground-muted)] sm:text-lg">
+        <div className="mt-12 border-t border-[var(--color-border)]/70 pt-5 space-y-7 text-[1.04rem] leading-[1.9] text-[var(--color-foreground-muted)] sm:mt-14 sm:pt-6 sm:text-[1.14rem]">
           <p>
-            Spend time inside sports supplement brands and you find the same picture. Box over here.
-            Google Drive over there. An internal build that only two people understand. Ops teams still
-            sending giant attachment threads. Nobody has the same version of anything.
+            Spend time inside sales and marketing teams and you find the same pattern. Product data lives in one tool.
+            Assets live somewhere else. Localization happens in documents and chat threads. Partners still ask for
+            files by email because there is no controlled place to get the current version.
           </p>
           <p>
-            Teams tried to fix it with generic DAMs and file-sharing tools, but those tools do not understand
-            supplement workflows. A COA belongs to a specific product. An approved label can be market-specific.
-            Onboarding a retailer in Germany should not mean blasting all files to everyone.
+            Teams try to patch it together with a PIM, a DAM, file sharing, and manual exports. That stack creates
+            more handoffs, more duplicated work, and more uncertainty about what is approved for each market,
+            language, and partner.
           </p>
           <p>
-            Launches became improvised projects: hero images, pack shots, approved copy, specs, regulatory docs,
-            and variant details spread everywhere. Every new market registration restarted the same scramble.
+            The problem gets worse as brands expand. Every market needs tailored copy. Every channel wants a different
+            format. Every retailer, distributor, and agency needs access to the right content without seeing
+            everything else.
           </p>
           <p>
-            We built Stackcess to replace that scramble with a system: one workspace where catalog, assets,
-            documents, and partner relationships live together, and where distribution is a workflow instead of a fire drill.
+            We built Stackcess to replace that scramble with one system: a unified PIM + DAM with AI-assisted
+            localization and partner-ready syndication. Product data, approved assets, market rules, and partner
+            delivery live in the same operating model.
           </p>
         </div>
 
         <div className="my-14 h-px bg-[var(--color-border)]" />
 
-        <h2 className="mb-8 text-xl font-semibold tracking-[-0.01em] text-[var(--color-foreground)]">
+        <h2 className="mb-8 font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.3rem]">
           What we believe
         </h2>
         <div className="space-y-8">
           <div>
-            <p className="mb-2 text-sm font-semibold text-[var(--color-foreground)]">Built for this industry, not adapted for it.</p>
-            <p className="text-sm leading-[1.7] text-[var(--color-foreground-muted)]">
-              Generic tools can be bent into supplement workflows. We build directly for SKU hierarchies,
-              regulatory docs, and multi-market partner relationships.
+            <p className="mb-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">One source of truth should include both product data and assets.</p>
+            <p className="text-[1rem] leading-[1.85] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
+              A product record is not complete without the approved files, copy, and documents attached to it.
+              We design for structured product content and governed asset workflows together.
             </p>
           </div>
           <div>
-            <p className="mb-2 text-sm font-semibold text-[var(--color-foreground)]">The whole network matters.</p>
-            <p className="text-sm leading-[1.7] text-[var(--color-foreground-muted)]">
-              A brand content problem is also a retailer problem and a distributor problem. The system works
-              when every participant gets operational value.
+            <p className="mb-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">Localization should be part of the workflow, not a side project.</p>
+            <p className="text-[1rem] leading-[1.85] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
+              Multi-market teams need faster adaptation with consistent terminology, brand tone, and market-aware
+              guidance. That work belongs inside the product content system itself.
             </p>
           </div>
           <div>
-            <p className="mb-2 text-sm font-semibold text-[var(--color-foreground)]">Complexity should feel simple.</p>
-            <p className="text-sm leading-[1.7] text-[var(--color-foreground-muted)]">
-              Market scoping, variant structures, and partner access control should be usable without consultants.
+            <p className="mb-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">Partner delivery should be controlled, not improvised.</p>
+            <p className="text-[1rem] leading-[1.85] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
+              Retailers, distributors, and agencies need current content in a format they can use. Brands need
+              scoped access, clean handoff, and less manual resend work.
             </p>
           </div>
         </div>
 
         <div className="mt-16 border-t border-[var(--color-border)] pt-10">
-          <p className="mb-5 text-sm text-[var(--color-foreground-muted)]">
-            If this sounds like your operation, the free plan is the fastest way to validate it.
+          <p className="mb-6 text-[1rem] leading-[1.8] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
+            If your team is juggling product data, assets, localization, and partner requests across separate tools,
+            the free plan is the fastest way to see the model in practice.
           </p>
           <div className="flex items-center gap-5">
             <Link

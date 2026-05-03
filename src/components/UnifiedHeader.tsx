@@ -28,7 +28,7 @@ export function UnifiedHeader({
   const pathname = usePathname()
 
   const navItems = [
-    { label: 'Product', href: '/#product-workflows' },
+    { label: 'Platform', href: '/#platform' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'News', href: '/news' },
     { label: 'Help', href: '/help' },
@@ -45,7 +45,7 @@ export function UnifiedHeader({
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const headerClasses = `fixed left-0 right-0 top-[3rem] z-[60] h-[67px] transition-all duration-300 ${
+  const headerClasses = `fixed left-0 right-0 top-[3rem] z-[60] h-[64px] sm:h-[67px] transition-all duration-300 ${
     isScrolled
       ? 'border-b border-[var(--color-border)] bg-[rgba(251,248,243,0.92)] backdrop-blur'
       : 'border-b border-[var(--color-border)]/70 bg-[rgba(245,241,232,0.82)] backdrop-blur'
@@ -54,7 +54,7 @@ export function UnifiedHeader({
   return (
     <header className={headerClasses}>
       <div className="mx-auto w-full max-w-7xl px-4">
-        <div className="relative flex h-[67px] w-full items-center justify-between">
+        <div className="relative flex h-[64px] w-full items-center justify-between sm:h-[67px]">
           <div className="flex items-center">
             <Link href={logoHref} className="flex items-center space-x-2">
               <Image
@@ -109,7 +109,7 @@ export function UnifiedHeader({
               <button
                 type="button"
                 onClick={onRegister}
-                className="marketing-primary-button h-9 border border-[var(--color-primary)] bg-[var(--color-primary)] px-3 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
+                className="marketing-primary-button h-9 min-w-[8.75rem] border border-[var(--color-primary)] bg-[var(--color-primary)] px-5 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
               >
                 Start Free
               </button>
@@ -122,7 +122,7 @@ export function UnifiedHeader({
               <button
                 type="button"
                 onClick={onRegister}
-                className="marketing-primary-button h-8 border border-[var(--color-primary)] bg-[var(--color-primary)] px-3 text-xs font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
+                className="marketing-primary-button h-9 min-w-[7.5rem] border border-[var(--color-primary)] bg-[var(--color-primary)] px-4 text-xs font-semibold transition-colors hover:bg-[var(--color-primary-hover)]"
               >
                 Start Free
               </button>
@@ -130,7 +130,7 @@ export function UnifiedHeader({
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="inline-flex h-8 w-8 items-center justify-center text-[var(--color-foreground-muted)] transition-colors hover:text-[var(--color-foreground)]"
+              className="inline-flex h-9 w-9 items-center justify-center text-[var(--color-foreground-muted)] transition-colors hover:text-[var(--color-foreground)]"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -141,14 +141,14 @@ export function UnifiedHeader({
       </div>
 
       {mobileMenuOpen ? (
-        <div className="border-t border-[var(--color-border)] bg-[rgba(251,248,243,0.96)] px-4 py-3 backdrop-blur md:hidden">
+        <div className="border-t border-[var(--color-border)] bg-[rgba(251,248,243,0.96)] px-4 py-4 backdrop-blur md:hidden">
           <nav className="grid gap-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-[var(--color-foreground-muted)] transition-colors hover:text-[var(--color-foreground)]"
+                className="rounded-[var(--radius)] px-3 py-2.5 text-sm text-[var(--color-foreground-muted)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-foreground)]"
               >
                 {item.label}
               </Link>
@@ -161,7 +161,7 @@ export function UnifiedHeader({
                 setMobileMenuOpen(false)
                 onLogin()
               }}
-              className="mt-2 w-full border border-[var(--color-border)] px-3 py-2 text-sm font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-surface-muted)]"
+              className="mt-3 w-full rounded-[var(--radius)] border border-[var(--color-border)] px-3 py-2.5 text-sm font-medium text-[var(--color-foreground)] transition-colors hover:bg-[var(--color-surface-muted)]"
             >
               Log in
             </button>

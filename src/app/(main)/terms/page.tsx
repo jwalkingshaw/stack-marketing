@@ -149,10 +149,10 @@ export default function TermsPage() {
               and are non-refundable except where required by applicable law.
             </p>
             <p className="mb-3">
-              Plan limits cover active SKUs, storage, monthly delivery bandwidth, internal users, external
-              partner invites, and translation volume. When a limit is reached, the platform will prompt
-              you to upgrade. We do not automatically delete data when limits are reached - you will be
-              notified and can choose to upgrade.
+              Plan limits cover active SKUs, storage, internal users, external partner invites, and included
+              translation usage. Higher-volume delivery and distribution use may be subject to fair-use limits
+              or custom enterprise packaging. When a limit is reached, the platform will prompt you to upgrade.
+              We do not automatically delete data when limits are reached - you will be notified and can choose to upgrade.
             </p>
             <p>
               We reserve the right to modify pricing with at least 30 days&apos; notice. Continued use of
@@ -280,5 +280,4 @@ export default function TermsPage() {
     </div>
   )
 }
-
 

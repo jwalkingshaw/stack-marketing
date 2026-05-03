@@ -13,9 +13,15 @@
   --color-foreground-muted: #5f6c7f;
   --color-foreground-subtle: #7b8798;
 
-  --color-primary: #2f4f8c;
-  --color-primary-foreground: #f8fbff;
-  --color-primary-hover: #28457b;
+  --color-accent-black: hsl(0 0% 0%);
+  --color-accent-black-foreground: hsl(0 0% 98%);
+  --color-accent-black-hover: hsl(0 0% 30%);
+  --color-accent-black-active: hsl(0 0% 30%);
+  --color-accent-black-subtle: hsl(217 12% 97%);
+
+  --color-primary: var(--color-accent-black);
+  --color-primary-foreground: var(--color-accent-black-foreground);
+  --color-primary-hover: var(--color-accent-black-hover);
 
   --color-accent: #3d5f9a;
   --color-accent-foreground: #f8fbff;
@@ -170,6 +176,7 @@ button {
 .marketing-primary-button:hover,
 .marketing-primary-button:active {
   color: var(--color-primary-foreground) !important;
+  border-radius: var(--radius);
 }
 
 .marketing-primary-button svg {
@@ -199,10 +206,53 @@ button {
 }
 
 .marketing-hero-word {
+  color: var(--color-foreground);
+  font-family: var(--font-geist-sans), "Syne", system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-decoration: underline;
+  text-decoration-color: rgba(61, 95, 154, 0.38);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.08em;
+}
+
+.marketing-section-title {
   font-family: var(--font-display-serif), Georgia, serif;
-  font-style: italic;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   font-weight: 400;
-  letter-spacing: -0.04em;
+  font-style: normal;
+}
+
+.marketing-section-copy {
+  font-size: 1.06rem;
+  line-height: 1.92;
+}
+
+.marketing-section-copy-lg {
+  font-size: 1.12rem;
+  line-height: 1.94;
+}
+
+.marketing-detail-copy {
+  font-size: 1.02rem;
+  line-height: 1.88;
+}
+
+@media (min-width: 640px) {
+  .marketing-section-copy {
+    font-size: 1.14rem;
+  }
+
+  .marketing-section-copy-lg {
+    font-size: 1.22rem;
+  }
+
+  .marketing-detail-copy {
+    font-size: 1.08rem;
+  }
 }
 
 .marketing-dark-panel {

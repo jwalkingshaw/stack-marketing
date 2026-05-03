@@ -13,17 +13,17 @@ export default function Footer() {
   const helpCenterUrl = process.env.NEXT_PUBLIC_HELP_CENTER_URL?.trim() || 'https://help.stackcess.com'
 
   return (
-    <footer className="border-t border-[var(--color-border)] bg-[var(--color-background-elevated)] px-6 py-16 text-[var(--color-foreground)]">
+    <footer className="border-t border-[var(--color-border)] bg-[var(--color-background-elevated)] px-4 py-14 text-[var(--color-foreground)] sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 border-b border-[var(--color-border)] pb-8">
           <p className="font-[var(--font-ibm-plex-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            Product content system
+            Unified PIM + DAM
           </p>
-          <p className="mt-4 max-w-2xl text-sm font-semibold text-[var(--color-foreground)]">
-            Stackcess helps supplement teams run product content operations from one source of truth.
+          <p className="mt-4 max-w-2xl text-base font-semibold leading-[1.55] text-[var(--color-foreground)]">
+            Stackcess helps sales and marketing teams manage product content, approved assets, and partner delivery from one system.
           </p>
-          <p className="mt-1 text-sm text-[var(--color-foreground-muted)]">
-            Structured catalog data, approved assets, localization, and retailer delivery in a single workspace.
+          <p className="mt-2 text-sm leading-[1.75] text-[var(--color-foreground-muted)] sm:text-[0.98rem]">
+            Structured product data, governed assets, AI localization, and partner portal syndication in a single workspace.
           </p>
         </div>
 

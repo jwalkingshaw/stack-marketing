@@ -957,9 +957,9 @@ export const helpArticles: HelpArticle[] = [
         bullets: [
           "Active SKUs",
           "Storage usage (GB)",
-          "Monthly delivery bandwidth",
           "Internal user count",
           "Partner invite count",
+          "Included translated characters",
         ],
       },
       {

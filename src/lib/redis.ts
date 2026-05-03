@@ -5,13 +5,18 @@ const redis = process.env.REDIS_URL ? createClient({
   url: process.env.REDIS_URL,
   socket: {
     connectTimeout: 5000,
+    reconnectStrategy: false,
   }
 }) : null
 
 // Handle connection errors gracefully
+let hasLoggedRedisError = false
 if (redis) {
   redis.on('error', (err) => {
-    console.error('Redis Client Error:', err)
+    if (!hasLoggedRedisError) {
+      console.error('Redis Client Error:', err)
+      hasLoggedRedisError = true
+    }
     // Don't crash the process, just log the error
   })
 }
@@ -19,6 +24,8 @@ if (redis) {
 // Connect to Redis with fallback
 let isConnected = false
 let hasWarnedNoRedisConfig = false
+let hasDisabledRedisFallback = false
+let hasWarnedRedisFallback = false
 
 export const REDIS_KEY_PREFIX_MARKETING = process.env.REDIS_KEY_PREFIX_MARKETING || 'marketing'
 
@@ -106,13 +113,22 @@ const connectRedis = async () => {
     }
     return null
   }
-  
+
+  if (hasDisabledRedisFallback) {
+    if (!hasWarnedRedisFallback) {
+      console.warn('Redis unavailable, using in-memory fallback')
+      hasWarnedRedisFallback = true
+    }
+    return null
+  }
+
   if (!isConnected && !redis.isOpen) {
     try {
       await redis.connect()
       isConnected = true
       console.log('Connected to Redis Cloud')
     } catch (error) {
+      hasDisabledRedisFallback = true
       console.error('Failed to connect to Redis, continuing without cache:', error)
       return null
     }

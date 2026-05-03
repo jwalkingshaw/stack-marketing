@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { ArrowRight, Check, CheckCircle2 } from 'lucide-react'
 import MarketingFunnelTracker from '@/components/MarketingFunnelTracker'
 import { buildAppAuthUrl } from '@/lib/app-links'
-import { formatBillingGigabytes, formatBillingLimit, formatDeepLUsage, formatUploadBytes } from '@/lib/billing-display'
+import { formatBillingGigabytes, formatBillingLimit, formatDeepLUsage } from '@/lib/billing-display'
 import { trackMarketingEvent } from '@/lib/marketing-analytics'
 import { generateBreadcrumbSchema } from '@/lib/schema'
-import { BILLING_PLAN_CATALOG, shouldShowMaxUploadInMarketing } from '@/lib/billing-catalog'
+import { BILLING_PLAN_CATALOG } from '@/lib/billing-catalog'
 
 type PlanId = 'free' | 'starter' | 'growth' | 'scale'
 type DisplayPlan = (typeof BILLING_PLAN_CATALOG)[number] & { id: PlanId }
@@ -22,17 +22,16 @@ const plans = BILLING_PLAN_CATALOG.filter(
 const metrics = [
   ['Active SKUs', plans.map((plan) => formatBillingLimit(plan.activeSkuLimit))],
   ['Storage', plans.map((plan) => formatBillingGigabytes(plan.storageLimitGb))],
-  ['Delivery bandwidth', plans.map((plan) => formatBillingGigabytes(plan.deliveryBandwidthLimitGb))],
   ['Internal users', plans.map((plan) => formatBillingLimit(plan.internalUserLimit))],
-  ['Partner invites', plans.map((plan) => formatBillingLimit(plan.partnerInviteLimit))],
-  ['Translation volume', plans.map((plan) => formatDeepLUsage(plan.deeplTotalCharLimit))],
+  ['External partner invites', plans.map((plan) => formatBillingLimit(plan.partnerInviteLimit))],
+  ['Translated characters / month', plans.map((plan) => (plan.deeplTotalCharLimit > 0 ? formatDeepLUsage(plan.deeplTotalCharLimit) : 'Not included'))],
   ['Public share links', plans.map((plan) => (plan.publicShareLinksEnabled ? 'Included' : 'Not included'))],
 ] as const
 
 const faqs = [
   {
     q: 'Do you charge per seat?',
-    a: 'No. Stackcess is billed per workspace. Limits are based on operational scale like SKUs, storage, bandwidth, internal users, partner invites, and translation volume.',
+    a: 'No. Stackcess is billed per workspace. Limits are based on operational scale like active SKUs, storage, internal users, partner invites, and included translation usage.',
   },
   {
     q: 'Do partners need a paid Stackcess plan?',
@@ -45,6 +44,14 @@ const faqs = [
   {
     q: 'When do public share links become available?',
     a: 'Public share links are disabled on the free plan and available from Starter upward.',
+  },
+  {
+    q: 'How does translation usage work?',
+    a: 'Translation allowances are included monthly usage. Higher-volume localization needs can be handled with add-ons or custom plans.',
+  },
+  {
+    q: 'What if we need custom packaging?',
+    a: 'Enterprise supports custom packaging, negotiated limits, and higher-volume delivery and distribution use where needed.',
   },
 ]
 
@@ -59,14 +66,6 @@ const faqSchema = {
       text: faq.a,
     },
   })),
-}
-
-function formatMarketingPlanFeature(feature: string): string {
-  if (feature === 'DeepL usage not included') {
-    return 'Translation not included'
-  }
-
-  return feature.replace(/DeepL characters \/ month/g, 'translated characters / month')
 }
 
 export default function PricingPage() {
@@ -93,33 +92,32 @@ export default function PricingPage() {
       <MarketingFunnelTracker page="pricing" />
 
       <div className="min-h-screen bg-[var(--color-background)]">
-        <section className="px-4 py-16 sm:px-6 sm:py-20">
+        <section className="px-4 py-14 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-6xl border-b border-[var(--color-border)] pb-12">
             <div className="grid gap-8 lg:grid-cols-[1fr_20rem] lg:items-end">
               <div>
                 <p className="marketing-kicker">Workspace Pricing</p>
-                <h1 className="mt-6 max-w-4xl text-3xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-5xl md:text-6xl">
-                  Scale on catalog volume, delivery, and partner access. Not on seat count.
+                <h1 className="mt-7 max-w-4xl font-[var(--font-display-serif)] text-[2.55rem] font-normal leading-[1.04] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[4rem] md:text-[4.6rem]">
+                  Pricing for product content operations, not per-seat admin overhead.
                 </h1>
-                <p className="mt-5 max-w-3xl text-base leading-[1.8] text-[var(--color-foreground-muted)] sm:text-lg">
-                  The free plan gets you started. Every paid plan includes the full platform. You move up
-                  only when you need more SKUs, storage, bandwidth, internal users, partner invites, or
-                  translation volume.
+                <p className="marketing-section-copy mt-11 max-w-3xl border-t border-[var(--color-border)]/70 pt-5 text-[var(--color-foreground-muted)] sm:mt-13 sm:pt-6">
+                  Start free, then expand with catalog size, storage, team access, partner collaboration, and included translation usage.
+                  Every paid plan includes the unified PIM + DAM, AI localization workflows, and partner portal syndication.
                 </p>
               </div>
 
               <div className="border-t border-[var(--color-border)] pt-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
                 {[
-                  ['Free plan', '10 active SKUs and 2 GB storage'],
-                  ['Starter', 'Public share links and 10 partner invites'],
-                  ['Growth', '500 SKUs, 100 GB storage, 100 partner invites'],
+                  ['Free plan', 'Best for proving the workflow with a smaller catalog'],
+                  ['Starter', 'Adds more product capacity, collaborators, and monthly translation usage'],
+                  ['Growth', 'Built for brands managing more markets, products, and external partners'],
                 ].map(([label, value], index) => (
                   <div
                     key={label}
                     className={`${index > 0 ? 'mt-4 border-t border-[var(--color-border)] pt-4' : ''}`}
                   >
                     <p className="font-[var(--font-ibm-plex-mono)] text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-foreground-subtle)]">{label}</p>
-                    <p className="mt-2 text-sm font-semibold text-[var(--color-foreground)]">{value}</p>
+                    <p className="mt-3 text-base font-semibold leading-[1.45] text-[var(--color-foreground)]">{value}</p>
                   </div>
                 ))}
               </div>
@@ -134,7 +132,7 @@ export default function PricingPage() {
               return (
                 <div
                   key={plan.id}
-                  className={`grid gap-6 px-1 py-8 md:grid-cols-[11rem_10rem_1fr_auto] md:items-start ${
+                  className={`grid gap-5 px-1 py-7 md:grid-cols-[11rem_10rem_1fr_auto] md:items-start sm:gap-6 sm:py-8 ${
                     plan.id !== plans[plans.length - 1].id ? 'border-b border-[var(--color-border)]' : ''
                   }`}
                 >
@@ -142,8 +140,8 @@ export default function PricingPage() {
                     <p className="font-[var(--font-ibm-plex-mono)] text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-foreground-subtle)]">
                       {plan.popular ? 'Recommended plan' : 'Plan'}
                     </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-[var(--color-foreground)]">{plan.name}</h2>
-                    <p className="mt-2 text-sm leading-[1.7] text-[var(--color-foreground-muted)]">{plan.description}</p>
+                    <h2 className="mt-2 text-[1.8rem] font-semibold leading-[1.05] text-[var(--color-foreground)]">{plan.name}</h2>
+                    <p className="marketing-detail-copy mt-3 text-[var(--color-foreground-muted)]">{plan.description}</p>
                   </div>
 
                   <div className="border-t border-[var(--color-border)] px-3 pt-3 md:border-t-0 md:border-l md:pt-0 md:pl-6">
@@ -155,13 +153,9 @@ export default function PricingPage() {
 
                   <div className="grid gap-3 border-t border-[var(--color-border)] px-3 pt-4 md:border-l md:border-t-0 md:pl-6 md:pt-0 lg:grid-cols-2">
                     {[
-                      ...plan.features.map(formatMarketingPlanFeature),
-                      ...(shouldShowMaxUploadInMarketing(plan.id)
-                        ? [`${formatUploadBytes(plan.maxUploadBytes)} max file upload`]
-                        : []),
-                      plan.publicShareLinksEnabled ? 'Public share links included' : 'Public share links disabled',
+                      ...plan.features,
                     ].map((feature, index) => (
-                      <div key={`${plan.id}-${index}`} className="flex items-start gap-2.5 text-sm text-[var(--color-foreground-muted)]">
+                      <div key={`${plan.id}-${index}`} className="marketing-detail-copy flex items-start gap-2.5 text-[var(--color-foreground-muted)]">
                         <Check className="mt-0.5 h-4 w-4 text-[var(--color-success)]" />
                         <span>{feature}</span>
                       </div>
@@ -191,22 +185,22 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="px-4 py-12 sm:px-6">
+        <section className="px-4 py-10 sm:px-6 sm:py-12">
           <div className="mx-auto max-w-6xl">
             <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <div>
-                <h2 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-3xl">Operational limits by plan</h2>
-                <p className="mt-3 max-w-xl text-sm leading-[1.8] text-[var(--color-foreground-muted)] sm:text-base">
-                  These are the limits that change between plans. The product itself stays the same.
+                <h2 className="font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.08] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.35rem]">Operational limits by plan</h2>
+                <p className="marketing-detail-copy mt-4 max-w-xl text-[var(--color-foreground-muted)]">
+                  These are the product and collaboration limits that expand as your operation grows. The core platform stays the same.
                 </p>
               </div>
-              <p className="text-sm text-[var(--color-foreground-secondary)]">
-                Every paid plan includes the product catalog, asset management, scoped sharing, the retailer and partner portal,
-                localization workflows, and in-product usage alerts.
+              <p className="marketing-detail-copy text-[var(--color-foreground-secondary)]">
+                Every paid plan includes structured product data, governed asset management, scoped sharing,
+                the partner portal, localization workflows, and in-product usage alerts.
               </p>
             </div>
 
-            <div className="mt-8 overflow-x-auto border-y border-[var(--color-border)]">
+            <div className="mt-8 overflow-x-auto border-y border-[var(--color-border)] [-webkit-overflow-scrolling:touch]">
               <table className="w-full min-w-[860px] border-collapse">
                 <thead>
                   <tr className="border-b border-[var(--color-border)]">
@@ -233,22 +227,22 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="px-4 py-12 sm:px-6">
+        <section className="px-4 py-10 sm:px-6 sm:py-12">
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
             <div className="border-t border-[var(--color-border)] pt-6">
-              <h2 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-3xl">Included in every paid plan</h2>
+              <h2 className="font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.08] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.35rem]">Included in every paid plan</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {[
                   'Structured product catalog with variant support',
                   'Asset management with versioning and product media slots',
-                  'Retailer and partner portal access',
+                  'Retailer, distributor, and agency portal access',
                   'Market, locale, and destination scoping',
-                  'Regulatory document workflows and audit trails',
+                  'AI-assisted localization with included translation usage',
                   'Usage visibility with upgrade prompts',
                 ].map((feature) => (
                   <div key={feature} className="flex items-start gap-2.5 border-t border-[var(--color-border)] py-3">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--color-success)]" />
-                    <p className="text-sm text-[var(--color-foreground-muted)]">{feature}</p>
+                    <p className="marketing-detail-copy text-[var(--color-foreground-muted)]">{feature}</p>
                   </div>
                 ))}
               </div>
@@ -256,16 +250,17 @@ export default function PricingPage() {
 
             <div className="border-t border-[var(--color-border)] pt-6 lg:border-l lg:pl-10">
               <p className="font-[var(--font-ibm-plex-mono)] text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">Enterprise</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-3xl">Custom commercial and technical terms for larger rollouts</h2>
-              <p className="mt-4 text-sm leading-[1.8] text-[var(--color-foreground-muted)] sm:text-base">
+              <h2 className="mt-4 font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.35rem]">Custom commercial and technical terms for larger rollouts</h2>
+              <p className="marketing-detail-copy mt-5 text-[var(--color-foreground-muted)]">
                 {enterprisePlan.description}. Use Enterprise when you need broader commercial flexibility,
-                custom limits, rollout support, or deeper coordination across brands, markets, and partner networks.
+                custom limits, rollout support, deeper coordination across brands, markets, and partner networks,
+                or higher-volume delivery and distribution use under custom packaging.
               </p>
               <div className="mt-5 space-y-3">
                 {enterprisePlan.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--color-success)]" />
-                    <p className="text-sm text-[var(--color-foreground-secondary)]">{feature}</p>
+                    <p className="marketing-detail-copy text-[var(--color-foreground-secondary)]">{feature}</p>
                   </div>
                 ))}
               </div>
@@ -276,28 +271,28 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="px-4 py-12 sm:px-6">
+        <section className="px-4 py-10 sm:px-6 sm:py-12">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-center text-3xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-4xl">Common questions</h2>
+            <h2 className="font-[var(--font-display-serif)] text-center text-[2.25rem] font-normal leading-[1.08] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[3rem]">Common questions</h2>
             <div className="mt-8 border-y border-[var(--color-border)]">
               {faqs.map((faq, index) => (
-                <div key={faq.q} className={`py-6 ${index < faqs.length - 1 ? 'border-b border-[var(--color-border)]' : ''}`}>
-                  <h3 className="text-base font-semibold text-[var(--color-foreground)]">{faq.q}</h3>
-                  <p className="mt-2 text-sm leading-[1.8] text-[var(--color-foreground-muted)]">{faq.a}</p>
+                <div key={faq.q} className={`py-7 sm:py-8 ${index < faqs.length - 1 ? 'border-b border-[var(--color-border)]' : ''}`}>
+                  <h3 className="text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">{faq.q}</h3>
+                  <p className="marketing-detail-copy mt-3 text-[var(--color-foreground-muted)]">{faq.a}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="px-4 pb-20 pt-12 sm:px-6">
-          <div className="mx-auto grid max-w-6xl gap-8 border-t border-[var(--color-border)] pt-10 lg:grid-cols-[1fr_auto] lg:items-end">
+        <section className="px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-12">
+          <div className="mx-auto grid max-w-6xl gap-7 border-t border-[var(--color-border)] pt-8 lg:grid-cols-[1fr_auto] lg:items-end sm:gap-8 sm:pt-10">
             <div>
               <p className="font-[var(--font-ibm-plex-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
                 Start free
               </p>
-              <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.02em] text-[var(--color-foreground)] sm:text-4xl">
-                Upgrade when your operation actually needs more headroom.
+              <h2 className="mt-4 max-w-3xl font-[var(--font-display-serif)] text-[2.1rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[3rem]">
+                Start with one workspace. Upgrade when the catalog, team, and partner network need more headroom.
               </h2>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">

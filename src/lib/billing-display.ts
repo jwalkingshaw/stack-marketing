@@ -22,8 +22,5 @@ export function formatUploadBytes(value: number): string {
 export function formatDeepLUsage(value: number): string {
   if (value <= 0) return "Not included";
   if (isUnlimitedBillingLimit(value)) return "Unlimited";
-  if (value % 1_000_000 === 0) return `${value / 1_000_000}M chars`;
-  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M chars`;
-  if (value % 1_000 === 0) return `${value / 1_000}K chars`;
   return `${value.toLocaleString("en-US")} chars`;
 }
