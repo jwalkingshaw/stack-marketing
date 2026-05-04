@@ -6,6 +6,20 @@ export const metadata = {
   title: 'Help Center | Stackcess',
   description:
     'User-facing guides for Stackcess modules, settings, partner workflows, and onboarding.',
+  alternates: {
+    canonical: '/help',
+  },
+  openGraph: {
+    title: 'Help Center | Stackcess',
+    description:
+      'User-facing guides for Stackcess modules, settings, partner workflows, and onboarding.',
+    url: '/help',
+  },
+  twitter: {
+    title: 'Help Center | Stackcess',
+    description:
+      'User-facing guides for Stackcess modules, settings, partner workflows, and onboarding.',
+  },
 }
 
 export default function HelpCenterPage() {

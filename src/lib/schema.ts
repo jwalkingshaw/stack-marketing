@@ -23,9 +23,10 @@ export interface PersonSchema {
 
 export interface NewsArticleSchema {
   '@context': 'https://schema.org'
-  '@type': 'NewsArticle'
+  '@type': 'BlogPosting'
   headline: string
   description: string
+  abstract?: string
   image: {
     '@type': 'ImageObject'
     url: string
@@ -43,6 +44,19 @@ export interface NewsArticleSchema {
   keywords: string[]
   wordCount?: number
   timeRequired?: string
+}
+
+export interface ItemListSchema {
+  '@context': 'https://schema.org'
+  '@type': 'ItemList'
+  name: string
+  description?: string
+  itemListElement: Array<{
+    '@type': 'ListItem'
+    position: number
+    url: string
+    name: string
+  }>
 }
 
 export interface WebSiteSchema {
@@ -94,12 +108,15 @@ export const generatePersonSchema = (author: BlogPost['author']): PersonSchema =
 export const generateNewsArticleSchema = (
   post: BlogPost,
   fullUrl: string,
-  imageUrl: string
+  imageUrl: string,
+  description?: string,
+  abstract?: string
 ): NewsArticleSchema => ({
   '@context': 'https://schema.org',
-  '@type': 'NewsArticle',
+  '@type': 'BlogPosting',
   headline: post.title,
-  description: post.excerpt,
+  description: description || post.excerpt,
+  ...(abstract ? { abstract } : {}),
   image: {
     '@type': 'ImageObject',
     url: imageUrl,
@@ -116,6 +133,23 @@ export const generateNewsArticleSchema = (
   articleSection: post.tags,
   keywords: post.tags,
   timeRequired: `PT${post.estimatedReadingTime}M`
+})
+
+export const generateItemListSchema = (
+  name: string,
+  items: Array<{ name: string; url: string }>,
+  description?: string
+): ItemListSchema => ({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name,
+  ...(description ? { description } : {}),
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    url: item.url
+  }))
 })
 
 export const generateWebSiteSchema = (): WebSiteSchema => ({

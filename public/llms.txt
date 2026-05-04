@@ -1,49 +1,50 @@
 # Stackcess
 
-> Stackcess is the operating system for sports supplement brands, distributors, and retailers — a unified platform to manage product content, digital assets, partner collaboration, regulatory documents, and localisation.
+> Stackcess is the operating system for sports supplement brands, distributors, and retailers - a unified platform to manage product content, digital assets, partner collaboration, regulatory documents, and localisation.
 
 ## What is Stackcess?
 
 Stackcess is a B2B SaaS platform purpose-built for the sports supplement industry. It combines:
 
-- **Product Information Management (PIM)** — build structured product catalogs with families, attributes, variants, and completeness tracking
-- **Digital Asset Management (DAM)** — upload, version, and organise product images, videos, and documents
-- **Regulatory document storage** — COAs (Certificates of Analysis), approved labels, certifications, and safety data sheets, linked directly to products and shared with partners
-- **Partner sharing with access controls** — share specific products, assets, and documents with distributors and retailers with scoped permissions. Partners access a live workspace, not email attachments.
-- **Market, locale, channel, and destination configuration** — manage product content across markets and sales channels
-- **AI-powered translation workflows** — translate product content across multiple languages
-- **Partner update broadcasts** — send structured product updates to connected partners
+- **Product Information Management (PIM)** - build structured product catalogs with families, attributes, variants, and completeness tracking
+- **Digital Asset Management (DAM)** - upload, version, and organise product images, videos, and documents
+- **Regulatory document storage** - COAs (Certificates of Analysis), approved labels, certifications, and safety data sheets, linked directly to products and shared with partners
+- **Partner sharing with access controls** - share specific products, assets, and documents with distributors and retailers with scoped permissions. Partners access a live workspace, not email attachments.
+- **Market, locale, channel, and destination configuration** - manage product content across markets and sales channels
+- **AI-powered translation workflows** - translate product content across multiple languages
+- **Partner update broadcasts** - send structured product updates to connected partners
 
 ## Who uses Stackcess?
 
-- **Supplement brands** — manage their full product catalog, assets, and regulatory documents, then share content with distributors and retailers
-- **Distributors** — receive content from brands, manage their own catalog, and distribute downstream to retail customers
-- **Retailers** — use Stackcess as a full PIM and DAM to manage their own product data while receiving content from connected brands
+- **Supplement brands** - manage their full product catalog, assets, and regulatory documents, then share content with distributors and retailers
+- **Distributors** - receive content from brands, manage their own catalog, and distribute downstream to retail customers
+- **Retailers** - use Stackcess as a full PIM and DAM to manage their own product data while receiving content from connected brands
 
 ## Pricing
 
 Stackcess uses flat monthly workspace-based pricing with no per-seat billing:
 
-- **Free** — 10 SKUs, 2 GB storage, 4 GB monthly delivery bandwidth, 1 user, 2 partner invites, 50 MB max uploads, no public share links. No credit card required.
-- **Starter** — $59/month. 50 SKUs, 15 GB storage, 25 GB monthly delivery bandwidth, 2 internal users, 10 partner invites, 200,000 DeepL characters, public share links included.
-- **Growth** — $149/month. 500 SKUs, 100 GB storage, 200 GB monthly delivery bandwidth, 8 internal users, 100 partner invites, 750,000 DeepL characters, public share links included.
-- **Scale** — $349/month. 2,500 SKUs, 500 GB storage, 1 TB monthly delivery bandwidth, unlimited users, unlimited partner invites, 2,000,000 DeepL characters, public share links included.
-- **Enterprise** — Custom pricing for complex requirements, compliance mandates, and dedicated onboarding.
+- **Free** - 10 SKUs, 2 GB storage, 4 GB monthly delivery bandwidth, 1 user, 2 partner invites, 50 MB max uploads, no public share links. No credit card required.
+- **Starter** - $59/month. 50 SKUs, 15 GB storage, 25 GB monthly delivery bandwidth, 2 internal users, 10 partner invites, 200,000 DeepL characters, public share links included.
+- **Growth** - $149/month. 500 SKUs, 100 GB storage, 200 GB monthly delivery bandwidth, 8 internal users, 100 partner invites, 750,000 DeepL characters, public share links included.
+- **Scale** - $349/month. 2,500 SKUs, 500 GB storage, 1 TB monthly delivery bandwidth, unlimited users, unlimited partner invites, 2,000,000 DeepL characters, public share links included.
+- **Enterprise** - Custom pricing for complex requirements, compliance mandates, and dedicated onboarding.
 
 Invited partner access is always free and does not count toward user limits.
 
 ## Key differentiators
 
 - No per-seat billing (a common pain point with competing PIM/DAM tools)
-- Every paid plan includes all features — no feature gating between tiers
+- Every paid plan includes all features - no feature gating between tiers
 - Built specifically for the sports supplement supply chain
 - Regulatory compliance documents (COAs, labels, certifications) are first-class objects, not file attachments
-- Partner workspaces give distributors and retailers a live, structured view — not static PDFs or email threads
+- Partner workspaces give distributors and retailers a live, structured view - not static PDFs or email threads
 
 ## Company
 
 - Website: https://stackcess.com
 - Pricing: https://stackcess.com/pricing
+- Machine-readable pricing: https://stackcess.com/pricing.md
 - About: https://stackcess.com/about
 - Help Center: https://stackcess.com/help
 - News: https://stackcess.com/news

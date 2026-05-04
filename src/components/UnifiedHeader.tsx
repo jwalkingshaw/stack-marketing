@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X } from 'lucide-react'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 interface UnifiedHeaderProps {
@@ -25,16 +25,24 @@ export function UnifiedHeader({
 }: UnifiedHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [solutionsOpen, setSolutionsOpen] = useState(false)
   const pathname = usePathname()
 
+  const solutionItems = [
+    { label: 'AI market adaptation', href: '/ai-localization-for-supplement-brands' },
+    { label: 'PIM for supplement brands', href: '/pim-for-supplement-brands' },
+    { label: 'DAM for supplement brands', href: '/dam-for-supplement-brands' },
+    { label: 'COA management', href: '/coa-management-for-supplement-brands' },
+  ]
+
   const navItems = [
-    { label: 'Platform', href: '/#platform' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'News', href: '/news' },
     { label: 'Help', href: '/help' },
-    { label: 'Roadmap', href: '/roadmap' },
     { label: 'About', href: '/about' },
   ]
+
+  const isSolutionsActive = solutionItems.some((item) => pathname === item.href)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,14 +83,59 @@ export function UnifiedHeader({
           </div>
 
           <div className="absolute left-1/2 hidden -translate-x-1/2 transform items-center justify-center md:flex">
-            <nav className="flex items-center gap-1">
+            <nav className="flex items-center gap-2">
+              <div
+                className="relative"
+                onMouseEnter={() => setSolutionsOpen(true)}
+                onMouseLeave={() => setSolutionsOpen(false)}
+              >
+                <button
+                  type="button"
+                  onClick={() => setSolutionsOpen((open) => !open)}
+                  className={`inline-flex items-center gap-1 border-b px-1 py-1.5 text-[15px] transition-colors ${
+                    isSolutionsActive
+                      ? 'border-[var(--color-accent)] text-[var(--color-foreground)]'
+                      : 'border-transparent text-[var(--color-foreground-muted)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-foreground)]'
+                  }`}
+                  aria-expanded={solutionsOpen}
+                  aria-haspopup="menu"
+                >
+                  Solutions
+                  <ChevronDown className={`h-4 w-4 transition-transform ${solutionsOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {solutionsOpen ? (
+                  <div className="absolute left-1/2 top-full z-20 w-[21rem] -translate-x-1/2 pt-2">
+                    <div className="grid gap-1 border border-[var(--color-border)] bg-[rgba(251,248,243,0.98)] p-2 shadow-[var(--shadow-card)] backdrop-blur">
+                      {solutionItems.map((item) => {
+                        const isActive = pathname === item.href
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={() => setSolutionsOpen(false)}
+                            className={`rounded-[var(--radius)] px-3 py-2.5 text-[15px] transition-colors ${
+                              isActive
+                                ? 'bg-[var(--color-surface-muted)] text-[var(--color-foreground)]'
+                                : 'text-[var(--color-foreground-muted)] hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-foreground)]'
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
               {navItems.map((item) => {
                 const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`border-b px-1 py-1.5 text-sm transition-colors ${
+                    className={`border-b px-1 py-1.5 text-[15px] transition-colors ${
                       isActive
                         ? 'border-[var(--color-accent)] text-[var(--color-foreground)]'
                         : 'border-transparent text-[var(--color-foreground-muted)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-foreground)]'
@@ -143,6 +196,24 @@ export function UnifiedHeader({
       {mobileMenuOpen ? (
         <div className="border-t border-[var(--color-border)] bg-[rgba(251,248,243,0.96)] px-4 py-4 backdrop-blur md:hidden">
           <nav className="grid gap-2">
+            <div className="rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-3">
+              <div className="mb-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
+                Solutions
+              </div>
+              <div className="grid gap-1">
+                {solutionItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-[var(--radius)] px-2 py-2 text-sm text-[var(--color-foreground-muted)] transition-colors hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-foreground)]"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             {navItems.map((item) => (
               <Link
                 key={item.href}

@@ -10,7 +10,6 @@ export default function Footer() {
     postLoginRedirectPath: '/onboarding?create=1&origin=marketing_footer',
   })
   const appHref = buildAppUrl('/')
-  const helpCenterUrl = process.env.NEXT_PUBLIC_HELP_CENTER_URL?.trim() || 'https://help.stackcess.com'
 
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-background-elevated)] px-4 py-14 text-[var(--color-foreground)] sm:px-6 sm:py-16">
@@ -27,7 +26,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           <div>
             <div className="mb-4 text-[15px] font-bold leading-none">App</div>
             <ul className="space-y-3 text-sm">
@@ -38,10 +37,20 @@ export default function Footer() {
           </div>
 
           <div>
+            <div className="mb-4 text-[15px] font-bold leading-none">Solutions</div>
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/ai-localization-for-supplement-brands" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">AI market adaptation</Link></li>
+              <li><Link href="/pim-for-supplement-brands" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">PIM for supplement brands</Link></li>
+              <li><Link href="/dam-for-supplement-brands" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">DAM for supplement brands</Link></li>
+              <li><Link href="/coa-management-for-supplement-brands" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">COA management for supplement brands</Link></li>
+            </ul>
+          </div>
+
+          <div>
             <div className="mb-4 text-[15px] font-bold leading-none">Company</div>
             <ul className="space-y-3 text-sm">
               <li><Link href="/about" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">About</Link></li>
-              <li><a href={helpCenterUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Help Center</a></li>
+              <li><Link href="/help" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Help Center</Link></li>
               <li><Link href="/roadmap" className="text-[var(--color-foreground-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)]">Roadmap</Link></li>
             </ul>
           </div>

@@ -7,7 +7,6 @@ import { PortableText } from '@portabletext/react'
 import { BlogPost, getPostBySlug, urlFor } from '@/lib/sanity'
 import { generateNewsArticleSchema, generateBreadcrumbSchema } from '@/lib/schema'
 import ViewTracker from '@/components/ViewTracker'
-import RelatedArticles from '@/components/RelatedArticles'
 import TopArticles from '@/components/TopArticles'
 
 interface PostPageProps {
@@ -16,6 +15,26 @@ interface PostPageProps {
 
 async function getPost(slug: string): Promise<BlogPost | null> {
   return await getPostBySlug(slug)
+}
+
+function getSiteUrl() {
+  return process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
+}
+
+function getSeoTitle(post: BlogPost) {
+  return post.seo?.title?.trim() || post.title
+}
+
+function getSeoDescription(post: BlogPost) {
+  return post.seo?.description?.trim() || post.excerpt
+}
+
+function getAiSummary(post: BlogPost) {
+  return post.seo?.aiSummary?.trim() || ''
+}
+
+function getCanonicalUrl(post: BlogPost, slug: string) {
+  return post.seo?.canonicalUrl?.trim() || `${getSiteUrl()}/post/${slug}`
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -29,30 +48,43 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 
   const imageUrl = post.coverImage?.asset?.url || undefined
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/post/${resolvedParams.slug}`
+  const metaTitle = getSeoTitle(post)
+  const metaDescription = getSeoDescription(post)
+  const canonicalUrl = getCanonicalUrl(post, resolvedParams.slug)
+  const noIndex = Boolean(post.seo?.noIndex)
+  const aiSummary = getAiSummary(post)
 
   return {
-    title: `${post.title} | Stackcess`,
-    description: post.excerpt,
+    title: `${metaTitle} | Stackcess`,
+    description: metaDescription,
+    abstract: aiSummary || undefined,
     keywords: post.tags,
     authors: [{ name: post.author?.name || 'Stackcess' }],
-    alternates: { canonical: `/post/${resolvedParams.slug}` },
+    alternates: { canonical: canonicalUrl },
+    robots: {
+      index: !noIndex,
+      follow: !noIndex,
+      googleBot: {
+        index: !noIndex,
+        follow: !noIndex,
+      },
+    },
     openGraph: {
       type: 'article',
-      title: post.title,
-      description: post.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       ...(imageUrl && {
-        images: [{ url: imageUrl, width: 1200, height: 630, alt: post.coverImage?.alt || post.title }],
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: post.coverImage?.alt || metaTitle }],
       }),
       publishedTime: post.publishedAt,
       authors: ['Stackcess'],
       tags: post.tags,
-      url,
+      url: canonicalUrl,
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       ...(imageUrl && { images: [imageUrl] }),
     },
   }
@@ -66,18 +98,23 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound()
   }
 
-  const fullUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/post/${resolvedParams.slug}`
-  const imageUrl = post.coverImage?.asset?.url || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'}/opengraph-image`
+  const siteUrl = getSiteUrl()
+  const fullUrl = getCanonicalUrl(post, resolvedParams.slug)
+  const imageUrl = post.coverImage?.asset?.url || `${siteUrl}/opengraph-image`
+  const metaDescription = getSeoDescription(post)
+  const aiSummary = getAiSummary(post)
 
   const newsArticleSchema = generateNewsArticleSchema(
     post,
     fullUrl,
-    imageUrl
+    imageUrl,
+    metaDescription,
+    aiSummary || undefined
   )
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://newsflow.com' },
-    { name: 'Posts', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://newsflow.com'}/posts` },
+    { name: 'Home', url: siteUrl },
+    { name: 'News', url: `${siteUrl}/news` },
     { name: post.title, url: fullUrl }
   ])
 
@@ -136,6 +173,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 </time>
               </div>             
             </div>
+
+            {(aiSummary || post.excerpt) && (
+              <p className="max-w-3xl text-base leading-7 text-gray-700">
+                {aiSummary || post.excerpt}
+              </p>
+            )}
           </header>
 
           {/* Cover Image */}
@@ -178,9 +221,40 @@ export default async function PostPage({ params }: PostPageProps) {
                 marks: {
                   strong: ({ children }) => <strong className="font-bold">{children}</strong>,
                   link: ({ children, value }) => (
-                    <a href={value.href} className="text-blue-600 hover:underline">
-                      {children}
-                    </a>
+                    (() => {
+                      const href = value?.href
+                      if (!href) {
+                        return <>{children}</>
+                      }
+
+                      const isExternal =
+                        href.startsWith('http://') ||
+                        href.startsWith('https://') ||
+                        href.startsWith('//') ||
+                        href.startsWith('mailto:') ||
+                        href.startsWith('tel:')
+
+                      const className = 'text-blue-600 underline decoration-blue-300 underline-offset-2 hover:text-blue-700'
+
+                      if (isExternal) {
+                        return (
+                          <a
+                            href={href}
+                            className={className}
+                            target={value?.openInNewTab ? '_blank' : undefined}
+                            rel={value?.openInNewTab ? 'noopener noreferrer' : undefined}
+                          >
+                            {children}
+                          </a>
+                        )
+                      }
+
+                      return (
+                        <Link href={href} className={className}>
+                          {children}
+                        </Link>
+                      )
+                    })()
                   ),
                 },
                 block: {
@@ -203,16 +277,6 @@ export default async function PostPage({ params }: PostPageProps) {
             />
           </div>
         </article>
-
-        {/* Related Articles Section */}
-        {post.tags && post.tags.length > 0 && (
-          <div className="mt-12">
-            <RelatedArticles 
-              currentSlug={post.slug.current} 
-              tags={post.tags} 
-            />
-          </div>
-        )}
 
         {/* Most Popular Articles Section */}
         <div className="mt-12">

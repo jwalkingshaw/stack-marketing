@@ -43,6 +43,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
       title,
       slug,
       excerpt,
+      seo,
       coverImage,
       author->{
         name,
@@ -55,6 +56,40 @@ export async function getAllPosts(): Promise<BlogPost[]> {
   `)
 }
 
+export async function getPostsPage(page: number, limit: number = 6): Promise<{ posts: BlogPost[]; total: number }> {
+  const safePage = Math.max(1, page)
+  const offset = (safePage - 1) * limit
+
+  const [posts, total] = await Promise.all([
+    getClient().fetch<BlogPost[]>(`
+      *[_type == "blogPost"] | order(publishedAt desc) [${offset}...${offset + limit}] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        seo,
+        coverImage {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        author->{
+          name,
+          image
+        },
+        publishedAt,
+        tags,
+        estimatedReadingTime
+      }
+    `),
+    getClient().fetch<number>(`count(*[_type == "blogPost"])`),
+  ])
+
+  return { posts, total }
+}
+
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   return getClient().fetch(`
     *[_type == "blogPost" && slug.current == $slug][0] {
@@ -62,6 +97,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       title,
       slug,
       excerpt,
+      seo,
       content,
       coverImage {
         asset->{
@@ -107,6 +143,13 @@ export interface BlogPost {
     current: string
   }
   excerpt: string
+  seo?: {
+    title?: string
+    description?: string
+    canonicalUrl?: string
+    noIndex?: boolean
+    aiSummary?: string
+  }
   content: PortableTextBlock[]
   coverImage: {
     asset: {

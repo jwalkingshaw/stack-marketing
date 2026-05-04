@@ -23,6 +23,18 @@ export async function generateMetadata({ params }: HelpArticlePageProps) {
   return {
     title: `${article.title} | Stackcess Help`,
     description: article.summary,
+    alternates: {
+      canonical: `/help/${article.slug}`,
+    },
+    openGraph: {
+      title: `${article.title} | Stackcess Help`,
+      description: article.summary,
+      url: `/help/${article.slug}`,
+    },
+    twitter: {
+      title: `${article.title} | Stackcess Help`,
+      description: article.summary,
+    },
   }
 }
 

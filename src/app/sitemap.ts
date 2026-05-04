@@ -43,18 +43,56 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.5,
     },
+    {
+      url: `${siteUrl}/pricing.md`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/ai-localization-for-supplement-brands`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/pim-for-supplement-brands`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/dam-for-supplement-brands`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/coa-management-for-supplement-brands`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/llms.txt`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
   ]
 
   // Blog posts from Sanity
   let postPages: MetadataRoute.Sitemap = []
   try {
     const posts = await getAllPosts()
-    postPages = posts.map((post) => ({
-      url: `${siteUrl}/post/${post.slug}`,
-      lastModified: new Date(post.publishedAt),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
+    postPages = posts
+      .filter((post) => !post.seo?.noIndex)
+      .map((post) => ({
+        url: post.seo?.canonicalUrl || `${siteUrl}/post/${post.slug.current}`,
+        lastModified: new Date(post.publishedAt),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }))
   } catch {
     // Sanity may not be available at build time in all envs
   }

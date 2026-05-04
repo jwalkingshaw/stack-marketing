@@ -16,6 +16,10 @@ export default function MainLayout({
     '/pricing',
     '/roadmap',
     '/about',
+    '/ai-localization-for-supplement-brands',
+    '/pim-for-supplement-brands',
+    '/dam-for-supplement-brands',
+    '/coa-management-for-supplement-brands',
     '/terms',
     '/privacy',
   ])
