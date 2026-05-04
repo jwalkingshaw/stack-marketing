@@ -241,6 +241,24 @@ button {
   line-height: 1.88;
 }
 
+.blog-post-content > * + * {
+  margin-top: 1.5rem;
+}
+
+.blog-post-content .blog-post-link,
+.blog-post-content .blog-post-link:visited {
+  color: #2f4f8c;
+  text-decoration: underline;
+  text-decoration-color: rgba(47, 79, 140, 0.82);
+  text-decoration-thickness: 0.14em;
+  text-underline-offset: 0.18em;
+}
+
+.blog-post-content .blog-post-link:hover {
+  color: #244579;
+  text-decoration-color: rgba(36, 69, 121, 0.94);
+}
+
 @media (min-width: 640px) {
   .marketing-section-copy {
     font-size: 1.14rem;

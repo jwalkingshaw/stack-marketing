@@ -195,7 +195,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           )}
 
-          <div className="prose prose-lg max-w-none">
+          <div className="blog-post-content max-w-none">
             <PortableText
               value={post.content}
               components={{
@@ -234,13 +234,18 @@ export default async function PostPage({ params }: PostPageProps) {
                         href.startsWith('mailto:') ||
                         href.startsWith('tel:')
 
-                      const className = 'text-blue-600 underline decoration-blue-300 underline-offset-2 hover:text-blue-700'
-
                       if (isExternal) {
                         return (
                           <a
                             href={href}
-                            className={className}
+                            className="font-medium transition-colors hover:text-[#244579]"
+                            style={{
+                              color: '#2f4f8c',
+                              textDecorationLine: 'underline',
+                              textDecorationColor: 'rgba(47, 79, 140, 0.82)',
+                              textDecorationThickness: '0.14em',
+                              textUnderlineOffset: '0.18em',
+                            }}
                             target={value?.openInNewTab ? '_blank' : undefined}
                             rel={value?.openInNewTab ? 'noopener noreferrer' : undefined}
                           >
@@ -250,15 +255,38 @@ export default async function PostPage({ params }: PostPageProps) {
                       }
 
                       return (
-                        <Link href={href} className={className}>
+                        <Link
+                          href={href}
+                          className="font-medium transition-colors hover:text-[#244579]"
+                          style={{
+                            color: '#2f4f8c',
+                            textDecorationLine: 'underline',
+                            textDecorationColor: 'rgba(47, 79, 140, 0.82)',
+                            textDecorationThickness: '0.14em',
+                            textUnderlineOffset: '0.18em',
+                          }}
+                        >
                           {children}
                         </Link>
                       )
                     })()
                   ),
                 },
+                hardBreak: () => <br />,
                 block: {
-                  normal: ({ children }) => <p className="font-inter leading-loose mb-4">{children}</p>,
+                  normal: ({ children }) => (
+                    <p
+                      className="font-inter whitespace-pre-line"
+                      style={{
+                        margin: '0 0 1.5rem 0',
+                        fontSize: '1.08rem',
+                        lineHeight: '2.25rem',
+                        color: 'var(--color-foreground-muted)',
+                      }}
+                    >
+                      {children}
+                    </p>
+                  ),
                   h1: ({ children }) => <h1 className="font-inter font-bold text-3xl mt-8 mb-4">{children}</h1>,
                   h2: ({ children }) => <h2 className="font-inter font-bold text-2xl mt-6 mb-3">{children}</h2>,
                   h3: ({ children }) => <h3 className="font-inter font-bold text-xl mt-5 mb-2">{children}</h3>,
