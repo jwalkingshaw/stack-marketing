@@ -30,6 +30,21 @@ type SourceLink = {
   note: string
 }
 
+type ComparisonRow = {
+  label: string
+  left: string
+  right: string
+}
+
+type ComparisonSection = {
+  kicker: string
+  title: string
+  body: string
+  leftTitle: string
+  rightTitle: string
+  rows: ComparisonRow[]
+}
+
 export interface SolutionPageContent {
   slug: string
   shortTitle: string
@@ -45,6 +60,7 @@ export interface SolutionPageContent {
   platformTitle: string
   platformBody: string
   capabilityGroups: ChecklistGroup[]
+  comparisonSection?: ComparisonSection
   operatingTitle: string
   operatingBody: string
   operatingSections: Section[]
@@ -61,6 +77,7 @@ interface SolutionPageTemplateProps {
 export default function SolutionPageTemplate({ content }: SolutionPageTemplateProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
   const fullUrl = `${siteUrl}/${content.slug}`
+  const comparisonSection = content.comparisonSection
   const registerHref = buildAppAuthUrl('register', {
     planInterest: 'free',
     postLoginRedirectPath: `/onboarding?create=1&origin=${content.slug}`,
@@ -195,6 +212,51 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
               </div>
             </div>
           </section>
+
+          {comparisonSection ? (
+            <section className="py-16">
+              <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+                <div>
+                  <p className="marketing-kicker">{comparisonSection.kicker}</p>
+                  <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
+                    {comparisonSection.title}
+                  </h2>
+                  <p className="marketing-section-copy mt-8 text-[var(--color-foreground-secondary)]">
+                    {comparisonSection.body}
+                  </p>
+                </div>
+
+                <div className="overflow-hidden border border-[var(--color-border)] bg-[rgba(255,255,255,0.64)]">
+                  <div className="grid gap-4 border-b border-[var(--color-border)] px-5 py-4 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5">
+                    <div />
+                    <p className="text-sm font-semibold text-[var(--color-foreground)]">
+                      {comparisonSection.leftTitle}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--color-foreground)]">
+                      {comparisonSection.rightTitle}
+                    </p>
+                  </div>
+
+                  {comparisonSection.rows.map((row, index) => (
+                    <div
+                      key={row.label}
+                      className={`grid gap-3 px-5 py-5 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5 ${
+                        index < comparisonSection.rows.length - 1
+                          ? 'border-b border-[var(--color-border)]'
+                          : ''
+                      }`}
+                    >
+                      <p className="font-[var(--font-ibm-plex-mono)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                        {row.label}
+                      </p>
+                      <p className="text-sm leading-7 text-[var(--color-foreground-muted)]">{row.left}</p>
+                      <p className="text-sm leading-7 text-[var(--color-foreground-secondary)]">{row.right}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : null}
 
           <section className="grid gap-10 py-16 lg:grid-cols-[0.88fr_1.12fr]">
             <div>

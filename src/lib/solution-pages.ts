@@ -8,59 +8,59 @@ export const solutionPages: Record<string, SolutionPageContent> = {
     slug: 'ai-localization-for-supplement-brands',
     shortTitle: 'AI Market Adaptation for Supplement Brands',
     title: 'AI Market Adaptation for Supplement Brands | Stackcess',
-    description: 'Adopt approved source content, then adapt it for local markets with AI that accounts for translation, claims risk, and market-specific expectations.',
+    description: 'Adopt approved source content, then adapt it for local markets with AI that helps teams handle translation, claims-sensitive wording, and market-specific review pressure.',
     kicker: 'AI Market Adaptation',
-    heroTitle: 'AI market adaptation for supplement brands needs more than translation.',
+    heroTitle: 'International supplement content has a market-readiness problem, not just a translation problem.',
     heroBody:
-      'Supplement brands do not just need copy in another language. They need product content that holds up in-market. Stackcess follows an adopt-and-adapt model: adopt approved source content as the baseline, then adapt it for the destination market when language, claims, or regulatory expectations start to diverge.',
+      'Supplement brands do not just need product copy in another language. They need localized content that stays close to the approved source while reading appropriately for the local market. Stackcess follows an adopt-and-adapt model: translate from the approved baseline, then review the draft against local regulatory expectations to identify wording that is and is not recommended before suggesting targeted changes. The result is a more reviewable localized draft with fewer avoidable revisions.',
     heroPoints: [
-      'When straight translation is enough, and when market-specific adaptation is the safer path.',
-      'How localized copy can stay closer to source truth while still reflecting regional constraints.',
-      'Why commercial teams need visible change summaries, not a black-box output field.',
+      'When straight translation is usually enough, and when a market-specific adaptation pass is worth the extra review.',
+      'How localized copy can stay closer to approved source content without reading like a literal conversion.',
+      'Why visible change summaries help teams review faster and launch with less back-and-forth.',
     ],
-    categoryProblemTitle: 'Direct translation often carries the wrong risk profile for supplement content.',
+    categoryProblemTitle: 'Direct translation often creates extra review work for supplement content.',
     categoryProblemBody:
-      'A supplement brand may have good English source copy and still end up with weak German, French, or regional-market output if the workflow stops at translation. Claims language, certainty, implied efficacy, and region-specific wording rules do not always survive direct conversion cleanly. The result can be copy that is readable, but not comfortably publishable.',
+      'A supplement brand may have strong English source copy and still end up with weak German, French, or regional-market output if the workflow stops at translation. Claims language, certainty, implied efficacy, and retailer or market expectations do not always survive direct conversion cleanly. The result may be linguistically correct copy that still triggers internal questions, revision cycles, or local pushback before it is ready to use. The cost shows up as slower launches, more reviewer friction, and localized content that drifts further from the approved source each time it gets rewritten.',
     categoryProblems: [
       {
-        title: 'Translation alone can miss claims risk',
-        body: 'Language conversion can preserve meaning while still carrying phrasing that creates avoidable compliance pressure in the target market.',
+        title: 'Translation alone can miss claims-sensitive phrasing',
+        body: 'Language conversion can preserve the basic meaning while still carrying wording that feels too strong, too literal, or out of place in the destination market.',
       },
       {
-        title: 'Teams lose time in manual review loops',
-        body: 'Marketing, regulatory, and local market teams end up rewriting the same fields repeatedly when the first output is only linguistically correct, not market-ready.',
+        title: 'Teams lose time in repeated review loops',
+        body: 'Marketing, regulatory, and local market teams end up revisiting the same fields when the first output is only linguistically correct, not commercially ready for local review.',
       },
       {
         title: 'Brand voice drifts across locales',
-        body: 'Without shared instructions, each locale update can sound increasingly disconnected from the approved source position and tone.',
+        body: 'Without shared instructions, each locale update starts to sound increasingly disconnected from the approved source position, terminology, and tone.',
       },
     ],
     platformTitle: 'What the AI workflow should do for supplement brands.',
     platformBody:
-      'The useful distinction is between translation and adaptation. Translation answers what the source content says in another language. Adaptation asks how that content should be written for a destination market so it remains understandable, commercially usable, and less likely to create claims trouble. The operating model is simple: adopt the approved source baseline, then adapt it only where the local market requires it.',
+      'The useful distinction is between translation and adaptation. Translation answers what the source content says in another language. Adaptation helps teams decide how that content should be written for a local market so it remains understandable, commercially usable, and easier to review internally. In practice, that means starting from the approved source baseline, reviewing the draft for the local market against local regulatory expectations, and then adapting only the wording that appears not recommended for that market.',
     capabilityGroups: [
       {
         title: 'Translation mode',
         items: [
           'Users can translate product attributes from the approved source baseline into the local languages available to them.',
           'The source content stays the anchor, which keeps downstream locale work tied back to an approved starting point.',
-          'When no market-specific issues are detected, the result is effectively a direct translation workflow.',
+          'When no meaningful market-specific issues appear, the result is effectively a direct translation workflow.',
         ],
       },
       {
         title: 'Adaptation mode',
         items: [
-          'The system translates the source field, identifies the relevant market or regulatory region, and checks the result against active compliance rules.',
-          'Only the risky or overstated wording is rewritten, rather than rewriting the whole field unnecessarily.',
-          'The goal is to keep as much of the original meaning as possible while reducing market-specific claims exposure.',
+          'The system translates the source field, reviews it for the local market against local regulatory expectations, and identifies wording that may not be recommended.',
+          'Only the phrases that appear overstated, overly literal, not recommended for the target market, or difficult for local review are suggested for rewriting rather than rewriting the whole field by default.',
+          'The goal is to keep as much of the approved meaning as possible while reducing unnecessary rework in downstream review.',
         ],
       },
       {
         title: 'Review visibility',
         items: [
-          'Teams get the adapted localized copy, a plain-language back-translation, and a summary of compliance-driven changes.',
-          'Users can see what changed and why, which makes the output easier for commercial and brand teams to review.',
-          'Regeneration guidance gives teams a cleaner way to refine outputs without starting the thinking process from zero.',
+          'Teams get the adapted localized copy, a plain-language back-translation, and a summary of the changes that were suggested.',
+          'Users can see what changed and why, which makes the output easier for brand, commercial, and local reviewers to evaluate.',
+          'Regeneration guidance gives teams a cleaner way to refine outputs without restarting the workflow from zero.',
         ],
       },
       {
@@ -68,48 +68,78 @@ export const solutionPages: Record<string, SolutionPageContent> = {
         items: [
           'Shared adaptation defaults help shape tone and writing guidance across locales.',
           'The workflow balances source fidelity, market suitability, and brand consistency instead of treating them as separate problems.',
-          'Teams move faster without pretending that AI output is the final legal or regulatory approval step.',
+          'Teams move faster because localized drafts arrive in a more reviewable state, not because approval disappears.',
         ],
       },
     ],
+    comparisonSection: {
+      kicker: 'Translation Vs Adaptation',
+      title: 'Use translation by default. Use adaptation where local regulatory expectations require different wording.',
+      body:
+        'The page should not sell adaptation as a heavier process for every field. The value is in knowing when a direct translation is enough and when local regulatory expectations suggest a more reviewable localized version will save time downstream.',
+      leftTitle: 'Straight translation',
+      rightTitle: 'Market adaptation',
+      rows: [
+        {
+          label: 'Best fit',
+          left: 'Routine fields where the approved source travels cleanly and the destination market does not need much interpretation.',
+          right: 'Claims-sensitive, channel-facing, or reviewer-visible fields where literal wording is more likely to create comments or rewrites.',
+        },
+        {
+          label: 'Output style',
+          left: 'A linguistically correct version of the source field.',
+          right: 'A localized draft that stays close to source meaning but uses more market-appropriate phrasing where needed.',
+        },
+        {
+          label: 'Team effort',
+          left: 'Lower effort up front, but more manual follow-up if the wording does not survive local review well.',
+          right: 'Slightly more guidance up front, with fewer avoidable review loops once the draft reaches brand or local teams.',
+        },
+        {
+          label: 'Reviewer view',
+          left: 'Reviewers still need to interpret what feels off and explain what should change.',
+          right: 'Reviewers get a cleaner draft, a back-translation, and visible reasoning around suggested wording changes based on local market recommendations.',
+        },
+      ],
+    },
     operatingTitle: 'Where this matters in live supplement operations.',
     operatingBody:
-      'Localization pressure is usually operational before it becomes linguistic. Teams are trying to launch in another market, support a distributor, refresh an ecommerce feed, or prepare retailer-facing materials. The failure mode is not just awkward copy. It is delayed go-live, repeated review cycles, and uncertainty about whether the market version is safe enough to release.',
+      'Localization pressure is usually operational before it becomes linguistic. Teams are trying to launch in another market, support a distributor, refresh an ecommerce feed, or prepare retailer-facing materials. The failure mode is not just awkward copy. It is delayed go-live, repeated review cycles, and uncertainty about whether the localized version is ready to send forward for approval and launch preparation.',
     operatingSections: [
       {
         title: 'Market launches',
-        body: 'A direct translation can get teams part of the way there, but adaptation reduces the amount of manual rewriting needed before a new market launch feels credible.',
+        body: 'A direct translation can get teams part of the way there, but adaptation reduces the amount of manual rewriting needed before a new market launch feels credible to internal and in-market reviewers.',
       },
       {
         title: 'Distributor enablement',
-        body: 'Regional partners need content they can actually use. If every field still needs manual local correction, the brand has not really localized the product content operation.',
+        body: 'Regional partners need content they can actually use. If every field still needs local rewriting before it can be shared, the brand has not really localized the product content operation.',
       },
       {
         title: 'Claims consistency',
-        body: 'The same product should not sound casually aggressive in one market and overly softened in another because each locale was handled ad hoc.',
+        body: 'The same product should not sound casually aggressive in one market and overly softened in another because each locale was handled in isolation.',
       },
       {
         title: 'Approval discipline',
-        body: 'The feature accelerates preparation, but the final checkpoint remains human. That is the right boundary for supplement brands operating across different regulatory environments.',
+        body: 'The workflow improves preparation and visibility before the handoff. Human approval still happens in the normal process, but teams reach that stage with cleaner drafts and fewer avoidable questions.',
       },
     ],
     faqTitle: 'Common questions about AI market adaptation',
     faqs: [
       {
-        question: 'How is adaptation different from standard translation?',
-        answer: 'Translation converts the approved source content into another language. Adaptation goes further by reviewing that output against market-specific compliance expectations and rewriting only the risky parts.',
+        question: 'When should teams use adaptation instead of straight translation?',
+        answer: 'Use adaptation when direct translation produces wording that feels too literal, too strong, awkward for the channel, or likely to trigger local review comments. If the translated field reads cleanly and stays close to the approved source, straight translation may be enough.',
       },
       {
-        question: 'Does the AI replace legal or regulatory approval?',
-        answer: 'No. The workflow is designed to reduce risk and speed up preparation, but final brand and regulatory review still sits with the human team.',
+        question: 'What kinds of wording usually need a second look?',
+        answer: 'Teams usually pay closer attention to claims-adjacent phrasing, certainty of effect, benefit language, and wording that local regulatory expectations would be less likely to recommend in that market.',
       },
       {
-        question: 'What does the user get back after adaptation runs?',
-        answer: 'The user gets the localized output, a back-translation for sense-checking, and a summary of the compliance-driven changes that were made.',
+        question: 'What does the reviewer actually receive?',
+        answer: 'The reviewer gets the localized output, a back-translation for sense-checking, and a summary of the changes that were suggested so they can see what moved and why.',
       },
       {
-        question: 'Can the workflow support brand voice as well as market suitability?',
-        answer: 'Yes. Shared tone and adaptation instructions help the localized output stay closer to the brand while still responding to market-specific wording constraints.',
+        question: 'How does Stackcess keep localized copy closer to the approved source?',
+        answer: 'The workflow starts from approved source content, keeps that source as the anchor, and suggests targeted changes only where the destination market appears to need them. That keeps teams from drifting into unnecessary full rewrites.',
       },
     ],
     relatedPages: [
