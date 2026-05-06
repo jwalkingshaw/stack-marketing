@@ -61,8 +61,9 @@ export function UnifiedHeader({
 
   return (
     <header className={headerClasses}>
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
-        <div className="relative flex h-[72px] w-full items-center justify-between gap-5">
+      <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-10">
+        <div className="mx-auto w-full max-w-none 2xl:max-w-[1520px]">
+          <div className="relative flex h-[72px] w-full items-center justify-between gap-5">
           <div className="flex items-center">
             <Link href={logoHref} className="flex items-center space-x-2.5">
               <span className="block sm:hidden">
@@ -196,6 +197,7 @@ export function UnifiedHeader({
             </button>
           </div>
         </div>
+      </div>
       </div>
 
       {mobileMenuOpen ? (
