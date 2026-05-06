@@ -128,10 +128,10 @@ export default function PricingPage() {
       <div className="min-h-screen bg-[var(--color-background)]">
         <section className="px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12">
           <div className="mx-auto max-w-[1380px]">
-            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div className="grid gap-12 xl:grid-cols-[0.9fr_1.1fr] xl:items-end">
               <div className="max-w-3xl">
                 <p className="marketing-kicker">Marketing / Pricing</p>
-                <h1 className="mt-7 max-w-4xl pb-6 text-[3.35rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4.8rem] lg:text-[6rem]">
+                <h1 className="mt-7 max-w-4xl pb-6 text-[3rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4rem] lg:text-[4.8rem] xl:text-[6rem]">
                   Start free.
                   <br />
                   Pay for what your

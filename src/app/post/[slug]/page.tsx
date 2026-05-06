@@ -6,7 +6,7 @@ import { Calendar, ChevronRight, Home } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import { BlogPost, getPostBySlug, urlFor } from '@/lib/sanity'
 import { generateNewsArticleSchema, generateBreadcrumbSchema } from '@/lib/schema'
-import ViewTracker from '@/components/ViewTracker'
+import TopArticles from '@/components/TopArticles'
 
 interface PostPageProps {
   params: Promise<{ slug: string }>
@@ -125,11 +125,22 @@ export default async function PostPage({ params }: PostPageProps) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.setTimeout(function () {
+              fetch('/api/track-view', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ slug: ${JSON.stringify(post.slug.current)} })
+              }).catch(function () {});
+            }, 1000);
+          `,
+        }}
+      />
 
-      <ViewTracker slug={post.slug.current} />
-
-      <div className="min-h-screen bg-[var(--color-background)] px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-12">
-        <div className="mx-auto max-w-[1500px]">
+      <div className="min-h-screen bg-[var(--color-background)] px-6 pb-16 pt-8 sm:px-8 sm:pb-20 sm:pt-12">
+        <div className="w-full max-w-none">
           <nav className="mb-8 text-sm text-[var(--text-muted)]" aria-label="Breadcrumb">
             <ol className="flex items-center gap-2">
               <li>
@@ -157,7 +168,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
           <article>
             <header className="border-b border-[var(--border-subtle)] pb-10">
-              <div className="w-full">
                 {post.tags && post.tags.length > 0 ? (
                   <div className="mb-5 flex flex-wrap items-center gap-2">
                     {post.tags.slice(0, 3).map((tag) => (
@@ -171,7 +181,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   </div>
                 ) : null}
 
-                <h1 className="max-w-[22ch] pb-6 text-[2.45rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[3.4rem] lg:text-[4rem]">
+                <h1 className="w-full pb-6 text-[2.1rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.03] sm:text-[3rem] lg:text-[3.6rem]">
                   {post.title}
                 </h1>
 
@@ -189,34 +199,33 @@ export default async function PostPage({ params }: PostPageProps) {
                   {post.author ? <span>{post.author.name}</span> : null}
                   {post.estimatedReadingTime ? <span>{post.estimatedReadingTime} min read</span> : null}
                 </div>
-              </div>
 
-              <div className="marketing-ui-panel marketing-diagonal-texture mt-8 w-full p-6 sm:p-8">
-                <p className="marketing-kicker">Article Summary</p>
                 {(aiSummary || post.excerpt) ? (
-                  <p className="mt-6 marketing-section-copy max-w-[70rem] text-[var(--text-secondary)]">
-                    {aiSummary || post.excerpt}
-                  </p>
+                  <div className="marketing-ui-panel marketing-diagonal-texture mt-8 p-6 sm:p-8">
+                    <p className="marketing-kicker">Article Summary</p>
+                    <p className="mt-6 max-w-[62rem] text-[1.06rem] leading-8 text-[var(--text-secondary)]">
+                      {aiSummary || post.excerpt}
+                    </p>
+                  </div>
                 ) : null}
-              </div>
             </header>
 
             <div className="mt-10">
-              <div>
-                {post.coverImage?.asset?.url ? (
-                  <div className="mb-10 w-full overflow-hidden rounded-[1.75rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)]">
-                    <Image
-                      src={post.coverImage.asset.url}
-                      alt={post.coverImage.alt || post.title}
-                      width={1400}
-                      height={760}
-                      className="h-auto w-full object-cover"
-                      priority
-                    />
-                  </div>
-                ) : null}
+              {post.coverImage?.asset?.url ? (
+                <div className="overflow-hidden rounded-[1.75rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)]">
+                  <Image
+                    src={post.coverImage.asset.url}
+                    alt={post.coverImage.alt || post.title}
+                    width={1600}
+                    height={860}
+                    className="h-auto w-full object-cover"
+                    priority
+                  />
+                </div>
+              ) : null}
 
-                <div className="blog-post-content w-full rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-6 py-8 shadow-[var(--shadow-soft)] sm:px-10 sm:py-10 lg:px-12">
+              <div className="mt-10 max-w-[1240px]">
+                <div className="blog-post-content w-full rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:px-16">
                   <PortableText
                     value={post.content}
                     components={{
@@ -278,20 +287,20 @@ export default async function PostPage({ params }: PostPageProps) {
                       hardBreak: () => <br />,
                       block: {
                         normal: ({ children }) => (
-                          <p className="whitespace-pre-line text-[1.06rem] leading-9 text-[var(--text-secondary)]">{children}</p>
+                          <p className="whitespace-pre-line text-[1.08rem] leading-9 text-[var(--text-secondary)]">{children}</p>
                         ),
                         h1: ({ children }) => (
-                          <h1 className="pt-6 pb-4 text-[2.5rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[3.4rem]">
+                          <h1 className="pt-6 pb-4 text-[2.35rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[3.1rem]">
                             {children}
                           </h1>
                         ),
                         h2: ({ children }) => (
-                          <h2 className="pt-6 pb-4 text-[2.1rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[2.8rem]">
+                          <h2 className="pt-6 pb-4 text-[2rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[2.6rem]">
                             {children}
                           </h2>
                         ),
                         h3: ({ children }) => (
-                          <h3 className="pt-5 pb-3 text-[1.6rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)] !leading-[1.08] sm:text-[2rem]">
+                          <h3 className="pt-5 pb-3 text-[1.5rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)] !leading-[1.08] sm:text-[1.85rem]">
                             {children}
                           </h3>
                         ),
@@ -317,6 +326,10 @@ export default async function PostPage({ params }: PostPageProps) {
                     }}
                   />
                 </div>
+              </div>
+
+              <div className="mt-12 max-w-[920px]">
+                <TopArticles />
               </div>
             </div>
           </article>

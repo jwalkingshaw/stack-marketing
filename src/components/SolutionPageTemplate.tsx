@@ -125,10 +125,10 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
             </ol>
           </nav>
 
-          <section className="grid gap-10 border-b border-[var(--color-border)] pb-12 lg:grid-cols-[0.94fr_1.06fr] lg:items-end">
+          <section className="grid gap-10 border-b border-[var(--color-border)] pb-12 xl:grid-cols-[0.94fr_1.06fr] xl:items-end">
             <div>
               <p className="marketing-kicker">{content.kicker}</p>
-              <h1 className="mt-7 max-w-4xl pb-6 text-[3rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4.6rem] lg:text-[5.3rem]">
+              <h1 className="mt-7 max-w-4xl pb-6 text-[2.9rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4rem] lg:text-[4.8rem] xl:text-[5.3rem]">
                 {content.heroTitle}
               </h1>
               <p className="marketing-section-copy max-w-3xl text-[var(--color-foreground-secondary)]">{content.heroBody}</p>

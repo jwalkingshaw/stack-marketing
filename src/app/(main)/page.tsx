@@ -93,7 +93,7 @@ function HeroPimMock() {
   ]
 
   return (
-    <div className="marketing-ui-panel marketing-sheen relative ml-auto w-full max-w-[840px] overflow-hidden border border-[var(--border-subtle)] bg-[var(--color-surface)]">
+    <div className="marketing-ui-panel marketing-sheen relative ml-auto w-full max-w-[760px] overflow-hidden border border-[var(--border-subtle)] bg-[var(--color-surface)] xl:max-w-[820px] 2xl:max-w-[840px]">
       <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[rgba(250,249,245,0.18)] to-transparent" />
       <div className="border-b border-[var(--border-subtle)] px-5 py-4 sm:px-6">
         <div className="flex items-center justify-between gap-4">
@@ -314,12 +314,12 @@ function ProductDetailMock() {
             Market readiness
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {[
+            {([
               ['AU', true],
               ['NZ', true],
               ['DE', true],
               ['JP', false],
-            ].map(([market, ready]) => (
+            ] as Array<[string, boolean]>).map(([market, ready]) => (
               <span
                 key={market}
                 className={`rounded-full px-2.5 py-1 text-[11px] font-medium ${
@@ -435,12 +435,12 @@ export default function Home() {
       <MarketingFunnelTracker page="home" trackScroll />
 
       <div className="overflow-hidden">
-        <section className="-mt-14 overflow-hidden px-4 pb-20 pt-28 sm:px-6 sm:pb-28 sm:pt-34">
+        <section className="-mt-14 overflow-hidden px-4 pb-20 pt-24 sm:px-6 sm:pb-28 sm:pt-30 lg:pt-32 xl:pt-34">
           <div className="mx-auto max-w-[1480px]">
-            <div className="grid gap-12 lg:grid-cols-[minmax(460px,560px)_minmax(760px,1fr)] lg:items-center xl:gap-8">
+            <div className="grid gap-12 xl:grid-cols-[minmax(0,520px)_minmax(0,1fr)] xl:items-center xl:gap-8">
               <div className="marketing-reveal">
                 <p className="marketing-kicker">Product Content Operations</p>
-                <h1 className="mt-8 max-w-[720px] pb-6 text-[3.6rem] font-semibold tracking-[-0.02em] text-[var(--text-primary)] !leading-[1.02] sm:text-[4.8rem] lg:text-[5rem] xl:text-[5.45rem]">
+                <h1 className="mt-8 max-w-[680px] pb-6 text-[3rem] font-semibold tracking-[-0.02em] text-[var(--text-primary)] !leading-[1.02] sm:text-[4rem] lg:text-[4.4rem] xl:max-w-none xl:text-[4.9rem] 2xl:text-[5.45rem]">
                   <span className="marketing-hero-stagger-word" style={{ animationDelay: '0ms' }}>Your</span>{' '}
                   <span className="marketing-hero-stagger-word" style={{ animationDelay: '80ms' }}>partners</span>{' '}
                   <span className="marketing-hero-stagger-word" style={{ animationDelay: '160ms' }}>are</span>{' '}
@@ -449,7 +449,7 @@ export default function Home() {
                   <br />
                   <span className="marketing-hero-stagger-word marketing-hero-word text-[1.04em]" style={{ animationDelay: '400ms' }}>content you&apos;ve already updated.</span>
                 </h1>
-                <p className="marketing-section-copy-lg max-w-[520px] text-[var(--text-secondary)]">
+                <p className="marketing-section-copy-lg max-w-[620px] text-[var(--text-secondary)] xl:max-w-[520px]">
                   Stackcess gives supplement brands a single system for product data, approved assets,
                   compliance documents, and partner delivery so your content keeps pace with your distribution.
                 </p>
@@ -479,7 +479,7 @@ export default function Home() {
                   </Link>
                 </div>
 
-                <div className="mt-14 max-w-[520px] border-t border-[var(--border-subtle)] pt-5">
+                <div className="mt-14 max-w-[620px] border-t border-[var(--border-subtle)] pt-5 xl:max-w-[520px]">
                   <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
                     {[
                       ['Variant-heavy catalogs', 'Claims, flavors, pack sizes, and channel slots stay attached to the source record.'],
@@ -496,7 +496,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="marketing-float marketing-reveal relative lg:-mr-36 xl:-mr-44 2xl:-mr-24">
+              <div className="marketing-float marketing-reveal relative 2xl:-mr-24">
                 <HeroPimMock />
               </div>
             </div>

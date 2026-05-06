@@ -33,10 +33,10 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[var(--color-background)]">
       <section className="px-4 pb-14 pt-8 sm:px-6 sm:pb-16 sm:pt-12">
         <div className="mx-auto max-w-[1280px]">
-          <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
+          <div className="grid gap-10 xl:grid-cols-[0.92fr_1.08fr] xl:items-end">
             <div className="max-w-3xl">
               <p className="marketing-kicker">Why We Built This</p>
-              <h1 className="mt-7 pb-6 text-[3.15rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4.6rem] lg:text-[5.6rem]">
+              <h1 className="mt-7 pb-6 text-[3rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4rem] lg:text-[4.8rem] xl:text-[5.6rem]">
                 We didn&apos;t research
                 <br />
                 this problem.
