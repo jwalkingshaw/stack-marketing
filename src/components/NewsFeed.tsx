@@ -23,67 +23,79 @@ export default function NewsFeed({ posts, totalPosts, currentPage }: NewsFeedPro
   const totalPages = Math.ceil(totalPosts / 6)
 
   return (
-    <div className="max-w-4xl mx-auto px-6 pb-16">
-      <div className="mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-          Latest Articles
-        </h1>
-        <p className="text-lg text-gray-600 leading-relaxed">
-          Reporting, analysis, and commentary on supplement brands, retailers, distributors, and compliance shifts.
-        </p>
-      </div>
-
-      {posts.length > 0 ? (
-        <div className="grid gap-8 md:gap-10">
-          {posts.map((post) => (
-            <BlogPostCard key={post._id} post={post} />
-          ))}
+    <div className="px-4 pb-16 sm:px-6 sm:pb-20">
+      <div className="mx-auto max-w-[1120px]">
+        <div className="border-b border-[var(--border-subtle)] pb-8">
+          <p className="marketing-kicker">News</p>
+          <h1 className="mt-6 pb-4 text-[2.4rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[3.2rem]">
+            Latest articles
+          </h1>
+          <p className="max-w-2xl text-[1rem] leading-8 text-[var(--text-secondary)]">
+            Reporting, analysis, and commentary on supplement brands, retailers, distributors, and compliance shifts.
+          </p>
+          <p className="marketing-mono mt-5 text-[0.68rem] uppercase tracking-[0.16em] text-[var(--text-muted)]">
+            {totalPosts} articles indexed
+          </p>
         </div>
-      ) : (
-        <p className="text-sm text-gray-600">No articles found for this page.</p>
-      )}
 
-      {totalPages > 1 && (
-        <div className="mt-16 border-t border-gray-100 pt-12">
-          <Pagination>
-            <PaginationContent className="gap-2">
-              <PaginationItem>
-                <PaginationPrevious
-                  href={getNewsPageHref(currentPage - 1)}
-                  className={`${
-                    currentPage <= 1
-                      ? 'pointer-events-none opacity-40'
-                      : 'hover:bg-gray-50 hover:text-gray-900'
-                  } transition-all duration-200`}
-                />
-              </PaginationItem>
+        {posts.length > 0 ? (
+          <div className="mt-10 grid gap-6">
+            {posts.map((post) => (
+              <BlogPostCard key={post._id} post={post} />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-10 rounded-[1.5rem] border border-[var(--border-subtle)] bg-white px-6 py-10 text-sm text-[var(--text-secondary)] shadow-[var(--shadow-soft)]">
+            No articles found for this page.
+          </div>
+        )}
 
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    href={getNewsPageHref(page)}
-                    isActive={currentPage === page}
-                    className="transition-all duration-200 hover:bg-gray-50"
-                  >
-                    {page}
-                  </PaginationLink>
+        {totalPages > 1 && (
+          <div className="mt-16 border-t border-[var(--border-subtle)] pt-10">
+            <Pagination>
+              <PaginationContent className="gap-2">
+                <PaginationItem>
+                  <PaginationPrevious
+                    href={getNewsPageHref(currentPage - 1)}
+                    className={`rounded-full border border-[var(--border-subtle)] ${
+                      currentPage <= 1
+                        ? 'pointer-events-none opacity-40'
+                        : 'hover:border-[var(--color-accent)] hover:bg-white hover:text-[var(--color-foreground)]'
+                    } transition-all duration-200`}
+                  />
                 </PaginationItem>
-              ))}
 
-              <PaginationItem>
-                <PaginationNext
-                  href={getNewsPageHref(currentPage + 1)}
-                  className={`${
-                    currentPage >= totalPages
-                      ? 'pointer-events-none opacity-40'
-                      : 'hover:bg-gray-50 hover:text-gray-900'
-                  } transition-all duration-200`}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href={getNewsPageHref(page)}
+                      isActive={currentPage === page}
+                      className={`rounded-full border transition-all duration-200 ${
+                        currentPage === page
+                          ? 'border-[var(--color-accent)] bg-[var(--accent-soft)] text-[var(--color-accent)]'
+                          : 'border-[var(--border-subtle)] hover:border-[var(--color-accent)] hover:bg-white'
+                      }`}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem>
+                  <PaginationNext
+                    href={getNewsPageHref(currentPage + 1)}
+                    className={`rounded-full border border-[var(--border-subtle)] ${
+                      currentPage >= totalPages
+                        ? 'pointer-events-none opacity-40'
+                        : 'hover:border-[var(--color-accent)] hover:bg-white hover:text-[var(--color-foreground)]'
+                    } transition-all duration-200`}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

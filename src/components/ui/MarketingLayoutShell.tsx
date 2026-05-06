@@ -44,8 +44,8 @@ export function MarketingLayoutShell({
         {/* Navigation items for mobile menu could go here */}
       </UnifiedHeader>
 
-      {/* Main content - account for announcement bar (3rem) + header (67px) */}
-      <main className="flex-1 pt-[115px]">
+      {/* Main content - account for announcement bar and marketing header */}
+      <main className="flex-1 pt-[120px]">
         {children}
       </main>
     </div>

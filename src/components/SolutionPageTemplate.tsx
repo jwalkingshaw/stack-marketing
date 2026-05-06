@@ -106,8 +106,8 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      <div className="px-4 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-12">
-        <div className="mx-auto max-w-7xl">
+      <div className="px-4 pb-20 pt-8 sm:px-6 sm:pb-24 sm:pt-12">
+        <div className="mx-auto max-w-[1320px]">
           <nav className="mb-8 text-sm text-[var(--color-foreground-muted)]" aria-label="Breadcrumb">
             <ol className="flex items-center gap-2">
               <li>
@@ -125,15 +125,13 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
             </ol>
           </nav>
 
-          <section className="grid gap-10 border-b border-[var(--color-border)] pb-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+          <section className="grid gap-10 border-b border-[var(--color-border)] pb-12 lg:grid-cols-[0.94fr_1.06fr] lg:items-end">
             <div>
               <p className="marketing-kicker">{content.kicker}</p>
-              <h1 className="mt-6 max-w-4xl font-[var(--font-display-serif)] text-[2.7rem] font-normal leading-[1.03] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[4rem] lg:text-[4.5rem]">
+              <h1 className="mt-7 max-w-4xl pb-6 text-[3rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4.6rem] lg:text-[5.3rem]">
                 {content.heroTitle}
               </h1>
-              <p className="marketing-section-copy mt-10 max-w-3xl border-t border-[var(--color-border)] pt-5 text-[var(--color-foreground-secondary)]">
-                {content.heroBody}
-              </p>
+              <p className="marketing-section-copy max-w-3xl text-[var(--color-foreground-secondary)]">{content.heroBody}</p>
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href={registerHref}
@@ -144,15 +142,15 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
                 </Link>
                 <Link
                   href="/pricing"
-                  className="inline-flex items-center justify-center border border-[var(--color-border-strong)] px-7 py-3.5 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)]"
+                  className="inline-flex items-center justify-center rounded-lg border border-[var(--color-border-strong)] px-7 py-3.5 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)]"
                 >
                   See pricing
                 </Link>
               </div>
             </div>
 
-            <div className="marketing-card bg-[rgba(255,255,255,0.72)] p-6 sm:p-8">
-              <p className="font-[var(--font-ibm-plex-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
+            <div className="marketing-ui-panel marketing-diagonal-texture p-6 sm:p-8">
+              <p className="marketing-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
                 What this page covers
               </p>
               <div className="mt-6 space-y-4">
@@ -169,7 +167,7 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
           <section className="grid gap-10 py-16 lg:grid-cols-[0.84fr_1.16fr]">
             <div>
               <p className="marketing-kicker">Category Pressure</p>
-              <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
+              <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)] !leading-[1.02]">
                 {content.categoryProblemTitle}
               </h2>
             </div>
@@ -177,7 +175,7 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
               <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">{content.categoryProblemBody}</p>
               <div className="grid gap-5 md:grid-cols-3">
                 {content.categoryProblems.map((problem) => (
-                  <div key={problem.title} className="marketing-card bg-[rgba(255,255,255,0.55)] p-5">
+                  <div key={problem.title} className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--bg-secondary)] p-5">
                     <h3 className="text-[1.1rem] font-semibold text-[var(--color-foreground)]">{problem.title}</h3>
                     <p className="marketing-detail-copy mt-3 text-[var(--color-foreground-muted)]">{problem.body}</p>
                   </div>
@@ -190,14 +188,14 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
             <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
               <div>
                 <p className="marketing-kicker">Platform Fit</p>
-                <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
+                <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)] !leading-[1.02]">
                   {content.platformTitle}
                 </h2>
-                <p className="marketing-section-copy mt-8 text-[var(--color-foreground-secondary)]">{content.platformBody}</p>
+                <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">{content.platformBody}</p>
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 {content.capabilityGroups.map((group) => (
-                  <div key={group.title} className="marketing-card bg-[rgba(255,255,255,0.7)] p-5 sm:p-6">
+                  <div key={group.title} className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-white p-5 shadow-[var(--shadow-soft)] sm:p-6">
                     <h3 className="text-[1.22rem] font-semibold text-[var(--color-foreground)]">{group.title}</h3>
                     <div className="mt-4 space-y-3">
                       {group.items.map((item) => (
@@ -218,35 +216,27 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
               <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
                 <div>
                   <p className="marketing-kicker">{comparisonSection.kicker}</p>
-                  <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
+                  <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)] !leading-[1.02]">
                     {comparisonSection.title}
                   </h2>
-                  <p className="marketing-section-copy mt-8 text-[var(--color-foreground-secondary)]">
-                    {comparisonSection.body}
-                  </p>
+                  <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">{comparisonSection.body}</p>
                 </div>
 
-                <div className="overflow-hidden border border-[var(--color-border)] bg-[rgba(255,255,255,0.64)]">
-                  <div className="grid gap-4 border-b border-[var(--color-border)] px-5 py-4 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5">
+                <div className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[var(--shadow-soft)]">
+                  <div className="grid gap-4 border-b border-[var(--color-border)] bg-[var(--bg-tertiary)] px-5 py-4 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5">
                     <div />
-                    <p className="text-sm font-semibold text-[var(--color-foreground)]">
-                      {comparisonSection.leftTitle}
-                    </p>
-                    <p className="text-sm font-semibold text-[var(--color-foreground)]">
-                      {comparisonSection.rightTitle}
-                    </p>
+                    <p className="text-sm font-semibold text-[var(--color-accent)]">{comparisonSection.leftTitle}</p>
+                    <p className="text-sm font-semibold text-[var(--color-foreground)]">{comparisonSection.rightTitle}</p>
                   </div>
 
                   {comparisonSection.rows.map((row, index) => (
                     <div
                       key={row.label}
                       className={`grid gap-3 px-5 py-5 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5 ${
-                        index < comparisonSection.rows.length - 1
-                          ? 'border-b border-[var(--color-border)]'
-                          : ''
+                        index < comparisonSection.rows.length - 1 ? 'border-b border-[var(--color-border)]' : ''
                       }`}
                     >
-                      <p className="font-[var(--font-ibm-plex-mono)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                      <p className="marketing-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent)]">
                         {row.label}
                       </p>
                       <p className="text-sm leading-7 text-[var(--color-foreground-muted)]">{row.left}</p>
@@ -261,7 +251,7 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
           <section className="grid gap-10 py-16 lg:grid-cols-[0.88fr_1.12fr]">
             <div>
               <p className="marketing-kicker">Operating Reality</p>
-              <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
+              <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)] !leading-[1.02]">
                 {content.operatingTitle}
               </h2>
             </div>
@@ -274,10 +264,10 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
                     index < content.operatingSections.length - 1 ? 'border-b border-[var(--color-border)]' : ''
                   }`}
                 >
-                  <span className="font-[var(--font-ibm-plex-mono)] text-[11px] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                  <span className="marketing-mono text-[11px] uppercase tracking-[0.14em] text-[var(--color-accent)]">
                     0{index + 1}
                   </span>
-                  <h3 className="text-[1.7rem] font-semibold leading-[1.1] text-[var(--color-foreground)] sm:text-[1.9rem]">
+                  <h3 className="text-[1.7rem] font-semibold leading-[1.08] text-[var(--color-foreground)] sm:text-[1.9rem]">
                     {section.title}
                   </h3>
                   <p className="marketing-detail-copy max-w-[30rem] text-[var(--color-foreground-secondary)]">{section.body}</p>
@@ -297,7 +287,7 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
                       href={source.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="marketing-card bg-[rgba(255,255,255,0.55)] p-5 transition-colors hover:border-[var(--color-border-strong)]"
+                      className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-white p-5 shadow-[var(--shadow-soft)] transition-colors hover:border-[var(--color-border-strong)]"
                     >
                       <h3 className="text-base font-semibold text-[var(--color-foreground)]">{source.label}</h3>
                       <p className="mt-2 text-sm leading-7 text-[var(--color-foreground-muted)]">{source.note}</p>
@@ -311,7 +301,7 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
           <section className="grid gap-10 py-16 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
               <p className="marketing-kicker">Questions</p>
-              <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">{content.faqTitle}</h2>
+              <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)] !leading-[1.02]">{content.faqTitle}</h2>
             </div>
             <div className="border-y border-[var(--color-border)]">
               {content.faqs.map((faq, index) => (
@@ -330,13 +320,17 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
             <div className="grid gap-8 lg:grid-cols-[0.74fr_1.26fr]">
               <div>
                 <p className="marketing-kicker">Related Pages</p>
-                <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
+                <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)] !leading-[1.02]">
                   More on product content operations.
                 </h2>
               </div>
               <div className="grid gap-4 md:grid-cols-3">
                 {content.relatedPages.map((page) => (
-                  <Link key={page.href} href={page.href} className="marketing-card bg-[rgba(255,255,255,0.62)] p-5 transition-colors hover:border-[var(--color-border-strong)]">
+                  <Link
+                    key={page.href}
+                    href={page.href}
+                    className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-white p-5 shadow-[var(--shadow-soft)] transition-colors hover:border-[var(--color-border-strong)]"
+                  >
                     <h3 className="text-lg font-semibold text-[var(--color-foreground)]">{page.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-[var(--color-foreground-muted)]">{page.description}</p>
                     <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-foreground)]">

@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Check, CheckCircle2 } from 'lucide-react'
 import MarketingFunnelTracker from '@/components/MarketingFunnelTracker'
@@ -19,13 +20,29 @@ const plans = BILLING_PLAN_CATALOG.filter(
     plan.id === 'free' || plan.id === 'starter' || plan.id === 'growth' || plan.id === 'scale'
 )
 
+const planDescriptors: Record<PlanId, string> = {
+  free: 'No credit card required. Full platform, limited catalog size.',
+  starter: 'Up to 50 SKUs, 2 internal users, 10 partner invites.',
+  growth: 'Up to 500 SKUs, 8 internal users, 100 partner invites.',
+  scale: 'Up to 2,500 SKUs, unlimited users, unlimited partner invites.',
+}
+
+const marketingPlanFeatures: Record<PlanId, string[]> = {
+  free: ['10 active SKUs', '2 GB storage', '1 internal user', '2 external partner invites', 'Translation not included'],
+  starter: ['50 active SKUs', '15 GB storage', '2 internal users', '10 external partner invites', '50,000 translated characters / month'],
+  growth: ['500 active SKUs', '100 GB storage', '8 internal users', '100 external partner invites', '250,000 translated characters / month'],
+  scale: ['2,500 active SKUs', '500 GB storage', 'Unlimited internal users', 'Unlimited external partner invites', '500,000 translated characters / month'],
+}
+
 const metrics = [
   ['Active SKUs', plans.map((plan) => formatBillingLimit(plan.activeSkuLimit))],
   ['Storage', plans.map((plan) => formatBillingGigabytes(plan.storageLimitGb))],
   ['Internal users', plans.map((plan) => formatBillingLimit(plan.internalUserLimit))],
   ['External partner invites', plans.map((plan) => formatBillingLimit(plan.partnerInviteLimit))],
-  ['Translated characters / month', plans.map((plan) => (plan.deeplTotalCharLimit > 0 ? formatDeepLUsage(plan.deeplTotalCharLimit) : 'Not included'))],
-  ['Public share links', plans.map((plan) => (plan.publicShareLinksEnabled ? 'Included' : 'Not included'))],
+  [
+    'Translated characters / month',
+    plans.map((plan) => (plan.deeplTotalCharLimit > 0 ? formatDeepLUsage(plan.deeplTotalCharLimit) : 'Not included')),
+  ],
 ] as const
 
 const faqs = [
@@ -42,16 +59,20 @@ const faqs = [
     a: 'No. Every paid plan includes the full platform, including the product catalog, asset management, the partner portal, localization, and scoped sharing.',
   },
   {
-    q: 'When do public share links become available?',
-    a: 'Public share links are disabled on the free plan and available from Starter upward.',
-  },
-  {
     q: 'How does translation usage work?',
     a: 'Translation allowances are included monthly usage. Higher-volume localization needs can be handled with add-ons or custom plans.',
   },
   {
+    q: 'How does AI content generation relate to translation usage?',
+    a: 'AI content generation creates product copy directly from your structured product data - ingredients, claims, format, and market context already in context. Translation usage covers character volume when adapting existing content across locales. Both are included in every plan within the limits of your tier. Generated content is also checked against your market adaptation and compliance rules before it is applied.',
+  },
+  {
     q: 'What if we need custom packaging?',
     a: 'Enterprise supports custom packaging, negotiated limits, and higher-volume delivery and distribution use where needed.',
+  },
+  {
+    q: 'How accurate is the AI content adaptation?',
+    a: 'AI-adapted content is generated from your structured product data and checked against your market adaptation rules. It is designed to get you to a strong first draft - accurate terminology, governed claims language, and market-aware copy. Final review and sign-off before publishing to any market remains with your team. For regulated markets or compliance-sensitive claims, treat adapted content as a reviewed draft rather than a final proof.',
   },
 ]
 
@@ -69,16 +90,29 @@ const faqSchema = {
 }
 
 export default function PricingPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: siteUrl },
     { name: 'Pricing', url: `${siteUrl}/pricing` },
   ])
 
   const registerByPlan: Record<PlanId, string> = {
-    free: buildAppAuthUrl('register', { planInterest: 'free', postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_free' }),
-    starter: buildAppAuthUrl('register', { planInterest: 'starter', postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_starter' }),
-    growth: buildAppAuthUrl('register', { planInterest: 'growth', postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_growth' }),
-    scale: buildAppAuthUrl('register', { planInterest: 'scale', postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_scale' }),
+    free: buildAppAuthUrl('register', {
+      planInterest: 'free',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_free',
+    }),
+    starter: buildAppAuthUrl('register', {
+      planInterest: 'starter',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_starter',
+    }),
+    growth: buildAppAuthUrl('register', {
+      planInterest: 'growth',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_growth',
+    }),
+    scale: buildAppAuthUrl('register', {
+      planInterest: 'scale',
+      postLoginRedirectPath: '/onboarding?create=1&origin=marketing_pricing_scale',
+    }),
   }
 
   const trackRegisterRedirect = (section: string, ctaLabel: string, planInterest: string) => {
@@ -92,91 +126,128 @@ export default function PricingPage() {
       <MarketingFunnelTracker page="pricing" />
 
       <div className="min-h-screen bg-[var(--color-background)]">
-        <section className="px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mx-auto max-w-6xl border-b border-[var(--color-border)] pb-12">
-            <div className="grid gap-8 lg:grid-cols-[1fr_20rem] lg:items-end">
-              <div>
-                <p className="marketing-kicker">Workspace Pricing</p>
-                <h1 className="mt-7 max-w-4xl font-[var(--font-display-serif)] text-[2.55rem] font-normal leading-[1.04] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[4rem] md:text-[4.6rem]">
-                  Pricing for product content operations, not per-seat admin overhead.
+        <section className="px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12">
+          <div className="mx-auto max-w-[1380px]">
+            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+              <div className="max-w-3xl">
+                <p className="marketing-kicker">Marketing / Pricing</p>
+                <h1 className="mt-7 max-w-4xl pb-6 text-[3.35rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4.8rem] lg:text-[6rem]">
+                  Start free.
+                  <br />
+                  Pay for what your
+                  <span className="marketing-hero-word"> operation actually needs.</span>
                 </h1>
-                <p className="marketing-section-copy mt-11 max-w-3xl border-t border-[var(--color-border)]/70 pt-5 text-[var(--color-foreground-muted)] sm:mt-13 sm:pt-6">
-                  Start free, then expand with catalog size, storage, team access, partner collaboration, and included translation usage.
-                  Every paid plan includes the unified PIM + DAM, AI localization workflows, and partner portal syndication.
+                <p className="marketing-section-copy max-w-2xl text-[var(--text-secondary)]">
+                  Every plan includes the full platform. Pricing reflects the size of your catalog, your partner
+                  network, and the markets you operate in - nothing else.
                 </p>
               </div>
 
-              <div className="border-t border-[var(--color-border)] pt-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-                {[
-                  ['Free plan', 'Best for proving the workflow with a smaller catalog'],
-                  ['Starter', 'Adds more product capacity, collaborators, and monthly translation usage'],
-                  ['Growth', 'Built for brands managing more markets, products, and external partners'],
-                ].map(([label, value], index) => (
-                  <div
-                    key={label}
-                    className={`${index > 0 ? 'mt-4 border-t border-[var(--color-border)] pt-4' : ''}`}
-                  >
-                    <p className="font-[var(--font-ibm-plex-mono)] text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-foreground-subtle)]">{label}</p>
-                    <p className="mt-3 text-base font-semibold leading-[1.45] text-[var(--color-foreground)]">{value}</p>
-                  </div>
-                ))}
+              <div className="marketing-ui-panel marketing-diagonal-texture overflow-hidden p-6 sm:p-8">
+                <div className="grid gap-4 border-b border-[var(--border-subtle)] pb-5 md:grid-cols-3">
+                  {[
+                    ['Same product', 'Catalog, assets, localization, scoped portals, and sharing are included across paid plans.'],
+                    ['Bigger limits', 'Plans expand for more active SKUs, more storage, more collaborators, and more external access.'],
+                    ['Cleaner upgrades', 'Move up when the catalog, market count, or partner load needs more headroom.'],
+                  ].map(([title, body]) => (
+                    <div key={title}>
+                      <p className="marketing-mono text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">
+                        {title}
+                      </p>
+                      <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{body}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 grid gap-4 sm:grid-cols-3">
+                  {[
+                    ['Free', 'Prove the workflow with a smaller catalog'],
+                    ['Growth', 'The default operating plan for scaling brands'],
+                    ['Enterprise', 'Custom terms for larger rollouts and partner networks'],
+                  ].map(([label, value], index) => (
+                    <div
+                      key={label}
+                      className={`rounded-[1rem] border px-4 py-4 ${
+                        index === 1
+                          ? 'border-[rgba(39,94,70,0.28)] bg-[rgba(39,94,70,0.08)]'
+                          : 'border-[var(--border-subtle)] bg-[rgba(255,255,255,0.72)]'
+                      }`}
+                    >
+                      <p className="marketing-mono text-[0.63rem] uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                        {label}
+                      </p>
+                      <p className="mt-3 text-sm font-semibold leading-6 text-[var(--color-foreground)]">{value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="px-4 pb-8 sm:px-6">
-          <div className="mx-auto max-w-6xl border-y border-[var(--color-border)]">
+        <section className="px-4 pb-12 sm:px-6 sm:pb-16">
+          <div className="mx-auto grid max-w-[1380px] gap-5 xl:grid-cols-4">
             {plans.map((plan) => {
               const ctaLabel = plan.id === 'free' ? 'Start Free' : `Start ${plan.name}`
+              const isGrowth = plan.id === 'growth'
+              const isFree = plan.id === 'free'
               return (
                 <div
                   key={plan.id}
-                  className={`grid gap-5 px-1 py-7 md:grid-cols-[11rem_10rem_1fr_auto] md:items-start sm:gap-6 sm:py-8 ${
-                    plan.id !== plans[plans.length - 1].id ? 'border-b border-[var(--color-border)]' : ''
+                  className={`relative flex h-full flex-col overflow-hidden rounded-[1.5rem] border px-6 py-6 shadow-[0_4px_16px_rgba(26,24,20,0.06)] ${
+                    isGrowth
+                      ? 'border-[var(--border-subtle)] border-t-[3px] border-t-[var(--color-accent)] bg-white'
+                      : isFree
+                        ? 'border-[var(--border-subtle)] bg-[var(--bg-primary)]'
+                        : 'border-[var(--border-subtle)] bg-white'
                   }`}
                 >
-                  <div className="px-3">
-                    <p className="font-[var(--font-ibm-plex-mono)] text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-foreground-subtle)]">
-                      {plan.popular ? 'Recommended plan' : 'Plan'}
-                    </p>
-                    <h2 className="mt-2 text-[1.8rem] font-semibold leading-[1.05] text-[var(--color-foreground)]">{plan.name}</h2>
-                    <p className="marketing-detail-copy mt-3 text-[var(--color-foreground-muted)]">{plan.description}</p>
-                  </div>
-
-                  <div className="border-t border-[var(--color-border)] px-3 pt-3 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-                    <div className="flex items-end gap-1">
-                      <span className="text-4xl font-semibold text-[var(--color-foreground)]">${plan.price}</span>
-                      <span className="mb-1 text-sm text-[var(--color-foreground-muted)]">/month</span>
+                  {isGrowth ? (
+                    <span className="mb-4 inline-flex w-fit rounded-[6px] border border-[var(--color-accent)] px-2.5 py-1 text-[13px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
+                      Most Popular
+                    </span>
+                  ) : null}
+                  <div className="border-b border-[var(--border-subtle)] pb-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-[1.15rem] font-semibold text-[var(--color-foreground)]">{plan.name}</p>
+                        <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{planDescriptors[plan.id]}</p>
+                      </div>
                     </div>
+
+                    <div className="mt-6 flex items-end gap-2">
+                      <p className="text-[2.5rem] font-semibold leading-none text-[var(--text-primary)]">${plan.price}</p>
+                      <span className="pb-1 text-sm text-[var(--text-muted)]">/month</span>
+                    </div>
+                    {isFree ? (
+                      <p className="mt-2 text-[13px] leading-5 text-[var(--text-muted)]">No credit card required.</p>
+                    ) : null}
                   </div>
 
-                  <div className="grid gap-3 border-t border-[var(--color-border)] px-3 pt-4 md:border-l md:border-t-0 md:pl-6 md:pt-0 lg:grid-cols-2">
-                    {[
-                      ...plan.features,
-                    ].map((feature, index) => (
-                      <div key={`${plan.id}-${index}`} className="marketing-detail-copy flex items-start gap-2.5 text-[var(--color-foreground-muted)]">
-                        <Check className="mt-0.5 h-4 w-4 text-[var(--color-success)]" />
+                  <div className="mt-5 flex-1 space-y-3">
+                    {marketingPlanFeatures[plan.id].map((feature, index) => (
+                      <div key={`${plan.id}-${index}`} className="flex items-start gap-2.5 text-sm leading-7 text-[var(--text-secondary)]">
+                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-[var(--color-success)]" />
                         <span>{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="px-3 md:pl-0">
+                  <div className="mt-7">
                     <Link
                       href={registerByPlan[plan.id]}
                       onClick={() => {
                         trackMarketingEvent('plan_cta_click', { page: 'pricing', section: 'plan_rows', ctaLabel, planInterest: plan.id })
                         trackRegisterRedirect('plan_rows', ctaLabel, plan.id)
                       }}
-                      className={`inline-flex items-center gap-2 border px-4 py-3 text-sm font-semibold transition-colors ${
-                        plan.popular
+                      className={`group inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-3.5 text-sm font-semibold ${
+                        isGrowth
                           ? 'marketing-primary-button border-[var(--color-primary)] bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]'
-                          : 'border-[var(--color-border-strong)] text-[var(--color-foreground)] hover:border-[var(--color-accent)]'
+                          : 'marketing-black-button border-[var(--color-accent-black)] bg-[var(--color-accent-black)] text-[var(--color-accent-black-foreground)] hover:bg-[var(--color-accent-black-hover)] hover:text-[var(--color-accent-black-foreground)]'
                       }`}
                     >
                       {ctaLabel}
-                      <ArrowRight size={14} />
+                      <ArrowRight size={14} className={isGrowth ? '' : 'marketing-button-arrow'} />
                     </Link>
                   </div>
                 </div>
@@ -185,37 +256,68 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="px-4 py-10 sm:px-6 sm:py-12">
-          <div className="mx-auto max-w-6xl">
-            <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <section className="bg-[var(--bg-tertiary)] px-4 py-14 sm:px-6 sm:py-16">
+          <div className="mx-auto max-w-[1380px]">
+            <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
               <div>
-                <h2 className="font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.08] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.35rem]">Operational limits by plan</h2>
-                <p className="marketing-detail-copy mt-4 max-w-xl text-[var(--color-foreground-muted)]">
-                  These are the product and collaboration limits that expand as your operation grows. The core platform stays the same.
+                <p className="marketing-kicker">Capacity By Plan</p>
+                <h2 className="mt-7 pb-6 text-[2.75rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+                  Operational limits.
+                  <br />
+                  The same product at every plan.
+                </h2>
+                <p className="marketing-section-copy max-w-xl text-[var(--text-secondary)]">
+                  Every plan includes the full platform. Limits reflect catalog size, partner volume, and the markets
+                  you operate in - not feature unlocks.
                 </p>
               </div>
-              <p className="marketing-detail-copy text-[var(--color-foreground-secondary)]">
-                Every paid plan includes structured product data, governed asset management, scoped sharing,
-                the partner portal, localization workflows, and in-product usage alerts.
-              </p>
+
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  ['Catalog size', 'Active SKUs and storage scale with your range - flavors, pack sizes, and market variants included.'],
+                  ['Partner access', 'More distributors, retailers, and agencies in your portal network as your distribution expands.'],
+                  ['Market adaptation', 'Included translation usage scales with the plan. Manage content across markets, languages, and channel requirements without a separate tool.'],
+                ].map(([title, body]) => (
+                  <div key={title} className="rounded-[1rem] border border-[rgba(26,24,20,0.08)] bg-[var(--bg-primary)] p-4">
+                    <p className="marketing-mono text-[0.63rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">{title}</p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{body}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-8 overflow-x-auto border-y border-[var(--color-border)] [-webkit-overflow-scrolling:touch]">
+            <div className="mt-9 overflow-x-auto rounded-[1.5rem] border border-[rgba(26,24,20,0.08)] bg-white shadow-[0_4px_16px_rgba(26,24,20,0.06)] [-webkit-overflow-scrolling:touch]">
               <table className="w-full min-w-[860px] border-collapse">
                 <thead>
-                  <tr className="border-b border-[var(--color-border)]">
-                    <th className="px-5 py-3.5 text-left text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-foreground-subtle)]">Limit</th>
+                  <tr className="border-b border-[var(--border-subtle)] bg-[var(--bg-tertiary)]">
+                    <th className="px-5 py-4 text-left text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                      Limit
+                    </th>
                     {plans.map((plan) => (
-                      <th key={plan.id} className="px-5 py-3.5 text-left text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--color-foreground-subtle)]">{plan.name}</th>
+                      <th
+                        key={plan.id}
+                        className={`px-5 py-4 text-left text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${
+                          plan.id === 'growth' ? 'text-[var(--color-accent)]' : 'text-[var(--text-muted)]'
+                        }`}
+                      >
+                        {plan.name}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="text-sm">
                   {metrics.map(([label, values], rowIndex) => (
-                    <tr key={label} className={rowIndex < metrics.length - 1 ? 'border-b border-[var(--color-border)]' : ''}>
+                    <tr key={label} className={rowIndex < metrics.length - 1 ? 'border-b border-[var(--border-subtle)]' : ''}>
                       <td className="px-5 py-4 font-semibold text-[var(--color-foreground-secondary)]">{label}</td>
                       {values.map((value, index) => (
-                        <td key={`${label}-${plans[index].id}`} className={`px-5 py-4 ${plans[index].id === 'growth' ? 'font-semibold text-[var(--color-accent)]' : 'text-[var(--color-foreground-muted)]'}`}>
+                        <td
+                          key={`${label}-${plans[index].id}`}
+                          className={`px-5 py-4 ${
+                            plans[index].id === 'growth'
+                              ? 'font-semibold text-[var(--color-accent)]'
+                              : 'text-[var(--text-secondary)]'
+                          }`}
+                        >
                           {value}
                         </td>
                       ))}
@@ -227,87 +329,127 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="px-4 py-10 sm:px-6 sm:py-12">
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
-            <div className="border-t border-[var(--color-border)] pt-6">
-              <h2 className="font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.08] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.35rem]">Included in every paid plan</h2>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <section className="px-4 py-14 sm:px-6 sm:py-16">
+          <div className="mx-auto grid max-w-[1380px] gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-[1.5rem] border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-6 shadow-[0_4px_16px_rgba(26,24,20,0.06)] sm:p-8">
+              <p className="marketing-kicker">Included In Paid Plans</p>
+              <h2 className="mt-7 pb-6 text-[2.6rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[3.6rem]">
+                Every plan.
+                <br />
+                The full platform.
+              </h2>
+              <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  'Structured product catalog with variant support',
-                  'Asset management with versioning and product media slots',
+                  'Structured product catalog with variant and market support',
+                  'Asset management with processing and product media store',
                   'Retailer, distributor, and agency portal access',
                   'Market, locale, and destination scoping',
-                  'AI-assisted localization with included translation usage',
+                  'AI content and market adaptation - write in your language, adapted and compliance-checked for every market you operate in',
+                  'Included translation usage scales with your plan',
                   'Usage visibility with upgrade prompts',
                 ].map((feature) => (
-                  <div key={feature} className="flex items-start gap-2.5 border-t border-[var(--color-border)] py-3">
+                  <div key={feature} className="flex items-start gap-2.5 border-t border-[var(--border-subtle)] py-3">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--color-success)]" />
-                    <p className="marketing-detail-copy text-[var(--color-foreground-muted)]">{feature}</p>
+                    <p className="marketing-detail-copy text-[var(--text-secondary)]">{feature}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="border-t border-[var(--color-border)] pt-6 lg:border-l lg:pl-10">
-              <p className="font-[var(--font-ibm-plex-mono)] text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">Enterprise</p>
-              <h2 className="mt-4 font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.35rem]">Custom commercial and technical terms for larger rollouts</h2>
-              <p className="marketing-detail-copy mt-5 text-[var(--color-foreground-muted)]">
-                {enterprisePlan.description}. Use Enterprise when you need broader commercial flexibility,
-                custom limits, rollout support, deeper coordination across brands, markets, and partner networks,
-                or higher-volume delivery and distribution use under custom packaging.
+            <div className="rounded-[1.5rem] border border-[var(--border-subtle)] bg-[var(--bg-tertiary)] p-6 shadow-[0_4px_16px_rgba(26,24,20,0.06)] sm:p-8">
+              <p className="marketing-kicker">Enterprise</p>
+              <h2 className="mt-7 pb-6 text-[2.6rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[3.5rem]">
+                Enterprise terms
+                <br />
+                for broader rollouts.
+              </h2>
+              <p className="marketing-section-copy max-w-2xl text-[var(--text-secondary)]">
+                Use Enterprise when you need broader commercial flexibility - custom limits, dedicated support,
+                coordination across multiple brands or partner networks, and higher-volume delivery outside standard
+                plan packaging.
               </p>
-              <div className="mt-5 space-y-3">
+              <div className="mt-6 space-y-3">
                 {enterprisePlan.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--color-success)]" />
-                    <p className="marketing-detail-copy text-[var(--color-foreground-secondary)]">{feature}</p>
+                    <p className="marketing-detail-copy text-[var(--text-secondary)]">{feature}</p>
                   </div>
                 ))}
               </div>
-              <a href="mailto:sales@stackcess.com?subject=Stackcess%20Enterprise%20Pricing" className="mt-6 inline-flex items-center justify-center border border-[var(--color-border-strong)] px-5 py-3 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)]">
+              <a
+                href="mailto:sales@stackcess.com?subject=Stackcess%20Enterprise%20Pricing"
+                className="marketing-black-button mt-7 inline-flex items-center justify-center rounded-lg border border-[var(--color-accent-black)] bg-[var(--color-accent-black)] px-5 py-3 text-sm font-semibold text-[var(--color-accent-black-foreground)] transition-colors hover:bg-[var(--color-accent-black-hover)]"
+              >
                 Talk to sales
               </a>
             </div>
           </div>
         </section>
 
-        <section className="px-4 py-10 sm:px-6 sm:py-12">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="font-[var(--font-display-serif)] text-center text-[2.25rem] font-normal leading-[1.08] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[3rem]">Common questions</h2>
-            <div className="mt-8 border-y border-[var(--color-border)]">
+        <section className="px-4 py-14 sm:px-6 sm:py-16">
+          <div className="mx-auto max-w-4xl">
+            <p className="marketing-kicker mx-auto w-fit">FAQ</p>
+            <h2 className="mt-7 text-center text-[2.8rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+              Before you choose a plan.
+            </h2>
+            <div className="mt-10 border-y border-[var(--border-subtle)]">
               {faqs.map((faq, index) => (
-                <div key={faq.q} className={`py-7 sm:py-8 ${index < faqs.length - 1 ? 'border-b border-[var(--color-border)]' : ''}`}>
-                  <h3 className="text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">{faq.q}</h3>
-                  <p className="marketing-detail-copy mt-3 text-[var(--color-foreground-muted)]">{faq.a}</p>
-                </div>
+                <button
+                  key={faq.q}
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className={`block w-full py-7 text-left sm:py-8 ${
+                    index < faqs.length - 1 ? 'border-b border-[var(--border-subtle)]' : ''
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-6">
+                    <h3 className="text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">{faq.q}</h3>
+                    <span className="mt-0.5 text-xl leading-none text-[var(--color-accent)]">{openFaq === index ? '-' : '+'}</span>
+                  </div>
+                  {openFaq === index ? <p className="marketing-detail-copy mt-4 text-[var(--text-secondary)]">{faq.a}</p> : null}
+                </button>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-12">
-          <div className="mx-auto grid max-w-6xl gap-7 border-t border-[var(--color-border)] pt-8 lg:grid-cols-[1fr_auto] lg:items-end sm:gap-8 sm:pt-10">
+        <section className="bg-[var(--bg-dark)] px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
+          <div className="mx-auto grid max-w-[1380px] gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <p className="font-[var(--font-ibm-plex-mono)] text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
+              <p className="marketing-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
                 Start free
               </p>
-              <h2 className="mt-4 max-w-3xl font-[var(--font-display-serif)] text-[2.1rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[3rem]">
-                Start with one workspace. Upgrade when the catalog, team, and partner network need more headroom.
+              <h2 className="mt-4 max-w-3xl text-[2.6rem] font-semibold tracking-[-0.03em] !text-[var(--bg-primary)] !leading-[1.02] sm:text-[4rem]">
+                Start with one workspace.
+                <br />
+                Upgrade when the catalog and partner load demand it.
               </h2>
+              <p className="mt-6 max-w-2xl text-[1.05rem] leading-8 text-[var(--text-muted)]">
+                Use the free plan to prove the workflow, then expand when more products, more markets, and more
+                partner requests make it necessary.
+              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href={registerByPlan.free}
                 onClick={() => {
-                  trackMarketingEvent('pricing_cta_click', { page: 'pricing', section: 'final_cta', ctaLabel: 'Start Free', planInterest: 'free' })
+                  trackMarketingEvent('pricing_cta_click', {
+                    page: 'pricing',
+                    section: 'final_cta',
+                    ctaLabel: 'Start Free',
+                    planInterest: 'free',
+                  })
                   trackRegisterRedirect('final_cta', 'Start Free', 'free')
                 }}
-                className="marketing-primary-button inline-flex w-full items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
+                className="marketing-black-button inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--color-accent-black)] bg-[var(--color-accent-black)] px-6 py-3 text-sm font-semibold text-[var(--color-accent-black-foreground)] transition-colors hover:bg-[var(--color-accent-black-hover)] sm:w-auto"
               >
                 Start Free
                 <ArrowRight size={16} />
               </Link>
-              <a href="mailto:sales@stackcess.com?subject=Stackcess%20Pricing%20Questions" className="inline-flex w-full items-center justify-center border border-[var(--color-border-strong)] px-6 py-3 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:border-[var(--color-accent)] sm:w-auto">
+              <a
+                href="mailto:sales@stackcess.com?subject=Stackcess%20Pricing%20Questions"
+                className="marketing-black-button inline-flex w-full items-center justify-center rounded-lg border border-[var(--color-accent-black)] bg-[var(--color-accent-black)] px-6 py-3 text-sm font-semibold text-[var(--color-accent-black-foreground)] transition-colors hover:bg-[var(--color-accent-black-hover)] sm:w-auto"
+              >
                 Talk to sales
               </a>
             </div>

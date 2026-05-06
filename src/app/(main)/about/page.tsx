@@ -6,20 +6,20 @@ import { buildAppAuthUrl } from '@/lib/app-links'
 export const metadata: Metadata = {
   title: 'About - Stackcess',
   description:
-    'We built Stackcess because sales and marketing teams needed one place to manage product data, approved assets, localization, and partner syndication.',
+    'We built Stackcess because product data, approved assets, localization, and partner delivery should not live in separate systems.',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
     title: 'About - Stackcess',
     description:
-      'We built Stackcess because sales and marketing teams needed one place to manage product data, approved assets, localization, and partner syndication.',
+      'We built Stackcess because product data, approved assets, localization, and partner delivery should not live in separate systems.',
     url: '/about',
   },
   twitter: {
     title: 'About - Stackcess',
     description:
-      'We built Stackcess because sales and marketing teams needed one place to manage product data, approved assets, localization, and partner syndication.',
+      'We built Stackcess because product data, approved assets, localization, and partner delivery should not live in separate systems.',
   },
 }
 
@@ -31,89 +31,172 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
-      <div className="mx-auto max-w-3xl px-5 py-16 sm:px-6 sm:py-28">
-        <p className="mb-8 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground-muted)]">
-          Why we built this
-        </p>
+      <section className="px-4 pb-14 pt-8 sm:px-6 sm:pb-16 sm:pt-12">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
+            <div className="max-w-3xl">
+              <p className="marketing-kicker">Why We Built This</p>
+              <h1 className="mt-7 pb-6 text-[3.15rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4.6rem] lg:text-[5.6rem]">
+                We didn&apos;t research
+                <br />
+                this problem.
+                <br />
+                <span className="marketing-hero-word">We had it.</span>
+              </h1>
+              <p className="marketing-section-copy max-w-2xl text-[var(--text-secondary)]">
+                Stackcess started from managing product content for a sports nutrition brand selling across multiple
+                markets through Amazon, distributors, and retail partners. Every launch had the same pattern: right
+                product, right formula, wrong assets.
+              </p>
+            </div>
 
-        <h1 className="mb-10 font-[var(--font-display-serif)] text-[2.3rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:mb-12 sm:text-[3.65rem]">
-          We built Stackcess because product content operations should not depend on spreadsheets, folders, and resend requests.
-        </h1>
-
-        <div className="mt-12 border-t border-[var(--color-border)]/70 pt-5 space-y-7 text-[1.04rem] leading-[1.9] text-[var(--color-foreground-muted)] sm:mt-14 sm:pt-6 sm:text-[1.14rem]">
-          <p>
-            Spend time inside sales and marketing teams and you find the same pattern. Product data lives in one tool.
-            Assets live somewhere else. Localization happens in documents and chat threads. Partners still ask for
-            files by email because there is no controlled place to get the current version.
-          </p>
-          <p>
-            Teams try to patch it together with a PIM, a DAM, file sharing, and manual exports. That stack creates
-            more handoffs, more duplicated work, and more uncertainty about what is approved for each market,
-            language, and partner.
-          </p>
-          <p>
-            The problem gets worse as brands expand. Every market needs tailored copy. Every channel wants a different
-            format. Every retailer, distributor, and agency needs access to the right content without seeing
-            everything else.
-          </p>
-          <p>
-            We built Stackcess to replace that scramble with one system: a unified PIM + DAM with AI-assisted
-            localization and partner-ready syndication. Product data, approved assets, market rules, and partner
-            delivery live in the same operating model.
-          </p>
-        </div>
-
-        <div className="my-14 h-px bg-[var(--color-border)]" />
-
-        <h2 className="mb-8 font-[var(--font-display-serif)] text-[2rem] font-normal leading-[1.1] tracking-[-0.025em] text-[var(--color-foreground)] sm:text-[2.3rem]">
-          What we believe
-        </h2>
-        <div className="space-y-8">
-          <div>
-            <p className="mb-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">One source of truth should include both product data and assets.</p>
-            <p className="text-[1rem] leading-[1.85] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
-              A product record is not complete without the approved files, copy, and documents attached to it.
-              We design for structured product content and governed asset workflows together.
-            </p>
-          </div>
-          <div>
-            <p className="mb-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">Localization should be part of the workflow, not a side project.</p>
-            <p className="text-[1rem] leading-[1.85] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
-              Multi-market teams need faster adaptation with consistent terminology, brand tone, and market-aware
-              guidance. That work belongs inside the product content system itself.
-            </p>
-          </div>
-          <div>
-            <p className="mb-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">Partner delivery should be controlled, not improvised.</p>
-            <p className="text-[1rem] leading-[1.85] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
-              Retailers, distributors, and agencies need current content in a format they can use. Brands need
-              scoped access, clean handoff, and less manual resend work.
-            </p>
+            <div className="marketing-ui-panel marketing-diagonal-texture p-6 sm:p-8">
+              <p className="marketing-mono text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">
+                The repeated failure pattern
+              </p>
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                {[
+                  ['Outdated labels', 'Partners were still working from old links and old packaging files.'],
+                  ['Missing docs', 'COAs, specs, and support files were scattered across folders and inboxes.'],
+                  ['Drift by market', 'Copy, claims, and assets changed unevenly as more markets came online.'],
+                ].map(([title, body]) => (
+                  <div key={title} className="rounded-[1rem] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.76)] p-4">
+                    <p className="marketing-mono text-[0.63rem] uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                      {title}
+                    </p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className="mt-16 border-t border-[var(--color-border)] pt-10">
-          <p className="mb-6 text-[1rem] leading-[1.8] text-[var(--color-foreground-muted)] sm:text-[1.05rem]">
-            If your team is juggling product data, assets, localization, and partner requests across separate tools,
-            the free plan is the fastest way to see the model in practice.
-          </p>
-          <div className="flex items-center gap-5">
+      <section className="bg-[var(--bg-tertiary)] px-4 py-14 sm:px-6 sm:py-16">
+        <div className="mx-auto max-w-[1180px]">
+          <div className="rounded-[1.75rem] border border-[rgba(26,24,20,0.08)] bg-[rgba(250,249,245,0.78)] px-6 py-8 shadow-[var(--shadow-soft)] sm:px-10 sm:py-10">
+            <p className="marketing-kicker">Origin</p>
+            <div className="mt-7 max-w-4xl space-y-6 text-[1.1rem] leading-8 text-[var(--text-secondary)] sm:text-[1.18rem] sm:leading-9">
+              <p>
+                Stackcess started from managing product content for a sports nutrition brand selling across multiple
+                markets through Amazon, distributors, and retail partners. Every launch had the same pattern: right
+                product, right formula, wrong assets. Outdated labels. Missing COAs. Partners working from old links.
+              </p>
+              <p>
+                There was no tool built for how supplement brands actually operate. Product data lived in one place.
+                Assets lived somewhere else. Localization happened in documents and chat threads. Partner delivery
+                still depended on someone resending the current pack.
+              </p>
+              <p className="text-[var(--color-foreground)]">
+                There was no tool built for how supplement brands actually operate. So we built one.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-14 sm:px-6 sm:py-16">
+        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="marketing-kicker">What We Believe</p>
+            <h2 className="mt-7 pb-6 text-[2.7rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+              Product content
+              <br />
+              is an operating system.
+            </h2>
+          </div>
+          <div className="grid gap-4">
+            {[
+              {
+                title: 'A source record is not complete without the assets attached to it.',
+                body: 'A product record should hold the approved copy, imagery, documents, and destination rules together rather than splitting them across separate tools.',
+              },
+              {
+                title: 'Localization belongs inside the workflow, not beside it.',
+                body: 'Multi-market teams need market-aware adaptation with consistent terminology, voice, and compliance logic built into the operating layer.',
+              },
+              {
+                title: 'Partner delivery should be structured, scoped, and current.',
+                body: 'Retailers, distributors, and agencies need current files without seeing everything else or waiting for a resend from your team.',
+              },
+            ].map((belief, index) => (
+              <div
+                key={belief.title}
+                className={`grid gap-5 rounded-[1.25rem] border border-[var(--border-subtle)] bg-white px-5 py-5 shadow-[var(--shadow-soft)] md:grid-cols-[4.5rem_1fr_1.08fr] ${
+                  index === 1 ? 'md:translate-x-8' : ''
+                }`}
+              >
+                <span className="marketing-mono text-[0.68rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">
+                  0{index + 1}
+                </span>
+                <h3 className="text-[1.8rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)] !leading-[1.04]">
+                  {belief.title}
+                </h3>
+                <p className="marketing-detail-copy text-[var(--text-secondary)]">{belief.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--border-subtle)] px-4 py-14 sm:px-6 sm:py-16">
+        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+          <div>
+            <p className="marketing-kicker">What Stackcess Replaces</p>
+            <h2 className="mt-7 pb-6 text-[2.7rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+              Not another
+              <br />
+              tool in the chain.
+            </h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              ['Spreadsheet logic', 'Claim mapping, market notes, and pack variations should not depend on tabs nobody wants to own.'],
+              ['Folder archaeology', 'Teams should not have to search shared drives to discover what the current pack shot actually is.'],
+              ['Email resend loops', 'A partner needing current files should not trigger another manual assembly request.'],
+              ['Workflow drift', 'As more markets and channels come online, the system should tighten control instead of multiplying variations.'],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--bg-secondary)] p-5">
+                <p className="marketing-mono text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">{title}</p>
+                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[var(--bg-dark)] px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
+        <div className="mx-auto grid max-w-[1280px] gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="marketing-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
+              See the model
+            </p>
+            <h2 className="mt-4 max-w-3xl text-[2.6rem] font-semibold tracking-[-0.03em] !text-[var(--bg-primary)] !leading-[1.02] sm:text-[4rem]">
+              If your team is still stitching this together across tools, start with one workspace.
+            </h2>
+            <p className="mt-6 max-w-2xl text-[1.05rem] leading-8 text-[var(--text-muted)]">
+              The free plan is the fastest way to see how product data, approved assets, localization, and partner
+              delivery work when they sit inside the same operating model.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href={registerHref}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
+              className="marketing-primary-button inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--color-primary)] bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold hover:bg-[var(--color-primary-hover)]"
             >
               Start Free
-              <ArrowRight size={14} />
+              <ArrowRight size={16} />
             </Link>
             <Link
               href="/roadmap"
-              className="text-sm text-[var(--color-foreground-muted)] transition-colors hover:text-[var(--color-foreground)]"
+              className="inline-flex items-center justify-center rounded-lg border border-[rgba(160,152,144,0.3)] px-6 py-3 text-sm font-semibold text-[var(--bg-primary)] transition-colors hover:border-[var(--bg-primary)]"
             >
               Shape the roadmap
             </Link>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

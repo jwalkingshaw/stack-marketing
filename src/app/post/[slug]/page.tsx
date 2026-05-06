@@ -7,7 +7,6 @@ import { PortableText } from '@portabletext/react'
 import { BlogPost, getPostBySlug, urlFor } from '@/lib/sanity'
 import { generateNewsArticleSchema, generateBreadcrumbSchema } from '@/lib/schema'
 import ViewTracker from '@/components/ViewTracker'
-import TopArticles from '@/components/TopArticles'
 
 interface PostPageProps {
   params: Promise<{ slug: string }>
@@ -40,7 +39,7 @@ function getCanonicalUrl(post: BlogPost, slug: string) {
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const resolvedParams = await params
   const post = await getPost(resolvedParams.slug)
-  
+
   if (!post) {
     return {
       title: 'Post Not Found',
@@ -93,7 +92,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 export default async function PostPage({ params }: PostPageProps) {
   const resolvedParams = await params
   const post = await getPost(resolvedParams.slug)
-  
+
   if (!post) {
     notFound()
   }
@@ -104,18 +103,12 @@ export default async function PostPage({ params }: PostPageProps) {
   const metaDescription = getSeoDescription(post)
   const aiSummary = getAiSummary(post)
 
-  const newsArticleSchema = generateNewsArticleSchema(
-    post,
-    fullUrl,
-    imageUrl,
-    metaDescription,
-    aiSummary || undefined
-  )
+  const newsArticleSchema = generateNewsArticleSchema(post, fullUrl, imageUrl, metaDescription, aiSummary || undefined)
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: siteUrl },
     { name: 'News', url: `${siteUrl}/news` },
-    { name: post.title, url: fullUrl }
+    { name: post.title, url: fullUrl },
   ])
 
   return (
@@ -132,185 +125,203 @@ export default async function PostPage({ params }: PostPageProps) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      
-      {/* Track page view */}
+
       <ViewTracker slug={post.slug.current} />
-      
-      <>
-        {/* Breadcrumb */}
-        <nav className="text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-2">
-            <li>
-              <Link href="/" className="hover:text-blue-600 transition-colors flex items-center">
-                <Home size={16} className="mr-1" />
-                Home
-              </Link>
-            </li>
-            <li>
-              <ChevronRight size={16} className="text-gray-400" />
-            </li>
-            <li className="truncate max-w-[180px] text-gray-900 font-medium" aria-current="page">
-              {post.title}
-            </li>
-          </ol>
-        </nav>
 
-        <article>
-          <header className="mb-8">
-            <h1 className="text-2xl sm:text-2xl lg:text-3xl font-[600] font-inter text-gray-900 mb-4 leading-tight">
-              {post.title}
-            </h1>
+      <div className="min-h-screen bg-[var(--color-background)] px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-12">
+        <div className="mx-auto max-w-[1500px]">
+          <nav className="mb-8 text-sm text-[var(--text-muted)]" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2">
+              <li>
+                <Link href="/" className="inline-flex items-center gap-1 hover:text-[var(--color-foreground)]">
+                  <Home size={16} />
+                  Home
+                </Link>
+              </li>
+              <li>
+                <ChevronRight size={16} className="text-[var(--text-muted)]" />
+              </li>
+              <li>
+                <Link href="/news" className="hover:text-[var(--color-foreground)]">
+                  News
+                </Link>
+              </li>
+              <li>
+                <ChevronRight size={16} className="text-[var(--text-muted)]" />
+              </li>
+              <li className="truncate text-[var(--color-foreground)]" aria-current="page">
+                {post.title}
+              </li>
+            </ol>
+          </nav>
 
-            <div className="flex items-center space-x-6 text-sm text-gray-500 mb-8">
-              <div className="flex items-center space-x-2">
-                <Calendar size={16} />
-                <time dateTime={post.publishedAt}>
-                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-              </div>             
-            </div>
+          <article>
+            <header className="border-b border-[var(--border-subtle)] pb-10">
+              <div className="w-full">
+                {post.tags && post.tags.length > 0 ? (
+                  <div className="mb-5 flex flex-wrap items-center gap-2">
+                    {post.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="marketing-mono rounded-full border border-[rgba(39,94,70,0.16)] bg-[rgba(39,94,70,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-accent)]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
 
-            {(aiSummary || post.excerpt) && (
-              <p className="max-w-3xl text-base leading-7 text-gray-700">
-                {aiSummary || post.excerpt}
-              </p>
-            )}
-          </header>
+                <h1 className="max-w-[22ch] pb-6 text-[2.45rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[3.4rem] lg:text-[4rem]">
+                  {post.title}
+                </h1>
 
-          {/* Cover Image */}
-          {post.coverImage?.asset?.url && (
-            <div className="mb-8">
-              <Image
-                src={post.coverImage.asset.url}
-                alt={post.coverImage.alt || post.title}
-                width={800}
-                height={400}
-                className="w-full h-auto object-cover"
-                priority
-              />
-            </div>
-          )}
+                <div className="marketing-mono flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                  <span className="inline-flex items-center gap-2">
+                    <Calendar size={14} />
+                    <time dateTime={post.publishedAt}>
+                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  </span>
+                  {post.author ? <span>{post.author.name}</span> : null}
+                  {post.estimatedReadingTime ? <span>{post.estimatedReadingTime} min read</span> : null}
+                </div>
+              </div>
 
-          <div className="blog-post-content max-w-none">
-            <PortableText
-              value={post.content}
-              components={{
-                types: {
-                  image: ({ value }) => {
-                    const imageUrl = value.asset?.url || urlFor(value).width(800).height(400).url()
-                    return (
-                      <Image
-                        src={imageUrl}
-                        alt={value.alt || ''}
-                        width={800}
-                        height={400}
-                        className="rounded-lg my-8 w-full h-auto object-cover"
-                      />
-                    )
-                  },
-                  code: ({ value }) => (
-                    <pre className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-4 rounded-md overflow-x-auto my-6 text-sm font-mono">
-                      <code>{value.code}</code>
-                    </pre>
-                  ),
-                },
-                marks: {
-                  strong: ({ children }) => <strong className="font-bold">{children}</strong>,
-                  link: ({ children, value }) => (
-                    (() => {
-                      const href = value?.href
-                      if (!href) {
-                        return <>{children}</>
-                      }
+              <div className="marketing-ui-panel marketing-diagonal-texture mt-8 w-full p-6 sm:p-8">
+                <p className="marketing-kicker">Article Summary</p>
+                {(aiSummary || post.excerpt) ? (
+                  <p className="mt-6 marketing-section-copy max-w-[70rem] text-[var(--text-secondary)]">
+                    {aiSummary || post.excerpt}
+                  </p>
+                ) : null}
+              </div>
+            </header>
 
-                      const isExternal =
-                        href.startsWith('http://') ||
-                        href.startsWith('https://') ||
-                        href.startsWith('//') ||
-                        href.startsWith('mailto:') ||
-                        href.startsWith('tel:')
+            <div className="mt-10">
+              <div>
+                {post.coverImage?.asset?.url ? (
+                  <div className="mb-10 w-full overflow-hidden rounded-[1.75rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)]">
+                    <Image
+                      src={post.coverImage.asset.url}
+                      alt={post.coverImage.alt || post.title}
+                      width={1400}
+                      height={760}
+                      className="h-auto w-full object-cover"
+                      priority
+                    />
+                  </div>
+                ) : null}
 
-                      if (isExternal) {
-                        return (
-                          <a
-                            href={href}
-                            className="font-medium transition-colors hover:text-[#244579]"
-                            style={{
-                              color: '#2f4f8c',
-                              textDecorationLine: 'underline',
-                              textDecorationColor: 'rgba(47, 79, 140, 0.82)',
-                              textDecorationThickness: '0.14em',
-                              textUnderlineOffset: '0.18em',
-                            }}
-                            target={value?.openInNewTab ? '_blank' : undefined}
-                            rel={value?.openInNewTab ? 'noopener noreferrer' : undefined}
-                          >
+                <div className="blog-post-content w-full rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-6 py-8 shadow-[var(--shadow-soft)] sm:px-10 sm:py-10 lg:px-12">
+                  <PortableText
+                    value={post.content}
+                    components={{
+                      types: {
+                        image: ({ value }) => {
+                          const portableImageUrl = value.asset?.url || urlFor(value).width(1200).height(760).url()
+                          return (
+                            <Image
+                              src={portableImageUrl}
+                              alt={value.alt || ''}
+                              width={1200}
+                              height={760}
+                              className="my-8 w-full rounded-[1.25rem] object-cover"
+                            />
+                          )
+                        },
+                        code: ({ value }) => (
+                          <pre className="my-8 overflow-x-auto rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--bg-secondary)] p-5 text-sm text-[var(--text-primary)]">
+                            <code>{value.code}</code>
+                          </pre>
+                        ),
+                      },
+                      marks: {
+                        strong: ({ children }) => <strong className="font-semibold text-[var(--color-foreground)]">{children}</strong>,
+                        link: ({ children, value }) =>
+                          (() => {
+                            const href = value?.href
+                            if (!href) {
+                              return <>{children}</>
+                            }
+
+                            const isExternal =
+                              href.startsWith('http://') ||
+                              href.startsWith('https://') ||
+                              href.startsWith('//') ||
+                              href.startsWith('mailto:') ||
+                              href.startsWith('tel:')
+
+                            if (isExternal) {
+                              return (
+                                <a
+                                  href={href}
+                                  className="blog-post-link"
+                                  target={value?.openInNewTab ? '_blank' : undefined}
+                                  rel={value?.openInNewTab ? 'noopener noreferrer' : undefined}
+                                >
+                                  {children}
+                                </a>
+                              )
+                            }
+
+                            return (
+                              <Link href={href} className="blog-post-link">
+                                {children}
+                              </Link>
+                            )
+                          })(),
+                      },
+                      hardBreak: () => <br />,
+                      block: {
+                        normal: ({ children }) => (
+                          <p className="whitespace-pre-line text-[1.06rem] leading-9 text-[var(--text-secondary)]">{children}</p>
+                        ),
+                        h1: ({ children }) => (
+                          <h1 className="pt-6 pb-4 text-[2.5rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[3.4rem]">
                             {children}
-                          </a>
-                        )
-                      }
-
-                      return (
-                        <Link
-                          href={href}
-                          className="font-medium transition-colors hover:text-[#244579]"
-                          style={{
-                            color: '#2f4f8c',
-                            textDecorationLine: 'underline',
-                            textDecorationColor: 'rgba(47, 79, 140, 0.82)',
-                            textDecorationThickness: '0.14em',
-                            textUnderlineOffset: '0.18em',
-                          }}
-                        >
-                          {children}
-                        </Link>
-                      )
-                    })()
-                  ),
-                },
-                hardBreak: () => <br />,
-                block: {
-                  normal: ({ children }) => (
-                    <p
-                      className="font-inter whitespace-pre-line"
-                      style={{
-                        margin: '0 0 1.5rem 0',
-                        fontSize: '1.08rem',
-                        lineHeight: '2.25rem',
-                        color: 'var(--color-foreground-muted)',
-                      }}
-                    >
-                      {children}
-                    </p>
-                  ),
-                  h1: ({ children }) => <h1 className="font-inter font-bold text-3xl mt-8 mb-4">{children}</h1>,
-                  h2: ({ children }) => <h2 className="font-inter font-bold text-2xl mt-6 mb-3">{children}</h2>,
-                  h3: ({ children }) => <h3 className="font-inter font-bold text-xl mt-5 mb-2">{children}</h3>,
-                  blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-6 italic text-gray-600 font-inter">
-                      {children}
-                    </blockquote>
-                  ),
-                },
-                list: {
-                  bullet: ({ children }) => <ul className="list-disc list-outside ml-6 pl-2 my-6 space-y-2 font-inter text-gray-700 leading-loose">{children}</ul>,
-                  number: ({ children }) => <ol className="list-decimal list-outside ml-6 pl-2 my-6 space-y-2 font-inter text-gray-700 leading-loose">{children}</ol>,
-                },
-                listItem: ({ children }) => <li className="font-inter leading-loose">{children}</li>,
-              }}
-            />
-          </div>
-        </article>
-
-        {/* Most Popular Articles Section */}
-        <div className="mt-12">
-          <TopArticles />
+                          </h1>
+                        ),
+                        h2: ({ children }) => (
+                          <h2 className="pt-6 pb-4 text-[2.1rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[2.8rem]">
+                            {children}
+                          </h2>
+                        ),
+                        h3: ({ children }) => (
+                          <h3 className="pt-5 pb-3 text-[1.6rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)] !leading-[1.08] sm:text-[2rem]">
+                            {children}
+                          </h3>
+                        ),
+                        blockquote: ({ children }) => (
+                          <blockquote className="my-8 border-l-[3px] border-[var(--color-accent)] bg-[var(--bg-secondary)] px-5 py-4 text-[1.02rem] italic leading-8 text-[var(--text-secondary)]">
+                            {children}
+                          </blockquote>
+                        ),
+                      },
+                      list: {
+                        bullet: ({ children }) => (
+                          <ul className="my-6 ml-6 list-disc space-y-3 pl-2 text-[1.02rem] leading-8 text-[var(--text-secondary)]">
+                            {children}
+                          </ul>
+                        ),
+                        number: ({ children }) => (
+                          <ol className="my-6 ml-6 list-decimal space-y-3 pl-2 text-[1.02rem] leading-8 text-[var(--text-secondary)]">
+                            {children}
+                          </ol>
+                        ),
+                      },
+                      listItem: ({ children }) => <li>{children}</li>,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
-      </>
+      </div>
     </>
   )
 }

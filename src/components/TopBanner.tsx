@@ -30,38 +30,36 @@ export default function TopBanner() {
   }
 
   if (loading || !banner) {
-    return null // Don't show anything while loading or if no banner is configured
+    return null
   }
 
   return (
-    <div className="w-full mb-12 flex justify-center px-6">
-      <div className="max-w-4xl w-full">
+    <div className="w-full px-4 pb-6 pt-4 sm:px-6 sm:pb-8">
+      <div className="mx-auto max-w-[1280px]">
         <a
           href={banner.clickThroughUrl}
           target={banner.targetBlank ? '_blank' : '_self'}
           rel={banner.targetBlank ? 'noopener noreferrer' : undefined}
           onClick={handleBannerClick}
-          className="block overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
+          className="block overflow-hidden rounded-[1.25rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
         >
-          {/* Desktop Banner */}
           <div className="hidden md:block">
             <Image
-              src={urlFor(banner.desktopImage).width(800).height(100).url()}
+              src={urlFor(banner.desktopImage).width(1280).height(160).url()}
               alt={banner.altText}
-              width={800}
-              height={100}
-              className="w-full h-[100px] object-cover"
+              width={1280}
+              height={160}
+              className="h-[140px] w-full object-cover"
             />
           </div>
-          
-          {/* Mobile Banner */}
+
           <div className="block md:hidden">
             <Image
-              src={urlFor(banner.mobileImage || banner.desktopImage).width(400).height(60).url()}
+              src={urlFor(banner.mobileImage || banner.desktopImage).width(768).height(120).url()}
               alt={banner.altText}
-              width={400}
-              height={60}
-              className="w-full h-[60px] object-cover"
+              width={768}
+              height={120}
+              className="h-[92px] w-full object-cover"
             />
           </div>
         </a>

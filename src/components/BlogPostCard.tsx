@@ -1,12 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { BlogPost, urlFor } from '@/lib/sanity'
 
 interface BlogPostCardProps {
   post: BlogPost
+  featured?: boolean
 }
 
-export default function BlogPostCard({ post }: BlogPostCardProps) {
+export default function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
   const publishedDate = new Date(post.publishedAt).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -21,7 +23,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
     }
 
     try {
-      return urlFor(post.coverImage).width(600).height(400).url()
+      return urlFor(post.coverImage).width(featured ? 960 : 720).height(featured ? 720 : 500).url()
     } catch (error) {
       console.error('Error generating image URL:', error)
       return null
@@ -31,64 +33,68 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
   const imageUrl = getImageUrl()
 
   return (
-    <article className="group overflow-hidden border border-gray-100 bg-white transition-all duration-300 hover:border-gray-200 hover:shadow-lg hover:shadow-gray-200/50">
-      {imageUrl && (
-        <div className="relative h-48 overflow-hidden sm:h-64">
+    <article
+      className={`group overflow-hidden rounded-[1.5rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] ${
+        featured ? 'h-full' : ''
+      }`}
+    >
+      {imageUrl ? (
+        <div className={`relative overflow-hidden ${featured ? 'h-[18rem] sm:h-[24rem]' : 'h-[13rem] sm:h-[15rem]'}`}>
           <Link href={`/post/${post.slug.current}`}>
             <Image
               src={imageUrl}
-              alt={post.coverImage.alt || post.title}
+              alt={post.coverImage?.alt || post.title}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </Link>
         </div>
-      )}
+      ) : null}
 
-      <div className="p-6">
-        {post.tags && post.tags.length > 0 && (
-          <div className="mb-4 flex items-center space-x-2">
-            {post.tags.slice(0, 2).map((tag) => (
+      <div className={`${featured ? 'p-7 sm:p-8' : 'p-6'}`}>
+        {post.tags && post.tags.length > 0 ? (
+          <div className="mb-5 flex flex-wrap items-center gap-2">
+            {post.tags.slice(0, featured ? 3 : 2).map((tag) => (
               <span
                 key={tag}
-                className="rounded-lg border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-600"
+                className="marketing-mono rounded-full border border-[rgba(39,94,70,0.16)] bg-[rgba(39,94,70,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-accent)]"
               >
                 {tag}
               </span>
             ))}
           </div>
-        )}
+        ) : null}
 
-        <Link
-          href={`/post/${post.slug.current}`}
-          className="block"
-          style={{ marginBottom: '1rem' }}
-        >
-          <h2 className="line-clamp-2 pb-1 text-xl font-semibold leading-[1.2] text-gray-900 sm:text-2xl">
+        <Link href={`/post/${post.slug.current}`} className="block">
+          <h2
+            className={`pb-4 font-semibold tracking-[-0.025em] text-[var(--color-foreground)] ${
+              featured ? 'text-[2.5rem] !leading-[1.02] sm:text-[3.4rem]' : 'text-[1.85rem] !leading-[1.04] sm:text-[2.2rem]'
+            }`}
+          >
             {post.title}
           </h2>
         </Link>
 
-        {post.excerpt && (
-          <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-600">
+        {post.excerpt ? (
+          <p className={`text-[var(--text-secondary)] ${featured ? 'marketing-section-copy max-w-2xl' : 'text-sm leading-7'}`}>
             {post.excerpt}
           </p>
-        )}
+        ) : null}
 
-        <div className="flex items-center justify-between border-t border-gray-50 pt-4">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2 text-xs text-gray-500">
-              {post.author && <span className="font-medium">{post.author.name}</span>}
-              <span>&bull;</span>
-              <time dateTime={post.publishedAt}>{publishedDate}</time>
-              {post.estimatedReadingTime && (
-                <>
-                  <span>&bull;</span>
-                  <span>{post.estimatedReadingTime} min read</span>
-                </>
-              )}
-            </div>
+        <div className="mt-6 flex items-center justify-between gap-4 border-t border-[var(--border-subtle)] pt-4">
+          <div className="marketing-mono flex flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.12em] text-[var(--text-muted)]">
+            {post.author ? <span>{post.author.name}</span> : null}
+            <span>{publishedDate}</span>
+            {post.estimatedReadingTime ? <span>{post.estimatedReadingTime} min read</span> : null}
           </div>
+
+          <Link
+            href={`/post/${post.slug.current}`}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
+          >
+            Read article
+            <ArrowRight className="h-4 w-4 marketing-button-arrow" />
+          </Link>
         </div>
       </div>
     </article>

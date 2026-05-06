@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react"
-import { Plus_Jakarta_Sans, DM_Sans, DM_Mono, Instrument_Serif } from "next/font/google";
+import { Barlow_Condensed, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { generateWebSiteSchema, generateOrganizationSchema, generateSoftwareApplicationSchema } from "@/lib/schema";
 import MarketingLayoutWrapper from "@/components/MarketingLayoutWrapper";
 import Footer from "@/components/Footer";
 import { FloatingHaveYourSayButton } from "@/components/FloatingHaveYourSayButton";
 
-const geistSans = Plus_Jakarta_Sans({
+const displayFont = Barlow_Condensed({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const inter = DM_Sans({
-  variable: "--font-inter",
+const bodyFont = DM_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   display: "swap",
@@ -26,14 +26,6 @@ const ibmPlexMono = DM_Mono({
   weight: ["300", "400", "500"],
   display: "swap",
   variable: "--font-ibm-plex-mono",
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-display-serif",
 });
 
 export const metadata: Metadata = {
@@ -86,7 +78,7 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body
-        className={`${geistSans.variable} ${inter.variable} ${ibmPlexMono.variable} ${instrumentSerif.variable} antialiased bg-[var(--color-background)] text-[var(--color-foreground)]`}
+        className={`${displayFont.variable} ${bodyFont.variable} ${ibmPlexMono.variable} antialiased bg-[var(--color-background)] text-[var(--color-foreground)]`}
       >
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
