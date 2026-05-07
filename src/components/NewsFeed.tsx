@@ -33,9 +33,6 @@ export default function NewsFeed({ posts, totalPosts, currentPage }: NewsFeedPro
           <p className="max-w-2xl text-[1rem] leading-8 text-[var(--text-secondary)]">
             Reporting, analysis, and commentary on supplement brands, retailers, distributors, and compliance shifts.
           </p>
-          <p className="marketing-mono mt-5 text-[0.68rem] uppercase tracking-[0.16em] text-[var(--text-muted)]">
-            {totalPosts} articles indexed
-          </p>
         </div>
 
         {posts.length > 0 ? (
