@@ -28,6 +28,7 @@ export default function MainLayout({
     '/supplement-launch-readiness-software',
     '/retailer-content-portal-for-brands',
     '/distributor-content-portal-for-supplement-brands',
+    '/marketing-enablement-for-supplement-brand-partners',
     '/supplement-translation-workflow',
     '/multilingual-product-content-management',
     '/supplement-sku-management',
