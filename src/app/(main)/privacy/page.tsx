@@ -25,7 +25,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">1. Who We Are</h2>
             <p className="mb-3">
-              Stackcess is a software-as-a-service platform for the sports supplement industry,
+              Stackcess is a software-as-a-service platform for supplement brands and partner networks,
               incorporated in New Zealand and serving customers globally. This Privacy Policy explains
               how we collect, use, and protect personal information when you use our platform.
             </p>
@@ -289,5 +289,4 @@ export default function PrivacyPage() {
     </div>
   )
 }
-
 

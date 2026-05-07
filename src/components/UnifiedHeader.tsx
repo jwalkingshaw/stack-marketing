@@ -29,6 +29,9 @@ export function UnifiedHeader({
   const pathname = usePathname()
 
   const solutionItems = [
+    { label: 'Partner portal', href: '/partner-portal-for-supplement-brands' },
+    { label: 'Content syndication', href: '/product-content-syndication-for-supplement-brands' },
+    { label: 'Product catalog management', href: '/supplement-product-catalog-management' },
     { label: 'AI market adaptation', href: '/ai-localization-for-supplement-brands' },
     { label: 'PIM for supplement brands', href: '/pim-for-supplement-brands' },
     { label: 'DAM for supplement brands', href: '/dam-for-supplement-brands' },
@@ -61,8 +64,8 @@ export function UnifiedHeader({
 
   return (
     <header className={headerClasses}>
-      <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-10">
-        <div className="mx-auto w-full max-w-none 2xl:max-w-[1520px]">
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
+        <div className="mx-auto w-full max-w-none xl:max-w-[1480px]">
           <div className="relative flex h-[72px] w-full items-center justify-between gap-5">
           <div className="flex items-center">
             <Link href={logoHref} className="flex items-center space-x-2.5">
@@ -153,7 +156,7 @@ export function UnifiedHeader({
             </nav>
           </div>
 
-          <div className="hidden items-center gap-2.5 md:flex">
+          <div className="hidden items-center gap-2.5 md:flex xl:pr-4 2xl:pr-0">
             {onLogin ? (
               <button
                 type="button"

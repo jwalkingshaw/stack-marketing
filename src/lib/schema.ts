@@ -177,7 +177,7 @@ export const generateSoftwareApplicationSchema = () => ({
   operatingSystem: 'Web',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com',
   description:
-    'Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.',
+    'Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.',
   offers: BILLING_PLAN_CATALOG.filter((plan) => plan.id !== 'enterprise').map((plan) => ({
     '@type': 'Offer',
     name: plan.name,

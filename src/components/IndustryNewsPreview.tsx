@@ -83,7 +83,7 @@ export default function IndustryNewsPreview() {
               Stay ahead of <span className="font-medium">supplement trends</span>
             </h2>
             <p className="text-gray-600 mt-4 font-light max-w-2xl">
-              Get the latest insights and analysis from the sports supplement industry to keep your brand competitive.
+              Get the latest insights and analysis for supplement brands navigating product content, retail, distribution, and compliance.
             </p>
           </div>
           <Link 

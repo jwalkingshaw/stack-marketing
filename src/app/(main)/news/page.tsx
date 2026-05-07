@@ -26,8 +26,8 @@ export async function generateMetadata({ searchParams }: NewsPageProps): Promise
   const title = currentPage <= 1 ? 'News | Stackcess' : `News - Page ${currentPage} | Stackcess`
   const description =
     currentPage <= 1
-      ? 'The latest news, trends, and insights from the sports supplement industry covering brands, retailers, distributors, and regulatory updates.'
-      : `Page ${currentPage} of the latest sports supplement industry news, trends, and regulatory updates from Stackcess.`
+      ? 'The latest news, trends, and insights for supplement brands covering product content operations, retail, distribution, and regulatory updates.'
+      : `Page ${currentPage} of the latest Stackcess news and insights for supplement brands across product content, distribution, and compliance.`
 
   return {
     title,
@@ -55,12 +55,12 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
     { name: 'News', url: `${siteUrl}/news` },
   ])
   const itemListSchema = generateItemListSchema(
-    currentPage <= 1 ? 'Latest supplement industry news' : `Supplement industry news page ${currentPage}`,
+    currentPage <= 1 ? 'Latest news for supplement brands' : `News for supplement brands page ${currentPage}`,
     posts.map((post) => ({
       name: post.title,
       url: `${siteUrl}/post/${post.slug.current}`,
     })),
-    'Stackcess news coverage of supplement brands, retailers, distributors, and compliance changes.'
+    'Stackcess news coverage of supplement brands, product content operations, distribution, and compliance changes.'
   )
 
   return (

@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     shortcut: '/stackcess-icon-wb-logo.png',
     apple: '/stackcess-icon-wb-logo.png',
   },
-  title: "Stackcess - Product Content System For Supplement Brands",
-  description: "Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.",
-  keywords: ["supplement brands", "product information management", "PIM", "DAM", "partner portal", "retailer portal", "compliance tracking", "localization", "product content operations"],
+  title: "Stackcess - Product Content Operations Platform For Supplement Brands",
+  description: "Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.",
+  keywords: ["supplement brands", "product content operations", "PIM", "DAM", "partner portal", "product content syndication", "AI localization", "compliance documents", "multilingual product content"],
   authors: [{ name: "Stackcess Team" }],
   creator: "Stackcess",
   publisher: "Stackcess",
@@ -55,13 +55,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Stackcess',
-    title: 'Stackcess - Product Content System For Supplement Brands',
-    description: 'Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.',
+    title: 'Stackcess - Product Content Operations Platform For Supplement Brands',
+    description: 'Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stackcess - Product Content System For Supplement Brands',
-    description: 'Structured PIM, DAM, localization, and retailer portal workflows for supplement brands, distributors, and retail partners.',
+    title: 'Stackcess - Product Content Operations Platform For Supplement Brands',
+    description: 'Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.',
   },
 };
 

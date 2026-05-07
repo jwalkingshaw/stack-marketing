@@ -36,10 +36,10 @@ export default function TermsPage() {
           <section>
             <h2 className="text-base font-semibold text-[var(--color-foreground)] mb-3">2. Description of Service</h2>
             <p className="mb-3">
-              Stackcess is a software-as-a-service platform built for the sports supplement industry. It
-              provides tools for product information management (PIM), digital asset management (DAM),
-              partner content sharing, market and locale configuration, regulatory document storage,
-              AI-assisted translation, and Partner Update delivery.
+              Stackcess is a software-as-a-service platform for supplement brands and partner-facing
+              product content operations. It provides tools for product information management (PIM),
+              digital asset management (DAM), partner content sharing, market and locale configuration,
+              regulatory document storage, AI-assisted translation, and Partner Update delivery.
             </p>
             <p>
               The platform operates on a workspace model. Each subscribing organisation (&quot;Workspace
@@ -280,4 +280,3 @@ export default function TermsPage() {
     </div>
   )
 }
-
