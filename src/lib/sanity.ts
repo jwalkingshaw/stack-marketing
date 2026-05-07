@@ -136,6 +136,79 @@ export async function getRecentPosts(limit: number = 5): Promise<BlogPost[]> {
   `)
 }
 
+export interface BlogPostPreview {
+  _id: string
+  title: string
+  slug: {
+    current: string
+  }
+  excerpt: string
+  coverImage?: {
+    asset?: {
+      _id: string
+      url: string
+    }
+    alt?: string
+  }
+  publishedAt: string
+  tags: string[]
+  estimatedReadingTime?: number
+}
+
+export async function getPostsByAnyTags(tags: string[], limit: number = 6): Promise<BlogPostPreview[]> {
+  const normalizedTags = [...new Set(tags.map((tag) => tag.trim().toLowerCase()).filter(Boolean))]
+
+  if (normalizedTags.length === 0) {
+    return []
+  }
+
+  return getClient().fetch(
+    `
+      *[_type == "blogPost" && count((tags[])[lower(@) in $tags]) > 0] | order(publishedAt desc)[0...$limit] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        coverImage {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        publishedAt,
+        tags,
+        estimatedReadingTime
+      }
+    `,
+    { tags: normalizedTags, limit }
+  )
+}
+
+export async function getRecentPostPreviews(limit: number = 6): Promise<BlogPostPreview[]> {
+  return getClient().fetch(
+    `
+      *[_type == "blogPost"] | order(publishedAt desc)[0...$limit] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        coverImage {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        publishedAt,
+        tags,
+        estimatedReadingTime
+      }
+    `,
+    { limit }
+  )
+}
+
 export interface BlogPost {
   _id: string
   title: string

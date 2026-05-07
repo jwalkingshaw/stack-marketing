@@ -6,6 +6,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
 export const solutionPages: Record<string, SolutionPageContent> = {
   'ai-localization-for-supplement-brands': {
     slug: 'ai-localization-for-supplement-brands',
+    articleCluster: 'multilingual-content-operations',
     archetype: 'workflow',
     shortTitle: 'AI Market Adaptation for Supplement Brands',
     title: 'AI Market Adaptation for Supplement Brands | Stackcess',
@@ -174,6 +175,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'pim-for-supplement-brands': {
     slug: 'pim-for-supplement-brands',
+    articleCluster: 'product-content-operations',
     archetype: 'category',
     shortTitle: 'PIM for Supplement Brands',
     title: 'PIM for Supplement Brands | Stackcess',
@@ -312,6 +314,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'dam-for-supplement-brands': {
     slug: 'dam-for-supplement-brands',
+    articleCluster: 'product-content-operations',
     archetype: 'category',
     shortTitle: 'DAM for Supplement Brands',
     title: 'DAM for Supplement Brands | Stackcess',
@@ -450,6 +453,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'coa-management-for-supplement-brands': {
     slug: 'coa-management-for-supplement-brands',
+    articleCluster: 'compliance-and-launch-operations',
     shortTitle: 'COA Management for Supplement Brands',
     title: 'COA Management for Supplement Brands | Stackcess',
     description: 'Organize supplier and batch COAs, product links, and partner-ready compliance documents for supplement brands.',
@@ -601,6 +605,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'partner-portal-for-supplement-brands': {
     slug: 'partner-portal-for-supplement-brands',
+    articleCluster: 'partner-content-operations',
     archetype: 'channel',
     shortTitle: 'Partner Portal for Supplement Brands',
     title: 'Partner Portal for Supplement Brands | Stackcess',
@@ -787,6 +792,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'product-content-syndication-for-supplement-brands': {
     slug: 'product-content-syndication-for-supplement-brands',
+    articleCluster: 'product-content-operations',
     archetype: 'channel',
     shortTitle: 'Product Content Syndication for Supplement Brands',
     title: 'Product Content Syndication for Supplement Brands | Stackcess',
@@ -956,6 +962,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'supplement-product-catalog-management': {
     slug: 'supplement-product-catalog-management',
+    articleCluster: 'product-content-operations',
     shortTitle: 'Supplement Product Catalog Management',
     title: 'Supplement Product Catalog Management | Stackcess',
     description:
@@ -1091,6 +1098,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'supplement-variant-management-software': {
     slug: 'supplement-variant-management-software',
+    articleCluster: 'product-content-operations',
     shortTitle: 'Supplement Variant Management Software',
     title: 'Supplement Variant Management Software | Stackcess',
     description:
@@ -1226,6 +1234,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'supplement-compliance-document-management': {
     slug: 'supplement-compliance-document-management',
+    articleCluster: 'compliance-and-launch-operations',
     shortTitle: 'Supplement Compliance Document Management',
     title: 'Supplement Compliance Document Management | Stackcess',
     description:
@@ -1361,6 +1370,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'supplement-launch-readiness-software': {
     slug: 'supplement-launch-readiness-software',
+    articleCluster: 'compliance-and-launch-operations',
     shortTitle: 'Supplement Launch Readiness Software',
     title: 'Supplement Launch Readiness Software | Stackcess',
     description:
@@ -1496,6 +1506,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'retailer-content-portal-for-brands': {
     slug: 'retailer-content-portal-for-brands',
+    articleCluster: 'partner-content-operations',
     shortTitle: 'Retailer Content Portal for Brands',
     title: 'Retailer Content Portal for Brands | Stackcess',
     description:
@@ -1595,6 +1606,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'distributor-content-portal-for-supplement-brands': {
     slug: 'distributor-content-portal-for-supplement-brands',
+    articleCluster: 'partner-content-operations',
     shortTitle: 'Distributor Content Portal for Supplement Brands',
     title: 'Distributor Content Portal for Supplement Brands | Stackcess',
     description:
@@ -1694,6 +1706,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'marketing-enablement-for-supplement-brand-partners': {
     slug: 'marketing-enablement-for-supplement-brand-partners',
+    articleCluster: 'partner-content-operations',
     archetype: 'channel',
     shortTitle: 'Marketing Enablement for Supplement Brand Partners',
     title: 'Marketing Enablement for Supplement Brand Partners | Stackcess',
@@ -1863,6 +1876,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'supplement-translation-workflow': {
     slug: 'supplement-translation-workflow',
+    articleCluster: 'multilingual-content-operations',
     shortTitle: 'Supplement Translation Workflow',
     title: 'Supplement Translation Workflow | Stackcess',
     description:
@@ -1953,6 +1967,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'multilingual-product-content-management': {
     slug: 'multilingual-product-content-management',
+    articleCluster: 'multilingual-content-operations',
     shortTitle: 'Multilingual Product Content Management',
     title: 'Multilingual Product Content Management | Stackcess',
     description:
@@ -2043,6 +2058,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'supplement-sku-management': {
     slug: 'supplement-sku-management',
+    articleCluster: 'product-content-operations',
     shortTitle: 'Supplement SKU Management',
     title: 'Supplement SKU Management | Stackcess',
     description:
@@ -2133,6 +2149,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
   },
   'approved-asset-management-for-supplement-brands': {
     slug: 'approved-asset-management-for-supplement-brands',
+    articleCluster: 'compliance-and-launch-operations',
     shortTitle: 'Approved Asset Management for Supplement Brands',
     title: 'Approved Asset Management for Supplement Brands | Stackcess',
     description:

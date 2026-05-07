@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
     // Get articles with matching tags, excluding the current article
     const relatedPostsQuery = `
-      *[_type == "blogPost" && slug.current != $currentSlug && count((tags[])[@ in $tags]) > 0] | order(publishedAt desc) {
+      *[_type == "blogPost" && slug.current != $currentSlug && count((tags[])[lower(@) in $tags]) > 0] | order(publishedAt desc) {
         _id,
         title,
         slug,
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     
     const relatedPosts = await client.fetch<BlogPost[]>(relatedPostsQuery, {
       currentSlug, 
-      tags: cleanTags,
+      tags: normalizedTags,
     })
     
     // Connect to Redis and get view counts for each post

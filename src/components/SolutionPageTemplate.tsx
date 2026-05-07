@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2, ChevronRight, Home } from 'lucide-react'
 import { buildAppAuthUrl } from '@/lib/app-links'
+import SolutionRelatedArticles from '@/components/SolutionRelatedArticles'
 import { generateBreadcrumbSchema } from '@/lib/schema'
 
 type Section = {
@@ -53,6 +54,7 @@ type ComparisonSection = {
 
 export interface SolutionPageContent {
   slug: string
+  articleCluster?: string
   archetype?: 'default' | 'category' | 'workflow' | 'channel'
   shortTitle: string
   title: string
@@ -87,6 +89,13 @@ export interface SolutionPageContent {
 
 interface SolutionPageTemplateProps {
   content: SolutionPageContent
+}
+
+const articleTagGroups: Record<string, string[]> = {
+  'product-content-operations': ['pim', 'dam', 'catalog', 'sku', 'variant', 'product content', 'ecommerce', 'retail'],
+  'partner-content-operations': ['partner portal', 'retail', 'distributor', 'marketing', 'launch', 'ecommerce', 'assets'],
+  'multilingual-content-operations': ['translation', 'localization', 'multilingual', 'claims', 'labels', 'ecommerce'],
+  'compliance-and-launch-operations': ['compliance', 'coa', 'launch', 'labels', 'documents', 'quality'],
 }
 
 export default function SolutionPageTemplate({ content }: SolutionPageTemplateProps) {
@@ -404,6 +413,13 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
               ))}
             </div>
           </section>
+
+          {content.articleCluster && articleTagGroups[content.articleCluster] ? (
+            <SolutionRelatedArticles
+              currentSlug={content.slug}
+              tags={articleTagGroups[content.articleCluster]}
+            />
+          ) : null}
 
           <section className="border-t border-[var(--color-border)] py-16">
             <div className="grid gap-8 lg:grid-cols-[0.74fr_1.26fr]">
