@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { getRecentPostPreviews, urlFor } from '@/lib/sanity'
+import { getRecentPostPreviews, type BlogPostPreview, urlFor } from '@/lib/sanity'
 
 interface SolutionRelatedArticlesProps {
   currentSlug: string
@@ -14,7 +14,7 @@ export default async function SolutionRelatedArticles({
 }: SolutionRelatedArticlesProps) {
   void currentSlug
   void tags
-  let articleCards = []
+  let articleCards: BlogPostPreview[] = []
 
   try {
     articleCards = await getRecentPostPreviews(3)
