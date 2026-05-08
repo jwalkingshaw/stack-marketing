@@ -181,7 +181,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   </div>
                 ) : null}
 
-                <h1 className="w-full pb-6 text-[2.1rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.03] sm:text-[3rem] lg:text-[3.6rem]">
+                <h1 className="w-full pb-6 text-[2.1rem] font-medium tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.08] sm:text-[3rem] lg:text-[3.6rem]">
                   {post.title}
                 </h1>
 
@@ -290,17 +290,17 @@ export default async function PostPage({ params }: PostPageProps) {
                           <p className="whitespace-pre-line text-[1.08rem] leading-9 text-[var(--text-secondary)]">{children}</p>
                         ),
                         h1: ({ children }) => (
-                          <h1 className="pt-6 pb-4 text-[2.35rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[3.1rem]">
+                          <h1 className="pt-6 pb-4 text-[2.35rem] font-medium tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.1] sm:text-[3.1rem]">
                             {children}
                           </h1>
                         ),
                         h2: ({ children }) => (
-                          <h2 className="pt-6 pb-4 text-[2rem] font-semibold tracking-[-0.025em] text-[var(--color-foreground)] !leading-[1.04] sm:text-[2.6rem]">
+                          <h2 className="pt-6 pb-4 text-[2rem] font-normal tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.1] sm:text-[2.6rem]">
                             {children}
                           </h2>
                         ),
                         h3: ({ children }) => (
-                          <h3 className="pt-5 pb-3 text-[1.5rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)] !leading-[1.08] sm:text-[1.85rem]">
+                          <h3 className="pt-5 pb-3 text-[1.5rem] font-normal tracking-[-0.014em] text-[var(--color-foreground)] !leading-[1.14] sm:text-[1.85rem]">
                             {children}
                           </h3>
                         ),

@@ -75,7 +75,7 @@ export default function RootLayout({
   const softwareSchema = generateSoftwareApplicationSchema()
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head />
       <body
         className={`${displayFont.variable} ${bodyFont.variable} ${ibmPlexMono.variable} antialiased bg-[var(--color-background)] text-[var(--color-foreground)]`}

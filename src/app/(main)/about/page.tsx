@@ -36,7 +36,7 @@ export default function AboutPage() {
           <div className="grid gap-10 xl:grid-cols-[0.92fr_1.08fr] xl:items-end">
             <div className="max-w-3xl">
               <p className="marketing-kicker">Why We Built This</p>
-              <h1 className="mt-7 pb-6 text-[3rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4rem] lg:text-[4.8rem] xl:text-[5.6rem]">
+              <h1 className="mt-7 pb-6 text-[3rem] font-medium tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[4rem] lg:text-[4.8rem] xl:text-[5.6rem]">
                 We didn&apos;t research
                 <br />
                 this problem.
@@ -100,7 +100,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="marketing-kicker">What We Believe</p>
-            <h2 className="mt-7 pb-6 text-[2.7rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+            <h2 className="mt-7 pb-6 text-[2.7rem] font-normal tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[4rem]">
               Product content
               <br />
               is an operating system.
@@ -130,7 +130,7 @@ export default function AboutPage() {
                 <span className="marketing-mono text-[0.68rem] uppercase tracking-[0.16em] text-[var(--color-accent)]">
                   0{index + 1}
                 </span>
-                <h3 className="text-[1.8rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)] !leading-[1.04]">
+                <h3 className="text-[1.8rem] font-normal tracking-[-0.014em] text-[var(--color-foreground)] !leading-[1.12]">
                   {belief.title}
                 </h3>
                 <p className="marketing-detail-copy text-[var(--text-secondary)]">{belief.body}</p>
@@ -144,7 +144,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[0.82fr_1.18fr]">
           <div>
             <p className="marketing-kicker">What Stackcess Replaces</p>
-            <h2 className="mt-7 pb-6 text-[2.7rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+            <h2 className="mt-7 pb-6 text-[2.7rem] font-normal tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[4rem]">
               Not another
               <br />
               tool in the chain.
@@ -172,7 +172,7 @@ export default function AboutPage() {
             <p className="marketing-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
               See the model
             </p>
-            <h2 className="mt-4 max-w-3xl text-[2.6rem] font-semibold tracking-[-0.03em] !text-[var(--bg-primary)] !leading-[1.02] sm:text-[4rem]">
+            <h2 className="mt-4 max-w-3xl text-[2.6rem] font-medium tracking-[-0.018em] !text-[var(--bg-primary)] !leading-[1.06] sm:text-[4rem]">
               If your team is still stitching this together across tools, start with one workspace.
             </h2>
             <p className="mt-6 max-w-2xl text-[1.05rem] leading-8 text-[var(--text-muted)]">

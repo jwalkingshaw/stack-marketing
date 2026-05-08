@@ -1,21 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-
-type RelatedArticle = {
-  _id: string
-  title: string
-  slug: { current: string }
-  publishedAt: string
-  tags: string[]
-}
-
-type RelatedArticlesResponse = {
-  articles: RelatedArticle[]
-  lastUpdated: string
-}
+import { client, type BlogPost, urlFor } from '@/lib/sanity'
 
 interface SolutionRelatedArticlesProps {
   currentSlug: string
@@ -26,19 +15,38 @@ export default function SolutionRelatedArticles({
   currentSlug,
   tags,
 }: SolutionRelatedArticlesProps) {
-  const [articles, setArticles] = useState<RelatedArticle[]>([])
+  void currentSlug
+  void tags
+  const [articles, setArticles] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchRelatedArticles() {
+    async function fetchRecentArticles() {
       try {
-        const response = await fetch(`/api/related-articles?slug=${currentSlug}&tags=${tags.join(',')}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch related articles')
-        }
+        const postsResult = await client.fetch<BlogPost[]>(`
+          *[_type == "blogPost"] | order(publishedAt desc) [0...3] {
+            _id,
+            title,
+            slug,
+            excerpt,
+            coverImage {
+              asset->{
+                _id,
+                url
+              },
+              alt
+            },
+            author->{
+              name,
+              image
+            },
+            publishedAt,
+            tags,
+            estimatedReadingTime
+          }
+        `)
 
-        const data: RelatedArticlesResponse = await response.json()
-        setArticles(data.articles.slice(0, 3))
+        setArticles(postsResult || [])
       } catch {
         setArticles([])
       } finally {
@@ -46,14 +54,10 @@ export default function SolutionRelatedArticles({
       }
     }
 
-    if (tags.length > 0) {
-      fetchRelatedArticles()
-    } else {
-      setLoading(false)
-    }
-  }, [currentSlug, tags])
+    fetchRecentArticles()
+  }, [])
 
-  const articleCards = loading ? [] : articles
+  const articleCards = loading ? [] : articles.slice(0, 3)
 
   return (
     <section className="border-t border-[var(--color-border)] py-16">
@@ -61,43 +65,72 @@ export default function SolutionRelatedArticles({
         <div>
           <p className="marketing-kicker">Related Articles</p>
           <h2 className="marketing-section-title mt-7 pb-4 text-[var(--color-foreground)] !leading-[1.02]">
-            More from /news.
+            More from Industry News.
           </h2>
-          <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">
-            Reporting and analysis connected to the same operating issue.
-          </p>
         </div>
 
-        <div className="border-y border-[var(--color-border)]">
-          {articleCards.map((article, index) => (
-            <Link
-              key={article._id}
-              href={`/post/${article.slug.current}`}
-              className={`block py-7 transition-colors hover:text-[var(--color-foreground)] ${index < articleCards.length - 1 ? 'border-b border-[var(--color-border)]' : ''}`}
-            >
-              <p className="marketing-mono text-[0.66rem] uppercase tracking-[0.16em] text-[var(--text-muted)]">
-                {new Date(article.publishedAt).toLocaleDateString()}
-              </p>
-              <h3 className="mt-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">{article.title}</h3>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-foreground)]">
-                Read article
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-          ))}
+        <div className="border-y border-[var(--color-border)] py-7">
+          {articleCards.length > 0 ? (
+            <div className="grid gap-5 xl:grid-cols-3">
+              {articleCards.map((article) => {
+                let imageUrl: string | null = null
 
-          <div className={`py-7 ${articleCards.length > 0 ? 'border-t border-[var(--color-border)]' : ''}`}>
-            <Link href="/news" className="block transition-colors hover:text-[var(--color-foreground)]">
-              <p className="marketing-mono text-[0.66rem] uppercase tracking-[0.16em] text-[var(--text-muted)]">
-                Archive
-              </p>
-              <h3 className="mt-3 text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">
-                Browse all articles in /news
-              </h3>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-foreground)]">
-                Open /news
-                <ArrowRight className="h-4 w-4" />
-              </span>
+                if (article.coverImage?.asset?.url) {
+                  imageUrl = article.coverImage.asset.url
+                } else if (article.coverImage) {
+                  try {
+                    imageUrl = urlFor(article.coverImage).width(720).height(480).url()
+                  } catch {
+                    imageUrl = null
+                  }
+                }
+
+                return (
+                  <article
+                    key={article._id}
+                    className="overflow-hidden rounded-[1.5rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
+                  >
+                    {imageUrl ? (
+                      <Link href={`/post/${article.slug.current}`} className="block">
+                        <div className="relative h-[13rem] overflow-hidden">
+                          <Image
+                            src={imageUrl}
+                            alt={article.coverImage?.alt || article.title}
+                            fill
+                            className="object-cover transition-transform duration-500 hover:scale-[1.03]"
+                          />
+                        </div>
+                      </Link>
+                    ) : null}
+
+                    <div className="p-6">
+                      <Link href={`/post/${article.slug.current}`} className="block">
+                        <h3 className="text-[1.35rem] font-medium tracking-[-0.014em] text-[var(--color-foreground)] !leading-[1.12] sm:text-[1.5rem]">
+                          {article.title}
+                        </h3>
+                      </Link>
+
+                      <Link
+                        href={`/post/${article.slug.current}`}
+                        className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
+                      >
+                        Read article
+                        <ArrowRight className="h-4 w-4 marketing-button-arrow" />
+                      </Link>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          ) : null}
+
+          <div className={`${articleCards.length > 0 ? 'mt-8 border-t border-[var(--color-border)] pt-6' : ''}`}>
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:text-[var(--text-muted)]"
+            >
+              Open Industry News
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

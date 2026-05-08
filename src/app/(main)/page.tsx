@@ -5,25 +5,10 @@ import Link from 'next/link'
 import { ArrowRight, FileText, ImageIcon, Search } from 'lucide-react'
 import MarketingFunnelTracker from '@/components/MarketingFunnelTracker'
 import { buildAppAuthUrl } from '@/lib/app-links'
-import { formatBillingGigabytes, formatBillingLimit, formatDeepLUsage } from '@/lib/billing-display'
-import { BILLING_PLAN_CATALOG } from '@/lib/billing-catalog'
 import { trackMarketingEvent } from '@/lib/marketing-analytics'
 import { generateBreadcrumbSchema } from '@/lib/schema'
 
 type HomePlanId = 'free' | 'starter' | 'growth' | 'scale'
-type VisiblePlan = (typeof BILLING_PLAN_CATALOG)[number] & { id: HomePlanId }
-
-const plans = BILLING_PLAN_CATALOG.filter(
-  (plan): plan is VisiblePlan =>
-    plan.id === 'free' || plan.id === 'starter' || plan.id === 'growth' || plan.id === 'scale'
-)
-
-const homepagePlanDescriptors: Record<HomePlanId, string> = {
-  free: 'No credit card required. Full platform, limited catalog size.',
-  starter: 'Up to 50 SKUs, 2 internal users, 10 partner invites.',
-  growth: 'Up to 500 SKUs, 8 internal users, 100 partner invites.',
-  scale: 'Up to 2,500 SKUs, unlimited users, unlimited partner invites.',
-}
 
 const problemStatements = [
   "Your retail partner is listing your product with assets from six months ago. They don't know. You don't know.",
@@ -414,20 +399,6 @@ export default function Home() {
     trackMarketingEvent('redirect_to_register', { page: 'home', section, ctaLabel, planInterest })
   }
 
-  const describeCoreLimits = (plan: VisiblePlan) => {
-    const summary = [
-      `${formatBillingLimit(plan.activeSkuLimit)} active SKUs`,
-      `${formatBillingGigabytes(plan.storageLimitGb)} storage`,
-      `${formatBillingLimit(plan.internalUserLimit)} internal users`,
-      `${formatBillingLimit(plan.partnerInviteLimit)} partner invites`,
-      plan.deeplTotalCharLimit > 0
-        ? `${formatDeepLUsage(plan.deeplTotalCharLimit)} translated characters / month`
-        : 'Translation not included',
-    ]
-
-    return `${summary.join(', ')}.`
-  }
-
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
@@ -440,7 +411,7 @@ export default function Home() {
             <div className="grid gap-12 xl:grid-cols-[minmax(0,520px)_minmax(0,1fr)] xl:items-center xl:gap-8">
               <div className="marketing-reveal">
                 <p className="marketing-kicker">Product Content Operations</p>
-                <h1 className="mt-8 max-w-[680px] pb-6 text-[3rem] font-semibold tracking-[-0.02em] text-[var(--text-primary)] !leading-[1.02] sm:text-[4rem] lg:text-[4.4rem] xl:max-w-none xl:text-[4.9rem] 2xl:text-[5.45rem]">
+                <h1 className="mt-8 max-w-[680px] pb-6 text-[3rem] font-medium tracking-[-0.016em] text-[var(--text-primary)] !leading-[1.07] sm:text-[4rem] lg:text-[4.4rem] xl:max-w-none xl:text-[4.9rem] 2xl:text-[5.45rem]">
                   <span className="marketing-hero-stagger-word" style={{ animationDelay: '0ms' }}>Your</span>{' '}
                   <span className="marketing-hero-stagger-word" style={{ animationDelay: '80ms' }}>partners</span>{' '}
                   <span className="marketing-hero-stagger-word" style={{ animationDelay: '160ms' }}>are</span>{' '}
@@ -556,7 +527,7 @@ export default function Home() {
                     <span className="font-[var(--font-ibm-plex-mono)] text-[11px] uppercase tracking-[0.14em] text-[var(--color-accent)]">
                       0{index + 1}
                     </span>
-                    <h3 className="text-[1.78rem] font-semibold leading-[1.1] text-[var(--color-foreground)] sm:text-[1.92rem]">{title}</h3>
+                    <h3 className="text-[1.78rem] font-normal leading-[1.16] text-[var(--color-foreground)] sm:text-[1.92rem]">{title}</h3>
                     <p className="marketing-detail-copy max-w-[28rem] text-[var(--color-foreground-secondary)]">{detail}</p>
                   </div>
                 ))}
@@ -599,7 +570,7 @@ export default function Home() {
                     <span className="font-[var(--font-ibm-plex-mono)] text-[11px] uppercase tracking-[0.14em] text-[var(--color-accent)]">
                       0{index + 1}
                     </span>
-                    <h3 className="text-[1.78rem] font-semibold leading-[1.1] text-[var(--color-foreground)] sm:text-[1.92rem]">{title}</h3>
+                    <h3 className="text-[1.78rem] font-normal leading-[1.16] text-[var(--color-foreground)] sm:text-[1.92rem]">{title}</h3>
                     <p className="marketing-detail-copy max-w-[28rem] text-[var(--color-foreground-secondary)]">{detail}</p>
                   </div>
                 ))}
@@ -643,7 +614,7 @@ export default function Home() {
                     <span className="font-[var(--font-ibm-plex-mono)] text-[11px] uppercase tracking-[0.14em] text-[var(--color-accent)]">
                       0{index + 1}
                     </span>
-                    <h3 className="text-[1.78rem] font-semibold leading-[1.1] text-[var(--color-foreground)] sm:text-[1.92rem]">{title}</h3>
+                    <h3 className="text-[1.78rem] font-normal leading-[1.16] text-[var(--color-foreground)] sm:text-[1.92rem]">{title}</h3>
                     <p className="marketing-detail-copy max-w-[28rem] text-[var(--color-foreground-secondary)]">{detail}</p>
                   </div>
                 ))}
@@ -656,20 +627,24 @@ export default function Home() {
         </section>
 
         <section className="marketing-diagonal-texture bg-[var(--bg-tertiary)] px-4 py-18 sm:px-6 sm:py-24">
-          <div className="mx-auto max-w-[720px] text-center">
+          <div className="mx-auto max-w-[1080px] text-center">
             <p className="marketing-kicker">Origin</p>
             <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
               We didn&apos;t research this problem. We had it
             </h2>
-            <div className="mt-10 space-y-6 text-left">
+            <div className="mx-auto mt-10 max-w-[980px] space-y-6 text-left">
               <p className="marketing-section-copy text-[var(--text-secondary)]">
-                Stackcess started from managing product content for a sports nutrition brand selling across multiple
-                markets through Amazon, distributors, and retail partners. Every launch had the same pattern:
-                right product, right formula, wrong assets.
+                Stackcess started inside the real operating mess of a sports nutrition brand selling across Amazon,
+                distributors, and retail partners in multiple markets. The problem was never just managing product
+                data. It was keeping product content, trade marketing assets, labels, partner packs, and compliance
+                documents aligned as every launch moved through different channels, markets, and external teams.
               </p>
               <p className="marketing-section-copy text-[var(--text-secondary)]">
-                Outdated labels. Missing COAs. Partners working from old links. There was no tool built for how
-                supplement brands actually operate. So we built one.
+                The pattern was always the same: the product was ready, but the content around it was not. Outdated
+                labels. Missing COAs. Retailers working from old links. Distributors asking for the latest deck, image
+                set, or support file with no clear way to see what had changed. Getting the newest product and
+                marketing content to partners fast enough, and with confidence, was still too manual. We could not
+                find a platform built for how supplement brands actually operate, so we built Stackcess.
               </p>
             </div>
           </div>
@@ -730,68 +705,45 @@ export default function Home() {
 
         <section className="px-4 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-[1200px]">
-            <div className="max-w-3xl">
-              <p className="marketing-kicker">Pricing</p>
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="marketing-kicker mx-auto w-fit">Pricing</p>
               <h2 className="marketing-section-title mt-6 text-[var(--color-foreground)]">
                 Start free. Scale when it makes sense.
               </h2>
-              <p className="marketing-section-copy mt-6 text-[var(--text-secondary)]">
-                Every plan includes the full platform. Pricing expands with operational volume.
+              <p className="marketing-section-copy mt-6 mx-auto max-w-2xl text-[var(--text-secondary)]">
+                Start with a free account, then move to a paid plan when your catalog, team, or partner operations need more capacity.
               </p>
-            </div>
-
-            <div className="mt-12 grid gap-5 lg:grid-cols-4">
-              {plans.map((plan) => {
-                const ctaLabel = plan.id === 'free' ? 'Create Free Account' : `Start ${plan.name}`
-                const isGrowth = plan.id === 'growth'
-                const isFree = plan.id === 'free'
-                return (
-                  <div
-                    key={plan.id}
-                    className={`relative flex h-full flex-col rounded-[1.25rem] border px-5 py-6 ${
-                      isFree
-                        ? 'border-[var(--border-subtle)] bg-[var(--bg-secondary)]'
-                        : 'border-[var(--border-subtle)] bg-white'
-                    } ${isGrowth ? 'border-t-[3px] border-t-[var(--color-accent)]' : ''}`}
-                  >
-                    {isGrowth ? (
-                      <span className="mb-4 inline-flex w-fit rounded-full bg-[var(--accent-soft)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--color-accent)]">
-                        Most Popular
-                      </span>
-                    ) : null}
-                    <div className="border-b border-[var(--border-subtle)] pb-5">
-                      <p className="text-base font-semibold text-[var(--text-primary)]">{plan.name}</p>
-                      <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{homepagePlanDescriptors[plan.id]}</p>
-                      <p className="mt-5 text-[2rem] font-semibold leading-none text-[var(--text-primary)]">
-                        ${plan.price}
-                        <span className="ml-1 text-sm font-normal text-[var(--text-muted)]">/month</span>
-                      </p>
-                    </div>
-                    <p className="mt-5 flex-1 text-sm leading-7 text-[var(--text-secondary)]">
-                      {describeCoreLimits(plan)}
-                    </p>
-                    <Link
-                      href={registerByPlan[plan.id]}
-                      onClick={() => {
-                        trackMarketingEvent('plan_cta_click', {
-                          page: 'home',
-                          section: 'pricing_preview',
-                          ctaLabel,
-                          planInterest: plan.id,
-                        })
-                        trackRegisterRedirect('pricing_preview', ctaLabel, plan.id)
-                      }}
-                        className={`mt-6 inline-flex items-center justify-center rounded-lg border px-4 py-3 text-sm font-semibold transition-colors ${
-                        isGrowth
-                          ? 'marketing-primary-button border-[var(--color-primary)] bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]'
-                          : 'border-[var(--border-default)] bg-transparent text-[var(--text-primary)] hover:border-[var(--color-accent)] hover:bg-[var(--bg-primary)]'
-                      }`}
-                    >
-                      {ctaLabel}
-                    </Link>
-                  </div>
-                )
-              })}
+              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Link
+                  href={registerByPlan.free}
+                  onClick={() => {
+                    trackMarketingEvent('plan_cta_click', {
+                      page: 'home',
+                      section: 'pricing_preview',
+                      ctaLabel: 'Create Free Account',
+                      planInterest: 'free',
+                    })
+                    trackRegisterRedirect('pricing_preview', 'Create Free Account', 'free')
+                  }}
+                  className="marketing-primary-button group inline-flex w-full items-center justify-center gap-2 border border-[var(--color-primary)] bg-[var(--color-primary)] px-7 py-3.5 text-sm font-semibold transition-colors hover:bg-[var(--color-primary-hover)] sm:w-auto"
+                >
+                  Create Free Account
+                  <ArrowRight className="marketing-button-arrow h-4 w-4" />
+                </Link>
+                <Link
+                  href="/pricing"
+                  onClick={() => {
+                    trackMarketingEvent('plan_cta_click', {
+                      page: 'home',
+                      section: 'pricing_preview',
+                      ctaLabel: 'See pricing',
+                    })
+                  }}
+                  className="inline-flex w-full items-center justify-center rounded-lg border border-[var(--border-default)] bg-transparent px-7 py-3.5 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:border-[var(--color-accent)] hover:bg-white sm:w-auto"
+                >
+                  See pricing
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -815,13 +767,13 @@ export default function Home() {
                     }`}
                   >
                     <div className="flex items-start justify-between gap-6">
-                      <h3 className="text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">{item.q}</h3>
+                      <h3 className="text-lg font-medium leading-[1.4] text-[var(--color-foreground)]">{item.q}</h3>
                       <span className="mt-0.5 text-xl leading-none text-[var(--color-accent)]">
                         {isOpen ? '-' : '+'}
                       </span>
                     </div>
                     {isOpen ? (
-                      <p className="marketing-detail-copy mt-4 max-w-3xl text-[var(--color-foreground-muted)]">{item.a}</p>
+                      <p className="marketing-detail-copy mt-6 max-w-3xl text-[var(--color-foreground-muted)]">{item.a}</p>
                     ) : null}
                   </button>
                 )
@@ -836,7 +788,7 @@ export default function Home() {
               <p className="font-[var(--font-ibm-plex-mono)] text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
                 Get Started
               </p>
-              <h2 className="mt-5 max-w-4xl text-[2.6rem] font-semibold leading-[0.96] !text-[var(--bg-primary)] sm:text-[3.7rem] lg:text-[4.5rem]">
+              <h2 className="mt-5 max-w-4xl text-[2.6rem] font-medium leading-[1.06] !text-[var(--bg-primary)] sm:text-[3.7rem] lg:text-[4.5rem]">
                 Start with a free account.
               </h2>
               <p className="marketing-section-copy mt-8 max-w-2xl text-[var(--text-muted)]">

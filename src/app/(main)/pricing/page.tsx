@@ -131,7 +131,7 @@ export default function PricingPage() {
             <div className="grid gap-12 xl:grid-cols-[0.9fr_1.1fr] xl:items-end">
               <div className="max-w-3xl">
                 <p className="marketing-kicker">Marketing / Pricing</p>
-                <h1 className="mt-7 max-w-4xl pb-6 text-[3rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.01] sm:text-[4rem] lg:text-[4.8rem] xl:text-[6rem]">
+                <h1 className="mt-7 max-w-4xl pb-6 text-[3rem] font-medium tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[4rem] lg:text-[4.8rem] xl:text-[6rem]">
                   Start free.
                   <br />
                   Pay for what your
@@ -261,7 +261,7 @@ export default function PricingPage() {
             <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
               <div>
                 <p className="marketing-kicker">Capacity By Plan</p>
-                <h2 className="mt-7 pb-6 text-[2.75rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+                <h2 className="mt-7 pb-6 text-[2.75rem] font-normal tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[4rem]">
                   Operational limits.
                   <br />
                   The same product at every plan.
@@ -333,7 +333,7 @@ export default function PricingPage() {
           <div className="mx-auto grid max-w-[1380px] gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-[1.5rem] border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-6 shadow-[0_4px_16px_rgba(26,24,20,0.06)] sm:p-8">
               <p className="marketing-kicker">Included In Paid Plans</p>
-              <h2 className="mt-7 pb-6 text-[2.6rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[3.6rem]">
+              <h2 className="mt-7 pb-6 text-[2.6rem] font-normal tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[3.6rem]">
                 Every plan.
                 <br />
                 The full platform.
@@ -358,7 +358,7 @@ export default function PricingPage() {
 
             <div className="rounded-[1.5rem] border border-[var(--border-subtle)] bg-[var(--bg-tertiary)] p-6 shadow-[0_4px_16px_rgba(26,24,20,0.06)] sm:p-8">
               <p className="marketing-kicker">Enterprise</p>
-              <h2 className="mt-7 pb-6 text-[2.6rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[3.5rem]">
+              <h2 className="mt-7 pb-6 text-[2.6rem] font-normal tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[3.5rem]">
                 Enterprise terms
                 <br />
                 for broader rollouts.
@@ -389,7 +389,7 @@ export default function PricingPage() {
         <section className="px-4 py-14 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-4xl">
             <p className="marketing-kicker mx-auto w-fit">FAQ</p>
-            <h2 className="mt-7 text-center text-[2.8rem] font-semibold tracking-[-0.03em] text-[var(--color-foreground)] !leading-[1.02] sm:text-[4rem]">
+            <h2 className="mt-7 text-center text-[2.8rem] font-normal tracking-[-0.018em] text-[var(--color-foreground)] !leading-[1.06] sm:text-[4rem]">
               Before you choose a plan.
             </h2>
             <div className="mt-10 border-y border-[var(--border-subtle)]">
@@ -403,10 +403,10 @@ export default function PricingPage() {
                   }`}
                 >
                   <div className="flex items-start justify-between gap-6">
-                    <h3 className="text-lg font-semibold leading-[1.3] text-[var(--color-foreground)]">{faq.q}</h3>
+                    <h3 className="text-lg font-medium leading-[1.4] text-[var(--color-foreground)]">{faq.q}</h3>
                     <span className="mt-0.5 text-xl leading-none text-[var(--color-accent)]">{openFaq === index ? '-' : '+'}</span>
                   </div>
-                  {openFaq === index ? <p className="marketing-detail-copy mt-4 text-[var(--text-secondary)]">{faq.a}</p> : null}
+                  {openFaq === index ? <p className="marketing-detail-copy mt-6 text-[var(--text-secondary)]">{faq.a}</p> : null}
                 </button>
               ))}
             </div>
@@ -419,7 +419,7 @@ export default function PricingPage() {
               <p className="marketing-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
                 Start free
               </p>
-              <h2 className="mt-4 max-w-3xl text-[2.6rem] font-semibold tracking-[-0.03em] !text-[var(--bg-primary)] !leading-[1.02] sm:text-[4rem]">
+              <h2 className="mt-4 max-w-3xl text-[2.6rem] font-medium tracking-[-0.018em] !text-[var(--bg-primary)] !leading-[1.06] sm:text-[4rem]">
                 Start with one workspace.
                 <br />
                 Upgrade when the catalog and partner load demand it.
