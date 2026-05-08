@@ -26,9 +26,9 @@ export default async function SolutionRelatedArticles({
     <section className="border-t border-[var(--color-border)] py-16">
       <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
         <div>
-          <p className="marketing-kicker">Related Articles</p>
+          <p className="marketing-kicker">News</p>
           <h2 className="marketing-section-title mt-7 pb-4 text-[var(--color-foreground)] !leading-[1.02]">
-            More from Industry News.
+            More from the Industry.
           </h2>
         </div>
 
