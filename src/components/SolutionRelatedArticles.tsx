@@ -1,63 +1,26 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { client, type BlogPost, urlFor } from '@/lib/sanity'
+import { getRecentPostPreviews, urlFor } from '@/lib/sanity'
 
 interface SolutionRelatedArticlesProps {
   currentSlug: string
   tags: string[]
 }
 
-export default function SolutionRelatedArticles({
+export default async function SolutionRelatedArticles({
   currentSlug,
   tags,
 }: SolutionRelatedArticlesProps) {
   void currentSlug
   void tags
-  const [articles, setArticles] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
+  let articleCards = []
 
-  useEffect(() => {
-    async function fetchRecentArticles() {
-      try {
-        const postsResult = await client.fetch<BlogPost[]>(`
-          *[_type == "blogPost"] | order(publishedAt desc) [0...3] {
-            _id,
-            title,
-            slug,
-            excerpt,
-            coverImage {
-              asset->{
-                _id,
-                url
-              },
-              alt
-            },
-            author->{
-              name,
-              image
-            },
-            publishedAt,
-            tags,
-            estimatedReadingTime
-          }
-        `)
-
-        setArticles(postsResult || [])
-      } catch {
-        setArticles([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchRecentArticles()
-  }, [])
-
-  const articleCards = loading ? [] : articles.slice(0, 3)
+  try {
+    articleCards = await getRecentPostPreviews(3)
+  } catch {
+    articleCards = []
+  }
 
   return (
     <section className="border-t border-[var(--color-border)] py-16">
