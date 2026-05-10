@@ -19,6 +19,26 @@ export interface PersonSchema {
   name: string
   image?: string
   url?: string
+  description?: string
+  sameAs?: string[]
+  worksFor?: {
+    '@type': 'Organization'
+    name: string
+    url: string
+  }
+}
+
+export interface FAQPageSchema {
+  '@context': 'https://schema.org'
+  '@type': 'FAQPage'
+  mainEntity: Array<{
+    '@type': 'Question'
+    name: string
+    acceptedAnswer: {
+      '@type': 'Answer'
+      text: string
+    }
+  }>
 }
 
 export interface NewsArticleSchema {
@@ -99,10 +119,49 @@ export const generateOrganizationSchema = (): OrganizationSchema => ({
   sameAs: ['https://x.com/stackcessapp']
 })
 
-export const generatePersonSchema = (author: BlogPost['author']): PersonSchema => ({
+function portableTextToPlainText(
+  blocks: Array<{ _type: string; children?: Array<{ _type: string; text?: string }> }>
+): string {
+  return blocks
+    .filter((b) => b._type === 'block')
+    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
+    .filter(Boolean)
+    .join(' ')
+}
+
+export const generatePersonSchema = (author: BlogPost['author']): PersonSchema => {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
+  const sameAs: string[] = []
+  if (author.socialLinks?.twitter) sameAs.push(author.socialLinks.twitter)
+  if (author.socialLinks?.linkedin) sameAs.push(author.socialLinks.linkedin)
+  if (author.socialLinks?.website) sameAs.push(author.socialLinks.website)
+
+  const bioText = author.bio ? portableTextToPlainText(
+    author.bio as Array<{ _type: string; children?: Array<{ _type: string; text?: string }> }>
+  ) : undefined
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: author.name,
+    worksFor: { '@type': 'Organization', name: 'Stackcess', url: siteUrl },
+    url: author.socialLinks?.website || siteUrl,
+    ...(author.image?.asset?.url ? { image: author.image.asset.url } : {}),
+    ...(bioText ? { description: bioText } : {}),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  }
+}
+
+export const generateFAQPageSchema = (
+  faqItems: Array<{ question: string; answer: string }>
+): FAQPageSchema => ({
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: author.name,
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
 })
 
 export const generateNewsArticleSchema = (

@@ -38,7 +38,7 @@ export const urlFor = (source: SanityImageSource) =>
 
 export async function getAllPosts(): Promise<BlogPost[]> {
   return getClient().fetch(`
-    *[_type == "blogPost"] | order(publishedAt desc) {
+    *[_type == "blogPost" && publishedAt <= now()] | order(publishedAt desc) {
       _id,
       title,
       slug,
@@ -62,7 +62,7 @@ export async function getPostsPage(page: number, limit: number = 6): Promise<{ p
 
   const [posts, total] = await Promise.all([
     getClient().fetch<BlogPost[]>(`
-      *[_type == "blogPost"] | order(publishedAt desc) [${offset}...${offset + limit}] {
+      *[_type == "blogPost" && publishedAt <= now()] | order(publishedAt desc) [${offset}...${offset + limit}] {
         _id,
         title,
         slug,
@@ -84,7 +84,7 @@ export async function getPostsPage(page: number, limit: number = 6): Promise<{ p
         estimatedReadingTime
       }
     `),
-    getClient().fetch<number>(`count(*[_type == "blogPost"])`),
+    getClient().fetch<number>(`count(*[_type == "blogPost" && publishedAt <= now()])`),
   ])
 
   return { posts, total }
@@ -92,7 +92,7 @@ export async function getPostsPage(page: number, limit: number = 6): Promise<{ p
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   return getClient().fetch(`
-    *[_type == "blogPost" && slug.current == $slug][0] {
+    *[_type == "blogPost" && slug.current == $slug && publishedAt <= now()][0] {
       _id,
       title,
       slug,
@@ -108,19 +108,25 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       },
       author->{
         name,
-        image,
-        bio
+        slug,
+        image {
+          asset->{ _id, url }
+        },
+        bio,
+        socialLinks
       },
       publishedAt,
       tags,
-      estimatedReadingTime
+      estimatedReadingTime,
+      aiSummaryBlock,
+      faqItems
     }
   `, { slug })
 }
 
 export async function getRecentPosts(limit: number = 5): Promise<BlogPost[]> {
   return getClient().fetch(`
-    *[_type == "blogPost"] | order(publishedAt desc)[0...${limit}] {
+    *[_type == "blogPost" && publishedAt <= now()] | order(publishedAt desc)[0...${limit}] {
       _id,
       title,
       slug,
@@ -164,7 +170,7 @@ export async function getPostsByAnyTags(tags: string[], limit: number = 6): Prom
 
   return getClient().fetch(
     `
-      *[_type == "blogPost" && count((tags[])[lower(@) in $tags]) > 0] | order(publishedAt desc)[0...$limit] {
+      *[_type == "blogPost" && publishedAt <= now() && count((tags[])[lower(@) in $tags]) > 0] | order(publishedAt desc)[0...$limit] {
         _id,
         title,
         slug,
@@ -188,7 +194,7 @@ export async function getPostsByAnyTags(tags: string[], limit: number = 6): Prom
 export async function getRecentPostPreviews(limit: number = 6): Promise<BlogPostPreview[]> {
   return getClient().fetch(
     `
-      *[_type == "blogPost"] | order(publishedAt desc)[0...$limit] {
+      *[_type == "blogPost" && publishedAt <= now()] | order(publishedAt desc)[0...$limit] {
         _id,
         title,
         slug,
@@ -233,10 +239,26 @@ export interface BlogPost {
   }
   author: {
     name: string
+    slug?: { current: string }
+    image?: { asset: { _id: string; url: string } }
+    bio?: PortableTextBlock[]
+    socialLinks?: {
+      twitter?: string
+      linkedin?: string
+      website?: string
+    }
   }
   publishedAt: string
   tags: string[]
   estimatedReadingTime: number
+  aiSummaryBlock?: {
+    keyTakeaways?: string[]
+  }
+  faqItems?: Array<{
+    _key: string
+    question: string
+    answer: string
+  }>
 }
 
 export interface Banner {

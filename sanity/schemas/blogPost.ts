@@ -29,6 +29,26 @@ export default defineType({
       validation: (Rule) => Rule.required().max(200),
     }),
     defineField({
+      name: 'aiSummaryBlock',
+      title: 'AI Summary Block',
+      type: 'object',
+      description: 'Optional key takeaways rendered at the top of the article. Improves AI search discoverability.',
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        defineField({
+          name: 'keyTakeaways',
+          title: 'Key Takeaways',
+          type: 'array',
+          of: [{type: 'string'}],
+          description: '3–5 bullet points. Lead each with the core fact.',
+          validation: (Rule) => Rule.max(5),
+        }),
+      ],
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'object',
@@ -140,6 +160,35 @@ export default defineType({
               title: 'Alternative text',
             }
           ]
+        },
+      ],
+    }),
+    defineField({
+      name: 'faqItems',
+      title: 'FAQ',
+      type: 'array',
+      description: 'Optional Q&A pairs rendered at the end of the article. High-value for AI answer extraction and featured snippets.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              type: 'text',
+              rows: 3,
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: {title: 'question'},
+          },
         },
       ],
     }),

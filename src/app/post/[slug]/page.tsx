@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Calendar, ChevronRight, Home } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import { BlogPost, getPostBySlug, urlFor } from '@/lib/sanity'
-import { generateNewsArticleSchema, generateBreadcrumbSchema } from '@/lib/schema'
+import { generateNewsArticleSchema, generateBreadcrumbSchema, generateFAQPageSchema } from '@/lib/schema'
 import TopArticles from '@/components/TopArticles'
 
 interface PostPageProps {
@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
         images: [{ url: imageUrl, width: 1200, height: 630, alt: post.coverImage?.alt || metaTitle }],
       }),
       publishedTime: post.publishedAt,
-      authors: ['Stackcess'],
+      authors: [post.author?.socialLinks?.website || post.author?.name || 'Stackcess'],
       tags: post.tags,
       url: canonicalUrl,
     },
@@ -125,6 +125,14 @@ export default async function PostPage({ params }: PostPageProps) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
+      {post.faqItems?.length ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateFAQPageSchema(post.faqItems)),
+          }}
+        />
+      ) : null}
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -196,16 +204,35 @@ export default async function PostPage({ params }: PostPageProps) {
                       })}
                     </time>
                   </span>
-                  {post.author ? <span>{post.author.name}</span> : null}
+                  {post.author ? (
+                    <address
+                      className="not-italic"
+                      itemScope
+                      itemType="https://schema.org/Person"
+                    >
+                      <span itemProp="name">{post.author.name}</span>
+                    </address>
+                  ) : null}
                   {post.estimatedReadingTime ? <span>{post.estimatedReadingTime} min read</span> : null}
                 </div>
 
-                {(aiSummary || post.excerpt) ? (
+                {(post.aiSummaryBlock?.keyTakeaways?.length || aiSummary || post.excerpt) ? (
                   <div className="marketing-ui-panel marketing-diagonal-texture mt-8 p-6 sm:p-8">
-                    <p className="marketing-kicker">Article Summary</p>
-                    <p className="mt-6 max-w-[62rem] text-[1.06rem] leading-8 text-[var(--text-secondary)]">
-                      {aiSummary || post.excerpt}
-                    </p>
+                    <p className="marketing-kicker">Key Takeaways</p>
+                    {post.aiSummaryBlock?.keyTakeaways?.length ? (
+                      <ul className="mt-6 max-w-[62rem] space-y-3">
+                        {post.aiSummaryBlock.keyTakeaways.map((point, i) => (
+                          <li key={i} className="flex items-start gap-3 text-[1.06rem] leading-8 text-[var(--text-secondary)]">
+                            <span className="mt-[0.35em] shrink-0 text-[var(--color-accent)]">—</span>
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-6 max-w-[62rem] text-[1.06rem] leading-8 text-[var(--text-secondary)]">
+                        {aiSummary || post.excerpt}
+                      </p>
+                    )}
                   </div>
                 ) : null}
             </header>
@@ -327,6 +354,49 @@ export default async function PostPage({ params }: PostPageProps) {
                   />
                 </div>
               </div>
+
+              {post.faqItems?.length ? (
+                <section aria-label="Frequently Asked Questions" className="mt-10 max-w-[1240px]">
+                  <div className="w-full rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:px-16">
+                    <h2 className="pb-6 text-[1.5rem] font-medium tracking-[-0.014em] text-[var(--color-foreground)] sm:text-[1.85rem]">
+                      Frequently Asked Questions
+                    </h2>
+                    <dl className="divide-y divide-[var(--border-subtle)]">
+                      {post.faqItems.map((item) => (
+                        <div key={item._key} className="py-6">
+                          <dt className="text-[1.05rem] font-medium leading-7 text-[var(--color-foreground)]">
+                            {item.question}
+                          </dt>
+                          <dd className="mt-3 text-[1.02rem] leading-8 text-[var(--text-secondary)]">
+                            {item.answer}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </section>
+              ) : null}
+
+              {post.author?.bio?.length ? (
+                <div className="mt-10 max-w-[1240px]">
+                  <div className="w-full rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:px-16">
+                    <p className="marketing-kicker mb-6">About the Author</p>
+                    <p className="text-[1.05rem] font-medium text-[var(--color-foreground)]">{post.author.name}</p>
+                    <div className="mt-3">
+                      <PortableText
+                        value={post.author.bio}
+                        components={{
+                          block: {
+                            normal: ({ children }) => (
+                              <p className="text-[1.02rem] leading-8 text-[var(--text-secondary)]">{children}</p>
+                            ),
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : null}
 
               <div className="mt-12 max-w-[920px]">
                 <TopArticles />

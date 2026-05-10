@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "sanity dev"
+    "studio": "node --env-file=.env.local node_modules/@sanity/cli/bin/sanity dev"
   },
   "dependencies": {
     "@babel/core": "^7.28.4",
