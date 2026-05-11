@@ -5,22 +5,22 @@ import { getAllHelpCategories } from '@/lib/sanity'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'Help Center | Stackcess',
+  title: 'Stackcess Help Center | Product Guides and Setup Docs',
   description:
-    'User-facing guides for Stackcess modules, settings, partner workflows, and onboarding.',
+    'Browse Stackcess help articles for onboarding, catalog workflows, partner sharing, settings, and day-to-day product operations.',
   alternates: {
     canonical: '/help',
   },
   openGraph: {
-    title: 'Help Center | Stackcess',
+    title: 'Stackcess Help Center | Product Guides and Setup Docs',
     description:
-      'User-facing guides for Stackcess modules, settings, partner workflows, and onboarding.',
+      'Browse Stackcess help articles for onboarding, catalog workflows, partner sharing, settings, and day-to-day product operations.',
     url: '/help',
   },
   twitter: {
-    title: 'Help Center | Stackcess',
+    title: 'Stackcess Help Center | Product Guides and Setup Docs',
     description:
-      'User-facing guides for Stackcess modules, settings, partner workflows, and onboarding.',
+      'Browse Stackcess help articles for onboarding, catalog workflows, partner sharing, settings, and day-to-day product operations.',
   },
 }
 

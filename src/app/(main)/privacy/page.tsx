@@ -2,8 +2,8 @@
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Stackcess',
-  description: 'Privacy Policy for the Stackcess platform - how we collect, use, and protect your data.',
+  title: 'Stackcess Privacy Policy',
+  description: 'Read the Stackcess privacy policy, including how we collect, use, store, and protect platform and account data.',
   alternates: { canonical: '/privacy' },
   robots: { index: false, follow: false },
 }
@@ -289,4 +289,3 @@ export default function PrivacyPage() {
     </div>
   )
 }
-

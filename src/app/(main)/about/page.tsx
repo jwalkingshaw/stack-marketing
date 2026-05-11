@@ -4,22 +4,22 @@ import { ArrowRight } from 'lucide-react'
 import { buildAppAuthUrl } from '@/lib/app-links'
 
 export const metadata: Metadata = {
-  title: 'About - Stackcess',
+  title: 'About Stackcess | Product Content Operations for Supplement Brands',
   description:
-    'We built Stackcess because product data, approved assets, localization, and partner delivery should not live in separate systems.',
+    'Learn why Stackcess built a product content operations platform for supplement brands managing product data, approved assets, localization, and partner delivery.',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'About - Stackcess',
+    title: 'About Stackcess | Product Content Operations for Supplement Brands',
     description:
-      'We built Stackcess because product data, approved assets, localization, and partner delivery should not live in separate systems.',
+      'Learn why Stackcess built a product content operations platform for supplement brands managing product data, approved assets, localization, and partner delivery.',
     url: '/about',
   },
   twitter: {
-    title: 'About - Stackcess',
+    title: 'About Stackcess | Product Content Operations for Supplement Brands',
     description:
-      'We built Stackcess because product data, approved assets, localization, and partner delivery should not live in separate systems.',
+      'Learn why Stackcess built a product content operations platform for supplement brands managing product data, approved assets, localization, and partner delivery.',
   },
 }
 

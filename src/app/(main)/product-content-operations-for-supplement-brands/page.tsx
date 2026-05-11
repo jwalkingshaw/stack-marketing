@@ -157,22 +157,22 @@ const faqs = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Product Content Operations for Supplement Brands | Stackcess',
+  title: 'Product Content Operations for Supplement Brands',
   description:
-    'A practical guide to product content operations for supplement brands managing product data, approved assets, market adaptation, and partner delivery across markets.',
+    'Learn how supplement brands manage product data, approved assets, market adaptation, and partner delivery through one product content operations model.',
   alternates: {
     canonical: pagePath,
   },
   openGraph: {
-    title: 'Product Content Operations for Supplement Brands | Stackcess',
+    title: 'Product Content Operations for Supplement Brands',
     description:
-      'A practical guide to product content operations for supplement brands managing product data, approved assets, market adaptation, and partner delivery across markets.',
+      'Learn how supplement brands manage product data, approved assets, market adaptation, and partner delivery through one product content operations model.',
     url: pagePath,
   },
   twitter: {
-    title: 'Product Content Operations for Supplement Brands | Stackcess',
+    title: 'Product Content Operations for Supplement Brands',
     description:
-      'A practical guide to product content operations for supplement brands managing product data, approved assets, market adaptation, and partner delivery across markets.',
+      'Learn how supplement brands manage product data, approved assets, market adaptation, and partner delivery through one product content operations model.',
   },
 }
 

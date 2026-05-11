@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     shortcut: '/stackcess-icon-wb-logo.png',
     apple: '/stackcess-icon-wb-logo.png',
   },
-  title: "Stackcess - Product Content Operations Platform For Supplement Brands",
-  description: "Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.",
+  title: "Product Content Operations Software for Supplement Brands | Stackcess",
+  description: "Manage supplement product data, approved assets, localization, and partner delivery from one product content operations platform.",
   keywords: ["supplement brands", "product content operations", "PIM", "DAM", "partner portal", "product content syndication", "AI localization", "compliance documents", "multilingual product content"],
   authors: [{ name: "Stackcess Team" }],
   creator: "Stackcess",
@@ -55,13 +55,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Stackcess',
-    title: 'Stackcess - Product Content Operations Platform For Supplement Brands',
-    description: 'Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.',
+    title: 'Product Content Operations Software for Supplement Brands | Stackcess',
+    description: 'Manage supplement product data, approved assets, localization, and partner delivery from one product content operations platform.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stackcess - Product Content Operations Platform For Supplement Brands',
-    description: 'Unified PIM, DAM, AI localization, and partner portal syndication for supplement brands, distributors, and retail partners.',
+    title: 'Product Content Operations Software for Supplement Brands | Stackcess',
+    description: 'Manage supplement product data, approved assets, localization, and partner delivery from one product content operations platform.',
   },
 };
 

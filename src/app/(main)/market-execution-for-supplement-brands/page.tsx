@@ -181,22 +181,22 @@ const faqs = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Market Execution for Supplement Brands | Stackcess',
+  title: 'Market Execution for Supplement Brands',
   description:
-    'A practical guide to market execution for supplement brands working across distributors, retailers, and partners with approved content, assets, and activation materials.',
+    'Learn how supplement brands improve market execution across distributors, retailers, and partners with current content, approved assets, and activation-ready delivery.',
   alternates: {
     canonical: pagePath,
   },
   openGraph: {
-    title: 'Market Execution for Supplement Brands | Stackcess',
+    title: 'Market Execution for Supplement Brands',
     description:
-      'A practical guide to market execution for supplement brands working across distributors, retailers, and partners with approved content, assets, and activation materials.',
+      'Learn how supplement brands improve market execution across distributors, retailers, and partners with current content, approved assets, and activation-ready delivery.',
     url: pagePath,
   },
   twitter: {
-    title: 'Market Execution for Supplement Brands | Stackcess',
+    title: 'Market Execution for Supplement Brands',
     description:
-      'A practical guide to market execution for supplement brands working across distributors, retailers, and partners with approved content, assets, and activation materials.',
+      'Learn how supplement brands improve market execution across distributors, retailers, and partners with current content, approved assets, and activation-ready delivery.',
   },
 }
 

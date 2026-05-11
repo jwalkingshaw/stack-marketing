@@ -1,22 +1,22 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Pricing - Stackcess',
+  title: 'Stackcess Pricing | Plans for Supplement Brands',
   description:
-    'Workspace pricing for Stackcess. Free plan available. Paid plans scale by SKUs, storage, internal users, partner invites, and included translation usage.',
+    'Compare Stackcess pricing plans for supplement brands, including SKU limits, storage, team access, partner invites, and translation usage.',
   alternates: {
     canonical: '/pricing',
   },
   openGraph: {
-    title: 'Pricing - Stackcess',
+    title: 'Stackcess Pricing | Plans for Supplement Brands',
     description:
-      'Workspace pricing for Stackcess. Free plan available. Paid plans scale by SKUs, storage, internal users, partner invites, and included translation usage.',
+      'Compare Stackcess pricing plans for supplement brands, including SKU limits, storage, team access, partner invites, and translation usage.',
     url: '/pricing',
   },
   twitter: {
-    title: 'Pricing - Stackcess',
+    title: 'Stackcess Pricing | Plans for Supplement Brands',
     description:
-      'Workspace pricing for Stackcess. Free plan available. Paid plans scale by SKUs, storage, internal users, partner invites, and included translation usage.',
+      'Compare Stackcess pricing plans for supplement brands, including SKU limits, storage, team access, partner invites, and translation usage.',
   },
 }
 
