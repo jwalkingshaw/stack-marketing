@@ -1,0 +1,50 @@
+# Stackcess
+
+> Stackcess is a product content operations platform for supplement brands, distributors, and retail partners. It combines structured product data, governed assets, AI-assisted localization, and partner-ready delivery in one system.
+
+## What is Stackcess?
+
+Stackcess is a B2B SaaS platform for supplement brands managing product content across internal teams and external partners. It combines:
+
+- **Product Information Management (PIM)** - structured product catalogs with families, variants, scoped attributes, and readiness tracking
+- **Digital Asset Management (DAM)** - approved labels, packshots, PDFs, videos, and support files linked directly to products
+- **AI-assisted localization** - translate and adapt approved product content for different markets and locales
+- **Partner portals and syndication** - share approved product content, assets, and documents with distributors, retailers, and agencies through scoped portal views and exports
+- **Compliance document workflows** - manage COAs, labels, certifications, and other product-linked support files in context
+
+## Who uses Stackcess?
+
+- **Supplement brands** - manage product content, assets, localization, and partner delivery from one workspace
+- **Distributors** - receive current brand content in a structured, partner-ready format
+- **Retailers and agencies** - access approved assets, product information, and support files through controlled external views
+
+## Pricing
+
+Stackcess uses flat monthly workspace pricing, not per-seat billing:
+
+- **Free (Sandbox)** - 10 active SKUs, 2 GB storage, 1 internal user, 2 external partner invites, translation not included, public share links disabled
+- **Starter** - $59/month. 50 active SKUs, 15 GB storage, 2 internal users, 10 external partner invites, 50,000 translated characters per month, public share links enabled
+- **Growth** - $149/month. 500 active SKUs, 100 GB storage, 8 internal users, 100 external partner invites, 250,000 translated characters per month, public share links enabled
+- **Scale** - $349/month. 2,500 active SKUs, 500 GB storage, unlimited internal users, unlimited external partner invites, 500,000 translated characters per month, public share links enabled
+- **Enterprise** - Custom pricing and negotiated limits
+
+Invited partner access is free and does not count toward internal user limits.
+
+## Core positioning
+
+- Unified PIM + DAM for supplement brands
+- AI localization with market-aware review workflows
+- Partner portal syndication for distributors, retailers, and agencies
+- Product-linked compliance documents and approved assets in one operating model
+
+## Company
+
+- Website: https://stackcess.com
+- Pricing: https://stackcess.com/pricing
+- Machine-readable pricing: https://stackcess.com/pricing.md
+- About: https://stackcess.com/about
+- Help Center: https://stackcess.com/help
+- News: https://stackcess.com/news
+- Contact: hello@stackcess.com
+- Sales: sales@stackcess.com
+- X / Twitter: @stackcessapp
