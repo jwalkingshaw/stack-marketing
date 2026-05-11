@@ -81,7 +81,7 @@ export default function RelatedArticles({ currentSlug, tags, pillarKey }: Relate
           </h3>
 
           <div className="grid gap-5 xl:grid-cols-3">
-            {(loading ? Array.from({ length: 3 }) : articles).map((article, index) => {
+            {(loading ? Array.from({ length: 3 }) as RelatedArticle[] : articles).map((article, index) => {
               if (loading) {
                 return (
                   <div
