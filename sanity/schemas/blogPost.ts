@@ -1,5 +1,20 @@
 import {defineField, defineType} from 'sanity'
 
+const contentRoleOptions = [
+  {title: 'News', value: 'news'},
+  {title: 'Spoke', value: 'spoke'},
+  {title: 'Editorial', value: 'editorial'},
+]
+
+const pillarKeyOptions = [
+  {title: 'Product Content Operations', value: 'product-content-operations'},
+  {title: 'Multilingual Content Operations', value: 'multilingual-content-operations'},
+  {title: 'Partner Content Operations', value: 'partner-content-operations'},
+  {title: 'Market Execution', value: 'market-execution'},
+  {title: 'Compliance And Launch Operations', value: 'compliance-and-launch-operations'},
+  {title: 'European Regulatory Operations', value: 'european-regulatory-operations'},
+]
+
 export default defineType({
   name: 'blogPost',
   title: 'Blog Post',
@@ -95,7 +110,7 @@ export default defineType({
           type: 'text',
           rows: 4,
           description: 'Optional plain-language summary for AI retrieval, internal reuse, and future metadata use.',
-          validation: (Rule) => Rule.max(300),
+          validation: (Rule) => Rule.max(420),
         }),
       ],
     }),
@@ -103,6 +118,7 @@ export default defineType({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
+      description: 'Optional. Leave blank for text-led editorial posts that do not need a hero image.',
       options: {
         hotspot: true,
       },
@@ -111,9 +127,8 @@ export default defineType({
           name: 'alt',
           type: 'string',
           title: 'Alternative Text',
-        }
+        },
       ],
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'content',
@@ -206,6 +221,26 @@ export default defineType({
       of: [{type: 'string'}],
       options: {
         layout: 'tags',
+      },
+    }),
+    defineField({
+      name: 'contentRole',
+      title: 'Content Role',
+      type: 'string',
+      description: 'Use this to distinguish standard news from spoke content and broader editorial posts.',
+      initialValue: 'editorial',
+      options: {
+        list: contentRoleOptions,
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'pillarKey',
+      title: 'Pillar / Cluster',
+      type: 'string',
+      description: 'Structured grouping for editorial clusters. Use this for spoke-to-pillar management instead of relying only on freeform tags.',
+      options: {
+        list: pillarKeyOptions,
       },
     }),
     defineField({

@@ -12,7 +12,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "node --env-file=.env.local node_modules/@sanity/cli/bin/sanity dev"
+    "studio": "node --env-file=.env.local node_modules/@sanity/cli/bin/sanity dev",
+    "sanity:backfill-taxonomy": "node --env-file=.env.local scripts/backfill-blog-post-taxonomy.mjs"
   },
   "dependencies": {
     "@babel/core": "^7.28.4",

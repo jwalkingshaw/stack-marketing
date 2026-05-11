@@ -51,6 +51,8 @@ export async function getAllPosts(): Promise<BlogPost[]> {
       },
       publishedAt,
       tags,
+      contentRole,
+      pillarKey,
       estimatedReadingTime
     }
   `)
@@ -81,6 +83,8 @@ export async function getPostsPage(page: number, limit: number = 6): Promise<{ p
         },
         publishedAt,
         tags,
+        contentRole,
+        pillarKey,
         estimatedReadingTime
       }
     `),
@@ -94,6 +98,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   return getClient().fetch(`
     *[_type == "blogPost" && slug.current == $slug && publishedAt <= now()][0] {
       _id,
+      _updatedAt,
       title,
       slug,
       excerpt,
@@ -117,6 +122,8 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       },
       publishedAt,
       tags,
+      contentRole,
+      pillarKey,
       estimatedReadingTime,
       aiSummaryBlock,
       faqItems
@@ -137,6 +144,8 @@ export async function getRecentPosts(limit: number = 5): Promise<BlogPost[]> {
       },
       publishedAt,
       tags,
+      contentRole,
+      pillarKey,
       estimatedReadingTime
     }
   `)
@@ -158,6 +167,8 @@ export interface BlogPostPreview {
   }
   publishedAt: string
   tags: string[]
+  contentRole?: 'news' | 'spoke' | 'editorial'
+  pillarKey?: string
   estimatedReadingTime?: number
 }
 
@@ -184,6 +195,8 @@ export async function getPostsByAnyTags(tags: string[], limit: number = 6): Prom
         },
         publishedAt,
         tags,
+        contentRole,
+        pillarKey,
         estimatedReadingTime
       }
     `,
@@ -208,6 +221,8 @@ export async function getRecentPostPreviews(limit: number = 6): Promise<BlogPost
         },
         publishedAt,
         tags,
+        contentRole,
+        pillarKey,
         estimatedReadingTime
       }
     `,
@@ -217,6 +232,7 @@ export async function getRecentPostPreviews(limit: number = 6): Promise<BlogPost
 
 export interface BlogPost {
   _id: string
+  _updatedAt?: string
   title: string
   slug: {
     current: string
@@ -230,8 +246,8 @@ export interface BlogPost {
     aiSummary?: string
   }
   content: PortableTextBlock[]
-  coverImage: {
-    asset: {
+  coverImage?: {
+    asset?: {
       _id: string
       url: string
     }
@@ -250,6 +266,8 @@ export interface BlogPost {
   }
   publishedAt: string
   tags: string[]
+  contentRole?: 'news' | 'spoke' | 'editorial'
+  pillarKey?: string
   estimatedReadingTime: number
   aiSummaryBlock?: {
     keyTakeaways?: string[]

@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight, BookOpen } from 'lucide-react'
 import { BlogPost, urlFor } from '@/lib/sanity'
-import { BookOpen, Hash } from 'lucide-react'
 
 interface RelatedArticle extends BlogPost {
   views: number
@@ -18,9 +18,10 @@ interface RelatedArticlesResponse {
 interface RelatedArticlesProps {
   currentSlug: string
   tags: string[]
+  pillarKey?: string
 }
 
-export default function RelatedArticles({ currentSlug, tags }: RelatedArticlesProps) {
+export default function RelatedArticles({ currentSlug, tags, pillarKey }: RelatedArticlesProps) {
   const [articles, setArticles] = useState<RelatedArticle[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -28,8 +29,16 @@ export default function RelatedArticles({ currentSlug, tags }: RelatedArticlesPr
   useEffect(() => {
     async function fetchRelatedArticles() {
       try {
-        const response = await fetch(`/api/related-articles?slug=${currentSlug}&tags=${tags.join(',')}`)
-        
+        const params = new URLSearchParams({
+          slug: currentSlug,
+          tags: tags.join(','),
+        })
+        if (pillarKey) {
+          params.set('pillarKey', pillarKey)
+        }
+
+        const response = await fetch(`/api/related-articles?${params.toString()}`)
+
         if (!response.ok) {
           throw new Error('Failed to fetch related articles')
         }
@@ -44,118 +53,112 @@ export default function RelatedArticles({ currentSlug, tags }: RelatedArticlesPr
       }
     }
 
-    if (tags.length > 0) {
+    if (pillarKey || tags.length > 0) {
       fetchRelatedArticles()
     } else {
       setLoading(false)
     }
-  }, [currentSlug, tags])
+  }, [currentSlug, tags, pillarKey])
 
-  if (loading) {
-    return (
-      <div className="bg-gray-50 rounded-lg p-4 md:p-6">
-        <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-          <BookOpen size={20} />
-          Related Articles
-        </h3>
-        <div className="space-y-4">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="animate-pulse">
-              <div className="flex gap-3">
-                <div className="w-16 h-12 bg-gray-200 rounded flex-shrink-0" />
-                <div className="flex-1">
-                  <div className="h-3 bg-gray-200 rounded mb-2" />
-                  <div className="h-2 bg-gray-200 rounded w-2/3" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (error || articles.length === 0) {
-    return null // Don't show the component if there are no related articles
+  if (error || (!loading && articles.length === 0)) {
+    return null
   }
 
   return (
-    <div className="bg-gray-50 rounded-lg p-4 md:p-6">
-      <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-        <BookOpen size={20} />
-        Related Articles
-      </h3>
-      
-      <div className="space-y-4">
-        {articles.map((article) => {
-          const getImageUrl = () => {
-            if (!article.coverImage) return null
-            
-            if (article.coverImage.asset?.url) {
-              return article.coverImage.asset.url
-            }
-            
-            try {
-              return urlFor(article.coverImage).width(64).height(48).url()
-            } catch (error) {
-              console.error('Error generating image URL:', error)
-              return null
-            }
-          }
+    <section className="border-t border-[var(--color-border)] py-12">
+      <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
+        <div>
+          <p className="marketing-kicker">Related Reading</p>
+          <h2 className="marketing-section-title mt-7 pb-4 text-[var(--color-foreground)] !leading-[1.02]">
+            More on this topic.
+          </h2>
+        </div>
 
-          const imageUrl = getImageUrl()
+        <div className="border-y border-[var(--color-border)] py-7">
+          <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-[var(--color-foreground)]">
+            <BookOpen size={20} />
+            Related articles
+          </h3>
 
-          return (
-            <Link
-              key={article._id}
-              href={`/post/${article.slug.current}`}
-              className="block hover:bg-gray-100 -mx-2 px-2 py-2 rounded transition-colors"
-            >
-              <div className="flex gap-3">
-                {imageUrl && (
-                  <div className="w-16 h-12 relative flex-shrink-0">
-                    <Image
-                      src={imageUrl}
-                      alt={article.coverImage?.alt || article.title}
-                      fill
-                      className="object-cover rounded"
-                    />
+          <div className="grid gap-5 xl:grid-cols-3">
+            {(loading ? Array.from({ length: 3 }) : articles).map((article, index) => {
+              if (loading) {
+                return (
+                  <div
+                    key={`loading-${index}`}
+                    className="animate-pulse overflow-hidden rounded-[1.5rem] border border-[var(--border-subtle)] bg-white p-6 shadow-[var(--shadow-soft)]"
+                  >
+                    <div className="h-[10rem] rounded-[1rem] bg-[var(--bg-secondary)]" />
+                    <div className="mt-5 h-3 w-24 rounded bg-[var(--bg-secondary)]" />
+                    <div className="mt-4 h-5 rounded bg-[var(--bg-secondary)]" />
+                    <div className="mt-2 h-5 w-5/6 rounded bg-[var(--bg-secondary)]" />
+                    <div className="mt-5 h-4 w-2/3 rounded bg-[var(--bg-secondary)]" />
                   </div>
-                )}
-                
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-gray-900 line-clamp-2 leading-tight mb-1">
-                    {article.title}
-                  </h4>
-                  
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    {/* Show shared tags */}
-                    <div className="flex items-center gap-1">
-                      <Hash size={10} />
-                      <span className="font-medium text-blue-600">
-                        {article.tags?.filter(tag => tags.includes(tag)).join(', ')}
-                      </span>
-                    </div>
-                    
-                    <span>•</span>
-                    
-                    <span>
-                      {new Date(article.publishedAt).toLocaleDateString()}
-                    </span>
-                    
-                    {article.views > 0 && (
-                      <>
-                        <span>•</span>
-                        <span>{article.views.toLocaleString()} views</span>
-                      </>
-                    )}
+                )
+              }
+
+              let imageUrl: string | null = null
+
+              if (article.coverImage?.asset?.url) {
+                imageUrl = article.coverImage.asset.url
+              } else if (article.coverImage) {
+                try {
+                  imageUrl = urlFor(article.coverImage).width(720).height(480).url()
+                } catch {
+                  imageUrl = null
+                }
+              }
+
+              return (
+                <article
+                  key={article._id}
+                  className="overflow-hidden rounded-[1.5rem] border border-[var(--border-subtle)] bg-white shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
+                >
+                  {imageUrl ? (
+                    <Link href={`/post/${article.slug.current}`} className="block">
+                      <div className="relative h-[12rem] overflow-hidden">
+                        <Image
+                          src={imageUrl}
+                          alt={article.coverImage?.alt || article.title}
+                          fill
+                          className="object-cover transition-transform duration-500 hover:scale-[1.03]"
+                        />
+                      </div>
+                    </Link>
+                  ) : null}
+
+                  <div className="p-6">
+                    <p className="marketing-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                      {new Date(article.publishedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                    <Link href={`/post/${article.slug.current}`} className="mt-3 block">
+                      <h4 className="text-[1.25rem] font-medium tracking-[-0.014em] text-[var(--color-foreground)] !leading-[1.12]">
+                        {article.title}
+                      </h4>
+                    </Link>
+                    {article.excerpt ? (
+                      <p className="mt-3 line-clamp-3 text-sm leading-7 text-[var(--color-foreground-muted)]">
+                        {article.excerpt}
+                      </p>
+                    ) : null}
+                    <Link
+                      href={`/post/${article.slug.current}`}
+                      className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]"
+                    >
+                      Read article
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </div>
-                </div>
-              </div>
-            </Link>
-          )
-        })}
+                </article>
+              )
+            })}
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

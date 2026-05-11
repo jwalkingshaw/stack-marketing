@@ -22,6 +22,8 @@ export default function MainLayout({
     '/coa-management-for-supplement-brands',
     '/partner-portal-for-supplement-brands',
     '/product-content-syndication-for-supplement-brands',
+    '/product-content-operations-for-supplement-brands',
+    '/market-execution-for-supplement-brands',
     '/supplement-product-catalog-management',
     '/supplement-variant-management-software',
     '/supplement-compliance-document-management',

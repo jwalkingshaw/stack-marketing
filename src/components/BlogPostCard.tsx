@@ -18,7 +18,7 @@ export default function BlogPostCard({ post, featured = false }: BlogPostCardPro
   const getImageUrl = () => {
     if (!post.coverImage) return null
 
-    if (post.coverImage.asset.url) {
+    if (post.coverImage.asset?.url) {
       return post.coverImage.asset.url
     }
 
@@ -52,19 +52,6 @@ export default function BlogPostCard({ post, featured = false }: BlogPostCardPro
       ) : null}
 
       <div className={`${featured ? 'p-7 sm:p-8' : 'p-6'}`}>
-        {post.tags && post.tags.length > 0 ? (
-          <div className="mb-5 flex flex-wrap items-center gap-2">
-            {post.tags.slice(0, featured ? 3 : 2).map((tag) => (
-              <span
-                key={tag}
-                className="marketing-mono rounded-full border border-[rgba(39,94,70,0.16)] bg-[rgba(39,94,70,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-accent)]"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        ) : null}
-
         <Link href={`/post/${post.slug.current}`} className="block">
           <h2
             className={`pb-4 font-semibold tracking-[-0.025em] text-[var(--color-foreground)] ${

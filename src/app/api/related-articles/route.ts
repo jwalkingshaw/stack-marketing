@@ -18,6 +18,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const currentSlug = searchParams.get('slug')
     const tagsParam = searchParams.get('tags')
+    const pillarKey = searchParams.get('pillarKey')?.trim()
     
     if (!currentSlug || !tagsParam) {
       return NextResponse.json(
@@ -44,14 +45,24 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(cached)
     }
 
-    // Get articles with matching tags, excluding the current article
+    // Prefer same-pillar matches when a structured cluster is available. Fall back to tag overlap.
     const relatedPostsQuery = `
-      *[_type == "blogPost" && slug.current != $currentSlug && count((tags[])[lower(@) in $tags]) > 0] | order(publishedAt desc) {
+      *[
+        _type == "blogPost" &&
+        slug.current != $currentSlug &&
+        (
+          ($pillarKey != "" && pillarKey == $pillarKey) ||
+          count((tags[])[lower(@) in $tags]) > 0
+        )
+      ] | order(publishedAt desc) {
         _id,
         title,
         slug,
+        excerpt,
         publishedAt,
         tags,
+        contentRole,
+        pillarKey,
         coverImage {
           asset->{
             _id,
@@ -65,6 +76,7 @@ export async function GET(request: NextRequest) {
     const relatedPosts = await client.fetch<BlogPost[]>(relatedPostsQuery, {
       currentSlug, 
       tags: normalizedTags,
+      pillarKey: pillarKey || '',
     })
     
     // Connect to Redis and get view counts for each post
@@ -86,11 +98,12 @@ export async function GET(request: NextRequest) {
     const postsWithViews: RelatedArticle[] = relatedPosts.map((post: BlogPost, index: number) => {
       const matchingTags =
         post.tags?.filter((tag: string) => normalizedTags.includes(String(tag).trim().toLowerCase())) || []
+      const samePillar = Boolean(pillarKey && post.pillarKey === pillarKey)
 
       return {
         ...post,
         views: Number(viewValues[index] || 0),
-        tagMatchCount: matchingTags.length
+        tagMatchCount: samePillar ? matchingTags.length + 100 : matchingTags.length
       }
     })
     

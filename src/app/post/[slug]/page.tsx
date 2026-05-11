@@ -2,10 +2,12 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar, ChevronRight, Home } from 'lucide-react'
+import { ArrowRight, Calendar, ChevronRight, Home } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import { BlogPost, getPostBySlug, urlFor } from '@/lib/sanity'
 import { generateNewsArticleSchema, generateBreadcrumbSchema, generateFAQPageSchema } from '@/lib/schema'
+import { getEditorialCluster } from '@/lib/editorial-clusters'
+import RelatedArticles from '@/components/RelatedArticles'
 import TopArticles from '@/components/TopArticles'
 
 interface PostPageProps {
@@ -32,8 +34,88 @@ function getAiSummary(post: BlogPost) {
   return post.seo?.aiSummary?.trim() || ''
 }
 
+function getPublicTags(tags?: string[]) {
+  if (!tags?.length) return []
+
+  const internalTags = new Set([
+    'news',
+    'spoke',
+    'editorial',
+    'product content operations',
+    'multilingual content operations',
+    'partner content operations',
+    'compliance and launch operations',
+    'european regulatory operations',
+  ])
+
+  return tags.filter((tag) => !internalTags.has(tag.trim().toLowerCase()))
+}
+
 function getCanonicalUrl(post: BlogPost, slug: string) {
   return post.seo?.canonicalUrl?.trim() || `${getSiteUrl()}/post/${slug}`
+}
+
+function getBlockText(block: unknown): string {
+  if (!block || typeof block !== 'object') return ''
+
+  const maybeBlock = block as { children?: Array<{ text?: string }> }
+  return (maybeBlock.children || []).map((child) => child.text || '').join('').trim()
+}
+
+function slugifyHeading(text: string, fallback: string) {
+  const normalized = text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+
+  return normalized || fallback
+}
+
+type TocItem = {
+  id: string
+  text: string
+  level: 2 | 3
+}
+
+function getTableOfContents(post: BlogPost): TocItem[] {
+  return (post.content || [])
+    .filter((block): block is { _key?: string; style?: string; children?: Array<{ text?: string }> } => {
+      if (!block || typeof block !== 'object') return false
+      const maybeBlock = block as { style?: string }
+      return maybeBlock.style === 'h2' || maybeBlock.style === 'h3'
+    })
+    .map((block, index) => {
+      const text = getBlockText(block)
+      const fallback = `section-${index + 1}`
+      return {
+        id: `${slugifyHeading(text, fallback)}-${block._key || index + 1}`,
+        text,
+        level: block.style === 'h3' ? 3 : 2,
+      }
+    })
+    .filter((item) => item.text)
+}
+
+function getUpdatedLabel(post: BlogPost) {
+  if (!post._updatedAt) return null
+
+  const published = new Date(post.publishedAt)
+  const updated = new Date(post._updatedAt)
+
+  if (Number.isNaN(published.getTime()) || Number.isNaN(updated.getTime())) return null
+  if (published.toDateString() === updated.toDateString()) return null
+
+  return updated.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}
+
+function shouldShowPublishedDate(post: BlogPost) {
+  return post.contentRole !== 'spoke'
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -52,12 +134,13 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const canonicalUrl = getCanonicalUrl(post, resolvedParams.slug)
   const noIndex = Boolean(post.seo?.noIndex)
   const aiSummary = getAiSummary(post)
+  const publicTags = getPublicTags(post.tags)
 
   return {
     title: `${metaTitle} | Stackcess`,
     description: metaDescription,
     abstract: aiSummary || undefined,
-    keywords: post.tags,
+    keywords: publicTags,
     authors: [{ name: post.author?.name || 'Stackcess' }],
     alternates: { canonical: canonicalUrl },
     robots: {
@@ -77,7 +160,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       }),
       publishedTime: post.publishedAt,
       authors: [post.author?.socialLinks?.website || post.author?.name || 'Stackcess'],
-      tags: post.tags,
+      tags: publicTags,
       url: canonicalUrl,
     },
     twitter: {
@@ -102,8 +185,22 @@ export default async function PostPage({ params }: PostPageProps) {
   const imageUrl = post.coverImage?.asset?.url || `${siteUrl}/opengraph-image`
   const metaDescription = getSeoDescription(post)
   const aiSummary = getAiSummary(post)
+  const tableOfContents = getTableOfContents(post)
+  const updatedLabel = getUpdatedLabel(post)
+  const publicTags = getPublicTags(post.tags)
+  const cluster = getEditorialCluster(post.pillarKey)
+  const showPublishedDate = shouldShowPublishedDate(post)
 
-  const newsArticleSchema = generateNewsArticleSchema(post, fullUrl, imageUrl, metaDescription, aiSummary || undefined)
+  const newsArticleSchema = generateNewsArticleSchema(
+    {
+      ...post,
+      tags: publicTags,
+    },
+    fullUrl,
+    imageUrl,
+    metaDescription,
+    aiSummary || undefined
+  )
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: siteUrl },
@@ -176,34 +273,23 @@ export default async function PostPage({ params }: PostPageProps) {
 
           <article>
             <header className="border-b border-[var(--border-subtle)] pb-10">
-                {post.tags && post.tags.length > 0 ? (
-                  <div className="mb-5 flex flex-wrap items-center gap-2">
-                    {post.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="marketing-mono rounded-full border border-[rgba(39,94,70,0.16)] bg-[rgba(39,94,70,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-accent)]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-
                 <h1 className="w-full pb-6 text-[2.1rem] font-medium tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.08] sm:text-[3rem] lg:text-[3.6rem]">
                   {post.title}
                 </h1>
 
                 <div className="marketing-mono flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                  <span className="inline-flex items-center gap-2">
-                    <Calendar size={14} />
-                    <time dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </time>
-                  </span>
+                  {showPublishedDate ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Calendar size={14} />
+                      <time dateTime={post.publishedAt}>
+                        {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </time>
+                    </span>
+                  ) : null}
                   {post.author ? (
                     <address
                       className="not-italic"
@@ -213,6 +299,7 @@ export default async function PostPage({ params }: PostPageProps) {
                       <span itemProp="name">{post.author.name}</span>
                     </address>
                   ) : null}
+                  {updatedLabel ? <span>Updated {updatedLabel}</span> : null}
                   {post.estimatedReadingTime ? <span>{post.estimatedReadingTime} min read</span> : null}
                 </div>
 
@@ -222,8 +309,13 @@ export default async function PostPage({ params }: PostPageProps) {
                     {post.aiSummaryBlock?.keyTakeaways?.length ? (
                       <ul className="mt-6 max-w-[62rem] space-y-3">
                         {post.aiSummaryBlock.keyTakeaways.map((point, i) => (
-                          <li key={i} className="flex items-start gap-3 text-[1.06rem] leading-8 text-[var(--text-secondary)]">
-                            <span className="mt-[0.35em] shrink-0 text-[var(--color-accent)]">—</span>
+                          <li
+                            key={i}
+                            className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-x-3 text-[1.06rem] leading-8 text-[var(--text-secondary)]"
+                          >
+                            <span aria-hidden="true" className="pt-[1.05rem]">
+                              <span className="block h-px w-3 bg-[var(--color-accent)]" />
+                            </span>
                             <span>{point}</span>
                           </li>
                         ))}
@@ -252,6 +344,29 @@ export default async function PostPage({ params }: PostPageProps) {
               ) : null}
 
               <div className="mt-10 max-w-[1240px]">
+                {tableOfContents.length >= 3 ? (
+                  <section className="mb-10 rounded-[1.75rem] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.82)] px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:px-16">
+                    <p className="marketing-kicker">Contents</p>
+                    <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
+                      Jump to a section:
+                    </p>
+                    <div className="mt-6 grid gap-x-10 gap-y-1 md:grid-cols-2">
+                      {tableOfContents.map((item) => (
+                        <a
+                          key={item.id}
+                          href={`#${item.id}`}
+                          className={`group flex items-center justify-between gap-4 border-b border-transparent py-3 text-left text-sm leading-7 text-[var(--color-foreground-secondary)] transition-colors hover:text-[var(--color-foreground)] ${
+                            item.level === 3 ? 'pl-4' : ''
+                          }`}
+                        >
+                          <span className="transition-transform group-hover:translate-x-0.5">{item.text}</span>
+                          <ArrowRight className="h-4 w-4 flex-shrink-0 text-[var(--text-muted)] opacity-70 transition-all group-hover:translate-x-0.5 group-hover:text-[var(--color-accent)] group-hover:opacity-100" />
+                        </a>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
                 <div className="blog-post-content w-full rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:px-16">
                   <PortableText
                     value={post.content}
@@ -321,13 +436,19 @@ export default async function PostPage({ params }: PostPageProps) {
                             {children}
                           </h1>
                         ),
-                        h2: ({ children }) => (
-                          <h2 className="pt-6 pb-4 text-[2rem] font-normal tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.1] sm:text-[2.6rem]">
+                        h2: ({ children, value }) => (
+                          <h2
+                            id={`${slugifyHeading(getBlockText(value), 'section')}-${value?._key || 'h2'}`}
+                            className="scroll-mt-28 pt-6 pb-4 text-[2rem] font-normal tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.1] sm:text-[2.6rem]"
+                          >
                             {children}
                           </h2>
                         ),
-                        h3: ({ children }) => (
-                          <h3 className="pt-5 pb-3 text-[1.5rem] font-normal tracking-[-0.014em] text-[var(--color-foreground)] !leading-[1.14] sm:text-[1.85rem]">
+                        h3: ({ children, value }) => (
+                          <h3
+                            id={`${slugifyHeading(getBlockText(value), 'section')}-${value?._key || 'h3'}`}
+                            className="scroll-mt-28 pt-5 pb-3 text-[1.5rem] font-normal tracking-[-0.014em] text-[var(--color-foreground)] !leading-[1.14] sm:text-[1.85rem]"
+                          >
                             {children}
                           </h3>
                         ),
@@ -397,6 +518,56 @@ export default async function PostPage({ params }: PostPageProps) {
                   </div>
                 </div>
               ) : null}
+
+              {post.contentRole === 'spoke' && cluster ? (
+                <section className="mt-10 max-w-[1240px]">
+                  <div className="grid gap-10 rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:grid-cols-[0.72fr_1.28fr] lg:px-16">
+                    <div>
+                      <p className="marketing-kicker">Continue Reading</p>
+                      <h2 className="pt-5 pb-4 text-[1.75rem] font-medium tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.1] sm:text-[2.2rem]">
+                        Keep this topic connected to the wider workflow.
+                      </h2>
+                      <p className="text-[1rem] leading-8 text-[var(--text-secondary)]">
+                        Start with the guide, then open the product pages that support this workflow in practice.
+                      </p>
+                    </div>
+
+                    <div className="space-y-6">
+                      <Link
+                        href={cluster.pillar.href}
+                        className="block rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--bg-secondary)] p-5 transition-colors hover:border-[var(--color-border-strong)]"
+                      >
+                        <p className="marketing-mono text-[0.62rem] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                          Guide
+                        </p>
+                        <h3 className="mt-3 text-[1.2rem] font-medium text-[var(--color-foreground)]">
+                          {cluster.pillar.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
+                          {cluster.pillar.description}
+                        </p>
+                      </Link>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {cluster.solutions.map((solution) => (
+                          <Link
+                            key={solution.href}
+                            href={solution.href}
+                            className="rounded-[1.25rem] border border-[var(--border-subtle)] p-5 transition-colors hover:border-[var(--color-border-strong)]"
+                          >
+                            <h3 className="text-[1rem] font-medium text-[var(--color-foreground)]">{solution.title}</h3>
+                            <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{solution.description}</p>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              ) : null}
+
+              <div className="max-w-[1240px]">
+                <RelatedArticles currentSlug={post.slug.current} tags={post.tags || []} pillarKey={post.pillarKey} />
+              </div>
 
               <div className="mt-12 max-w-[920px]">
                 <TopArticles />

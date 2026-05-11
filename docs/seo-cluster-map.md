@@ -1,8 +1,10 @@
 # Stackcess SEO Cluster Map
 
-Last updated: 2026-05-07
+Last updated: 2026-05-11
 
 ## Objective
+
+Use this document alongside [content-template-system.md](C:/Users/jason/stack-marketing/docs/content-template-system.md) so topic selection and page structure stay aligned.
 
 Build organic demand around the positioning Stackcess can credibly win:
 
@@ -49,6 +51,128 @@ This is intent-led keyword research, not a volume export from Ahrefs or Semrush.
 - News metadata still leans on older sports-supplement framing
 - Search results still show traces of the older “sports supplements operating system” positioning on the live domain
 
+## Core Editorial Pillar
+
+The main editorial pillar should be:
+
+- `multi-market product content operations for supplement brands`
+
+This is the safest umbrella because it supports the existing commercial pages without collapsing the brand into a compliance category. Regulation can appear inside this pillar as a source of operating pressure, but it should not become the site's center of gravity.
+
+### Pillar Message
+
+Stackcess is not just a compliance platform. The stronger story is that supplement brands struggle to keep product data, approved assets, localized copy, partner requirements, and market differences aligned across one operating model.
+
+### What This Pillar Should Cover
+
+- product data structure
+- approved asset governance
+- market-specific content adaptation
+- partner-ready syndication
+- launch readiness across channels and regions
+
+### What This Pillar Should Avoid
+
+- sounding like a law firm or regulatory consultancy
+- framing Stackcess as the owner of legal interpretation
+- building clusters around trade bodies for their own sake
+- overusing compliance-led language as the primary category narrative
+
+## Editorial Cluster: Multi-Market Product Content Operations
+
+### Hub Theme
+
+Use this as the connective editorial theme across blog content:
+
+- `How supplement brands manage product content across markets, channels, and partners`
+
+This can initially live as a blog-led cluster with strong internal links into the solution pages. It does not need a separate guides section yet.
+
+### Spoke Inventory
+
+#### Commercial-supporting editorial posts
+
+- `How supplement brands manage product content across markets`
+- `Why market-level content breaks when language is the only localization layer`
+- `How to keep claims, assets, and product copy aligned across channels`
+- `What distributor-ready product content actually includes`
+- `Why supplement launches stall before products are commercially ready`
+- `How to prepare product content for retailers, distributors, and ecommerce at the same time`
+- `Why spreadsheets fail for supplement product content operations`
+- `How approved assets and product data drift apart in growing brands`
+- `What multi-market product content governance looks like in practice`
+- `How to adapt supplement product copy for local markets without rewriting everything`
+
+#### Regulation-adjacent editorial posts
+
+These are acceptable as supporting pieces if they stay anchored to operational consequences rather than legal positioning.
+
+- `What ESSNA signals about multi-market product content in Europe`
+- `Why EU sports nutrition rule changes create content ops pressure for brands`
+- `What French and EU divergence means for product content teams`
+- `Why regulatory change becomes a product data problem`
+- `Who sets supplement rules in Europe, and who actually enforces them?`
+
+## Editorial Cluster: Market Execution Across Partners
+
+### Hub Theme
+
+Use this as the connective editorial theme across execution-led content:
+
+- `How supplement brands improve market execution across distributors, retailers, and partners`
+
+This cluster should stay on operational execution, not trade marketing strategy in the abstract. The point is not that Stackcess creates the plan. The point is that Stackcess helps brands make approved product content, campaign assets, and partner-ready materials easier to deliver and use once a plan already exists.
+
+### Pillar Message
+
+- the plan is rarely the only problem
+- execution breaks when current files are hard to retrieve, scope, and trust
+- brands lose speed when distributor, retailer, and local teams still depend on resend work
+
+### Phase 1 Spokes
+
+- `Why joint business plans fail in execution, not alignment`
+- `What distributors actually need from supplement brands to activate faster`
+- `How to share approved campaign assets without email chains`
+
+### Phase 2 Spokes
+
+- `How supplement brands prepare retailer-ready content for promotions`
+- `Why approved assets and content still break after approval`
+- `Why market execution breaks between brand, distributor, and retailer teams`
+- `What good partner launch execution looks like`
+- `Why supplement brands lose the first 90 days of a new product launch`
+- `How supplement brands structure product content for retail and distributor activation`
+
+### Supporting Commercial Pages
+
+- `/partner-portal-for-supplement-brands`
+- `/marketing-enablement-for-supplement-brand-partners`
+- `/distributor-content-portal-for-supplement-brands`
+- `/retailer-content-portal-for-brands`
+- `/product-content-syndication-for-supplement-brands`
+
+### Page Type Guidance
+
+Use commercial landing pages when the query maps directly to product evaluation:
+
+- `partner portal`
+- `product content syndication`
+- `PIM for supplement brands`
+- `DAM for supplement brands`
+- `supplement launch readiness software`
+- `multilingual product content management`
+
+Use blog/editorial posts when the topic teaches the operating problem and naturally links into the product:
+
+- cross-market workflows
+- channel readiness
+- localization process
+- product data governance
+- regulation as an operating constraint
+
+Use regulation topics as spokes, not hubs, unless search data later shows a broader opportunity around a jurisdiction-level guide that still ties back to market operations.
+
 ## Priority Clusters
 
 ### Tier 1: Build Next
@@ -87,6 +211,10 @@ These should generally live under `/post/[slug]` unless you later build a more f
 - `What product content syndication means for brands selling through partners`
 - `How to organize labels, packshots, claims, and compliance documents`
 - `Why supplement launches break when product data and assets are split`
+- `Why market-level content breaks when language is the only localization layer`
+- `How approved assets and product data drift apart in growing brands`
+- `What ESSNA signals about multi-market product content in Europe`
+- `Why regulatory change becomes a product data problem`
 
 ## Recommended Hub Structure
 
@@ -175,6 +303,11 @@ Internal links:
 - Use “product content operations” and “partner-ready product content” repeatedly as connective language.
 
 ## Metadata And Snippet Cleanup
+
+Add two standing rules to the section above when drafting new pages:
+
+- Treat regulation as context that increases content complexity, not as the primary product category.
+- If a piece starts sounding like compliance software or legal advice, reposition it around launch readiness, market differences, partner delivery, or data governance.
 
 These are important because current search snippets still show older messaging on the live site.
 
