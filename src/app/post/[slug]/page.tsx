@@ -78,20 +78,22 @@ type TocItem = {
   level: 2 | 3
 }
 
+type HeadingBlock = { _key?: string; style?: string; children?: Array<{ text?: string }> }
+
 function getTableOfContents(post: BlogPost): TocItem[] {
   return (post.content || [])
-    .filter((block): block is { _type: string; _key?: string; style?: string; children?: Array<{ text?: string }> } => {
+    .filter((block) => {
       if (!block || typeof block !== 'object') return false
-      const maybeBlock = block as { style?: string }
-      return maybeBlock.style === 'h2' || maybeBlock.style === 'h3'
+      return (block as HeadingBlock).style === 'h2' || (block as HeadingBlock).style === 'h3'
     })
     .map((block, index) => {
-      const text = getBlockText(block)
+      const b = block as HeadingBlock
+      const text = getBlockText(b)
       const fallback = `section-${index + 1}`
       return {
-        id: `${slugifyHeading(text, fallback)}-${block._key || index + 1}`,
+        id: `${slugifyHeading(text, fallback)}-${b._key || index + 1}`,
         text,
-        level: (block.style === 'h3' ? 3 : 2) as 2 | 3,
+        level: (b.style === 'h3' ? 3 : 2) as 2 | 3,
       }
     })
     .filter((item) => item.text)
