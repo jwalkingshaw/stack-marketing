@@ -91,7 +91,7 @@ function getTableOfContents(post: BlogPost): TocItem[] {
       return {
         id: `${slugifyHeading(text, fallback)}-${block._key || index + 1}`,
         text,
-        level: block.style === 'h3' ? 3 : 2,
+        level: (block.style === 'h3' ? 3 : 2) as 2 | 3,
       }
     })
     .filter((item) => item.text)
