@@ -29,6 +29,10 @@ function getSeoDescription(post: BlogPost) {
   return post.seo?.description?.trim() || post.excerpt
 }
 
+function getArticleMetadataTitle(title: string) {
+  return title.length <= 52 ? `${title} | Stackcess` : title
+}
+
 function getAiSummary(post: BlogPost) {
   return post.seo?.aiSummary?.trim() || ''
 }
@@ -132,13 +136,14 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const imageUrl = post.coverImage?.asset?.url || undefined
   const metaTitle = getSeoTitle(post)
   const metaDescription = getSeoDescription(post)
+  const metadataTitle = getArticleMetadataTitle(metaTitle)
   const canonicalUrl = getCanonicalUrl(post, resolvedParams.slug)
   const noIndex = Boolean(post.seo?.noIndex)
   const aiSummary = getAiSummary(post)
   const publicTags = getPublicTags(post.tags)
 
   return {
-    title: `${metaTitle} | Stackcess`,
+    title: metadataTitle,
     description: metaDescription,
     abstract: aiSummary || undefined,
     keywords: publicTags,
@@ -154,7 +159,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     },
     openGraph: {
       type: 'article',
-      title: metaTitle,
+      title: metadataTitle,
       description: metaDescription,
       ...(imageUrl && {
         images: [{ url: imageUrl, width: 1200, height: 630, alt: post.coverImage?.alt || metaTitle }],
@@ -166,7 +171,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     },
     twitter: {
       card: 'summary_large_image',
-      title: metaTitle,
+      title: metadataTitle,
       description: metaDescription,
       ...(imageUrl && { images: [imageUrl] }),
     },

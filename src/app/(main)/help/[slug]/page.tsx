@@ -26,17 +26,20 @@ export async function generateMetadata({ params }: HelpArticlePageProps) {
     return { title: 'Help Guide Not Found | Stackcess' }
   }
 
+  const metadataTitle =
+    article.title.length <= 52 ? `${article.title} | Stackcess Help` : article.title
+
   return {
-    title: `${article.title} | Stackcess Help`,
+    title: metadataTitle,
     description: article.excerpt,
     alternates: { canonical: `/help/${article.slug.current}` },
     openGraph: {
-      title: `${article.title} | Stackcess Help`,
+      title: metadataTitle,
       description: article.excerpt,
       url: `/help/${article.slug.current}`,
     },
     twitter: {
-      title: `${article.title} | Stackcess Help`,
+      title: metadataTitle,
       description: article.excerpt,
     },
   }

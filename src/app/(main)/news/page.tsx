@@ -23,11 +23,14 @@ export async function generateMetadata({ searchParams }: NewsPageProps): Promise
   const resolvedSearchParams = await searchParams
   const currentPage = getPageNumber(resolvedSearchParams.page)
   const canonicalPath = getCanonicalPath(currentPage)
-  const title = currentPage <= 1 ? 'News | Stackcess' : `News - Page ${currentPage} | Stackcess`
+  const title =
+    currentPage <= 1
+      ? 'Supplement Brand News and Insights | Stackcess'
+      : `Supplement Brand News and Insights - Page ${currentPage}`
   const description =
     currentPage <= 1
-      ? 'The latest news, trends, and insights for supplement brands covering product content operations, retail, distribution, and regulatory updates.'
-      : `Page ${currentPage} of the latest Stackcess news and insights for supplement brands across product content, distribution, and compliance.`
+      ? 'The latest news and insights for supplement brands across product content operations, retail execution, distribution, and regulatory change.'
+      : `Page ${currentPage} of Stackcess news and insights for supplement brands across product content, distribution, retail, and compliance.`
 
   return {
     title,

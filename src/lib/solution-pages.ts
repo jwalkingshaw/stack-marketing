@@ -2243,6 +2243,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
 export function buildSolutionMetadata(slug: keyof typeof solutionPages): Metadata {
   const content = solutionPages[slug]
   const url = `/${content.slug}`
+  const metadataTitle = content.title.replace(/\s+\|\s+Stackcess$/, '')
   const semanticTerms = content.shortTitle
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '')
@@ -2250,19 +2251,19 @@ export function buildSolutionMetadata(slug: keyof typeof solutionPages): Metadat
     .filter((term) => term && !['for', 'and', 'the', 'brands', 'brand', 'software'].includes(term))
 
   return {
-    title: content.title,
+    title: metadataTitle,
     description: content.description,
     alternates: {
       canonical: url,
     },
     openGraph: {
-      title: content.title,
+      title: metadataTitle,
       description: content.description,
       url,
       type: 'website',
     },
     twitter: {
-      title: content.title,
+      title: metadataTitle,
       description: content.description,
     },
     keywords: [

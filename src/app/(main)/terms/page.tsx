@@ -2,8 +2,8 @@
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms and Conditions - Stackcess',
-  description: 'Terms and Conditions for using the Stackcess platform and services.',
+  title: 'Stackcess Terms and Conditions',
+  description: 'Read the Stackcess terms and conditions for using the platform, partner sharing, billing, and account access.',
   alternates: { canonical: '/terms' },
   robots: { index: false, follow: false },
 }
