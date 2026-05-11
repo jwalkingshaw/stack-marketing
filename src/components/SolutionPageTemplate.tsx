@@ -421,6 +421,7 @@ export default function SolutionPageTemplate({ content }: SolutionPageTemplatePr
             <SolutionRelatedArticles
               currentSlug={content.slug}
               tags={articleTagGroups[content.articleCluster]}
+              pillarKey={content.articleCluster}
             />
           ) : null}
 

@@ -17,6 +17,8 @@ Spreadsheets do not fail supplement brands because spreadsheets are bad tools. T
 
 That break usually happens earlier than teams expect. It is not always when the catalog gets huge. It is often when one product family starts behaving differently by market, when one distributor wants a custom content pack, or when localized copy starts drifting away from the approved source.
 
+One of the clearest moments looks small from the outside. A reformulated pre-workout gets a revised label and Supplement Facts panel, but a distributor in Latin America is still working from a side-tab that points to the previous packshot and old warning copy. By the time someone notices, the team is already chasing screenshots, folders, and Slack threads to prove which version should have been live.
+
 At that point, the problem is no longer too many rows. It is too many dependencies.
 
 ## The First Signs Your Spreadsheet Is No Longer Enough
@@ -57,6 +59,8 @@ At first, local changes seem small:
 - a retailer requirement in one market
 
 In a spreadsheet workflow, these differences are often handled as comments, color coding, side tabs, or duplicated rows. That works briefly. Then the exceptions multiply, and the source model stops telling the truth cleanly.
+
+For supplement brands, those differences are not cosmetic. A wording adjustment may be tied to claim pressure in Europe, a warning line may need to change for a Latin American market, and a US-style structure-function phrase may not travel safely into Malaysia, another export market, or a retailer-specific review process.
 
 ### Partner delivery becomes manual assembly
 
@@ -155,16 +159,16 @@ They stop working when the workflow requires structured relationships, market-sp
 
 ### Is spreadsheet pain really a PIM problem?
 
-Partly, but not only. It is usually a broader product content operations problem that includes data structure, assets, localization, and partner delivery.
+Partly, but not only. The break usually starts in product structure, but it becomes much bigger once variant logic, market-aware content handling, approved assets, and partner-ready outputs all have to stay aligned. That is why spreadsheet pain often shows up as a broader product content operations problem rather than a pure PIM issue.
 
 ### What breaks first: variants, localization, or partner requests?
 
-Any of them can, but the first visible break is often whichever one exposes hidden exceptions in the current model.
+Any of them can, but the first visible break is often whichever one exposes hidden exceptions in the current model. In supplements, that might be a flavor family with weak inheritance logic, a local-market warning change, or a distributor asking for claims-safe copy that no longer matches the current label.
 
 ### How do market differences make spreadsheets worse?
 
-Because they are often handled as notes, duplicated rows, or separate tabs rather than as explicit market-level content logic.
+Because they are often handled as notes, duplicated rows, or separate tabs rather than as explicit market-level content logic. That is especially risky in supplements, where market differences can affect claims wording, warning language, label files, and what downstream partners are actually allowed to use.
 
 ### When should a supplement brand move beyond spreadsheets?
 
-Usually when product truth must stay aligned across variants, markets, assets, and partner outputs at the same time, and manual patching is becoming normal.
+Usually when product truth must stay aligned across variants, markets, assets, and partner outputs at the same time, and manual patching is becoming normal. If experienced people are carrying the operating logic in their heads instead of the system carrying it in structure, the spreadsheet has already stopped being enough.

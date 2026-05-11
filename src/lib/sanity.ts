@@ -204,6 +204,36 @@ export async function getPostsByAnyTags(tags: string[], limit: number = 6): Prom
   )
 }
 
+export async function getPostPreviewsByPillarKey(pillarKey: string, limit: number = 6): Promise<BlogPostPreview[]> {
+  if (!pillarKey.trim()) {
+    return []
+  }
+
+  return getClient().fetch(
+    `
+      *[_type == "blogPost" && publishedAt <= now() && pillarKey == $pillarKey] | order(publishedAt desc)[0...$limit] {
+        _id,
+        title,
+        slug,
+        excerpt,
+        coverImage {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        publishedAt,
+        tags,
+        contentRole,
+        pillarKey,
+        estimatedReadingTime
+      }
+    `,
+    { pillarKey, limit }
+  )
+}
+
 export async function getRecentPostPreviews(limit: number = 6): Promise<BlogPostPreview[]> {
   return getClient().fetch(
     `

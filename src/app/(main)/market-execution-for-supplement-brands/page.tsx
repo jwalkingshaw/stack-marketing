@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle2, ChevronRight, Home } from 'lucide-react'
 import { buildAppAuthUrl } from '@/lib/app-links'
 import { generateBreadcrumbSchema } from '@/lib/schema'
+import SolutionRelatedArticles from '@/components/SolutionRelatedArticles'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
 const pagePath = '/market-execution-for-supplement-brands'
@@ -14,6 +15,64 @@ const keyTakeaways = [
   'Execution speed improves when distributors and retailers can retrieve approved materials without resend work.',
 ]
 
+const operatorReality = [
+  {
+    title: 'The distributor used the wrong pack because the old ZIP was still in circulation.',
+    body: 'A distributor uploads last quarter’s hero packshot and product copy to a retailer portal because that was the last complete file set they received. Meanwhile the label has changed, the claim wording was tightened, and the retailer page now reflects a version the brand would not approve for this market.',
+  },
+  {
+    title: 'The launch kit exists, but nobody can prove which files are current.',
+    body: 'The brand manager is back in Slack the day before a retailer range review asking which banner set, packshot, and sample email are still valid. One folder has the latest social cutdowns, another has the revised pack image, and the market team is waiting to hear whether the approved copy can still be used in this country.',
+  },
+  {
+    title: 'The promotion was agreed, but the partner window still closed first.',
+    body: 'A distributor and brand align on a promotional window, but the files are not packaged around that activation. The retailer team gets the product imagery late, the local market team rewrites the copy, and the promotion goes live with a weaker set than the brand thought it had approved.',
+  },
+]
+
+const comparisonRows = [
+  {
+    label: 'Current files',
+    left: 'Partners work from the last email, ZIP, or folder share they were sent and still need to ask what changed.',
+    right: 'Partners retrieve the current product content, campaign assets, and support files from one controlled execution flow.',
+  },
+  {
+    label: 'Market approval',
+    left: 'A file may be approved internally, but nobody is clear whether it is approved for this distributor, retailer, or market context.',
+    right: 'The execution layer reflects which materials are usable for the relevant market, partner, and activation window.',
+  },
+  {
+    label: 'Promotions',
+    left: 'Promotional windows slip because banners, copy, and support files are still being assembled after the plan is agreed.',
+    right: 'Campaign materials are already packaged around the promotion so partners can activate while the window is still useful.',
+  },
+  {
+    label: 'Updates',
+    left: 'Every revision triggers another resend cycle and more uncertainty about which partner still has the old set.',
+    right: 'Updates flow through one current model instead of creating a fresh distribution problem each time.',
+  },
+  {
+    label: 'Partner trust',
+    left: 'Distributors and retailers remember the brand as slow to support, even when the commercial plan was strong.',
+    right: 'Partners experience the brand as easier to activate because the operational side is current, scoped, and dependable.',
+  },
+]
+
+const industryContext = [
+  {
+    title: 'Supplement execution is not generic FMCG execution.',
+    body: 'A distributor often cannot reuse every brand asset everywhere. Claim language, label details, and supporting context may need tighter handling by market than teams in grocery or apparel expect.',
+  },
+  {
+    title: 'Approved also has to mean approved for this market.',
+    body: 'A campaign file being current is not enough on its own. In supplements, teams also need to know whether the wording, claims, imagery, and supporting content are safe for this market and this partner context.',
+  },
+  {
+    title: 'Distributor support and retailer confidence are linked.',
+    body: 'When a partner receives mismatched copy, the wrong SKU image, or unclear supporting files, the issue is not just slower activation. It is reduced confidence in the brand’s ability to support the category properly.',
+  },
+]
+
 const operatingLayers = [
   {
     id: 'partner-needs',
@@ -23,7 +82,7 @@ const operatingLayers = [
   {
     id: 'approved-assets',
     title: 'Approved Assets',
-    body: 'Packshots, banners, social cutdowns, launch kits, and ecommerce imagery need to stay current and clearly scoped to the right partner or campaign.',
+    body: 'Packshots, banners, social cutdowns, launch kits, and ecommerce imagery need to stay current and clearly scoped to the right partner, campaign, and market. In supplements, approved also has to mean approved for this market context.',
   },
   {
     id: 'product-context',
@@ -48,6 +107,7 @@ const failurePatterns = [
   'Approved content drifts after the first resend cycle.',
   'Local teams create their own workaround versions to keep moving.',
   'Campaign files exist, but nobody is sure which set is current.',
+  'Promotional windows close before the partner has the right assets because the activation set was never packaged around the plan.',
   'Launch momentum is lost in the first weeks because execution materials arrive too late.',
 ]
 
@@ -101,22 +161,22 @@ const faqs = [
   {
     question: 'What does market execution mean for supplement brands?',
     answer:
-      'It is the operating layer that turns an agreed plan into something distributors, retailers, and partners can actually activate. That usually means current product content, approved assets, support files, and campaign materials delivered in a usable way.',
+      'It is the operating layer that turns an agreed plan into something distributors, retailers, and partners can actually activate. In practice, that means current product content, approved assets, support files, and campaign materials delivered in a way that is usable for the right partner, market, and launch window. The issue is usually not whether the files exist. It is whether they are current, scoped, and easy to retrieve at the point of execution.',
   },
   {
     question: 'Why do joint business plans fail after alignment?',
     answer:
-      'Because the commercial commitment is only one part of the job. Execution fails when the brand side still depends on resend work, unclear versions, and disconnected product or campaign materials.',
+      'Because the commercial commitment is only one part of the job. Execution fails when the brand side still depends on resend work, unclear versions, and disconnected product or campaign materials after the plan is already agreed. In supplements, this gets harder when claims-bearing assets, labels, or local-market copy need tighter control than a generic campaign pack can provide.',
   },
   {
     question: 'How does Stackcess help with market execution?',
     answer:
-      'Stackcess helps brands organize approved product content, assets, and supporting files so distributors, retailers, and partners can retrieve what they need faster without depending on ad hoc email coordination.',
+      'Stackcess helps brands organize approved product content, assets, and supporting files so distributors, retailers, and partners can retrieve what they need faster without depending on ad hoc email coordination. The practical value is in market-aware scoping, clearer partner-specific delivery, and one current execution set instead of multiple forwarded packs. That is the difference between a manual handoff model and an execution-ready one.',
   },
   {
     question: 'Is this a trade marketing strategy tool?',
     answer:
-      'No. The focus is operational execution. Stackcess does not replace the plan. It helps brands make the approved content and asset side of that plan easier to deliver and use.',
+      'No. The focus is operational execution, not strategy planning. Stackcess does not replace the commercial plan, joint business plan, or promotional calendar. It helps brands make the approved content, asset, and support side of that plan easier to package, scope, and use once partners actually need to activate it.',
   },
 ]
 
@@ -223,7 +283,7 @@ export default function MarketExecutionPillarPage() {
             <div className="space-y-5 xl:pt-1">
               <div className="rounded-[1.1rem] border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.72)] px-5 py-4 shadow-[var(--shadow-soft)] sm:px-6 sm:py-5">
                 <p className="marketing-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
-                  What this means
+                  Direct answer
                 </p>
                 <p className="mt-4 text-sm leading-7 text-[var(--color-foreground-secondary)]">
                   Market execution is the operating model that helps partners retrieve the current product content,
@@ -264,8 +324,38 @@ export default function MarketExecutionPillarPage() {
                     assets, launch kits, and support documents are scattered across folders, inboxes, and one-off
                     exports instead of being delivered through one dependable operating model.
                   </p>
+                  <p className="mt-5 text-[1rem] leading-8 text-[var(--color-foreground-muted)]">
+                    In supplements, this gets harder because the content is not only commercial. It is often claims-
+                    sensitive, label-dependent, and market-specific. A distributor may be able to move fast in one
+                    country and still need a different approved execution set in another.
+                  </p>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section className="grid gap-10 py-16 lg:grid-cols-[0.84fr_1.16fr]">
+            <div>
+              <p className="marketing-kicker">What We See In Practice</p>
+              <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)]">
+                What broken execution looks like inside a supplement brand.
+              </h2>
+              <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">
+                The failure is usually not that the brand forgot to make the files. It is that the brand still cannot
+                prove which files, claims, and support materials are safe to use for this partner and this market when
+                the activation window is already open.
+              </p>
+            </div>
+            <div className="grid gap-5 border-t border-[var(--color-border)] pt-8">
+              {operatorReality.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-white p-5 shadow-[var(--shadow-soft)]"
+                >
+                  <h3 className="text-[1.15rem] font-medium text-[var(--color-foreground)]">{item.title}</h3>
+                  <p className="mt-4 text-sm leading-7 text-[var(--color-foreground-muted)]">{item.body}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -274,11 +364,11 @@ export default function MarketExecutionPillarPage() {
               <div>
                 <p className="marketing-kicker">What Teams Need To Control</p>
                 <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)]">
-                  The five layers behind smoother partner execution.
+                  The Stackcess market execution layers.
                 </h2>
                 <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">
                   Brands do not need more one-off sends. They need a delivery model that makes current materials easy
-                  to retrieve and harder to misuse.
+                  to retrieve, harder to misuse, and clearer about which partner and market they are approved for.
                 </p>
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
@@ -290,6 +380,44 @@ export default function MarketExecutionPillarPage() {
                   >
                     <h3 className="text-[1.22rem] font-medium text-[var(--color-foreground)]">{layer.title}</h3>
                     <p className="text-sm leading-7 text-[var(--color-foreground-muted)]">{layer.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="py-16">
+            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <p className="marketing-kicker">Comparison</p>
+                <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)]">
+                  Manual execution support versus an execution-ready delivery model.
+                </h2>
+                <p className="marketing-section-copy text-[var(--color-foreground-secondary)]">
+                  Most brands already create the assets and content. The real difference is whether partners still have
+                  to chase the brand for every usable version.
+                </p>
+              </div>
+
+              <div className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-white shadow-[var(--shadow-soft)]">
+                <div className="grid gap-4 border-b border-[var(--color-border)] bg-[var(--bg-tertiary)] px-5 py-4 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5">
+                  <div />
+                  <p className="text-sm font-semibold text-[var(--color-accent)]">Manual handoff model</p>
+                  <p className="text-sm font-semibold text-[var(--color-foreground)]">Execution-ready model</p>
+                </div>
+
+                {comparisonRows.map((row, index) => (
+                  <div
+                    key={row.label}
+                    className={`grid gap-3 px-5 py-5 sm:grid-cols-[11rem_1fr_1fr] sm:gap-5 ${
+                      index < comparisonRows.length - 1 ? 'border-b border-[var(--color-border)]' : ''
+                    }`}
+                  >
+                    <p className="marketing-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                      {row.label}
+                    </p>
+                    <p className="text-sm leading-7 text-[var(--color-foreground-muted)]">{row.left}</p>
+                    <p className="text-sm leading-7 text-[var(--color-foreground-secondary)]">{row.right}</p>
                   </div>
                 ))}
               </div>
@@ -315,6 +443,28 @@ export default function MarketExecutionPillarPage() {
                     className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--bg-secondary)] p-5"
                   >
                     <p className="text-sm leading-7 text-[var(--color-foreground-muted)]">{pattern}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="border-t border-[var(--color-border)] py-16">
+            <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+              <div>
+                <p className="marketing-kicker">Industry Context</p>
+                <h2 className="marketing-section-title mt-7 pb-6 text-[var(--color-foreground)]">
+                  Why supplement market execution is a category-specific workflow.
+                </h2>
+              </div>
+              <div className="grid gap-5 border-t border-[var(--color-border)] pt-8 md:grid-cols-3">
+                {industryContext.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--bg-secondary)] p-5"
+                  >
+                    <h3 className="text-[1.05rem] font-medium text-[var(--color-foreground)]">{item.title}</h3>
+                    <p className="mt-4 text-sm leading-7 text-[var(--color-foreground-muted)]">{item.body}</p>
                   </div>
                 ))}
               </div>
@@ -358,6 +508,12 @@ export default function MarketExecutionPillarPage() {
               </div>
             </div>
           </section>
+
+          <SolutionRelatedArticles
+            currentSlug="market-execution-for-supplement-brands"
+            tags={['market execution', 'distributor', 'retailer', 'partner', 'launch', 'assets']}
+            pillarKey="market-execution"
+          />
 
           <section className="border-t border-[var(--color-border)] py-16">
             <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
@@ -443,8 +599,9 @@ export default function MarketExecutionPillarPage() {
                   Partners remember which brands make activation easy and which brands make every campaign a chase.
                 </h2>
                 <p className="mt-6 max-w-2xl text-[1.05rem] leading-8 text-[var(--text-muted)]">
-                  Stackcess helps brands keep approved product content, campaign assets, and support files ready to
-                  retrieve, package, and reuse without rebuilding the same execution kit every time.
+                  Stackcess helps brands scope approved materials by partner, market, and activation context so
+                  distributors and retailers can retrieve the current execution set without rebuilding the same launch
+                  kit, campaign pack, or product handoff every time.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">

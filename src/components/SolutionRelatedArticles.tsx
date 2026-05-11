@@ -1,23 +1,47 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { getRecentPostPreviews, type BlogPostPreview, urlFor } from '@/lib/sanity'
+import { getPostPreviewsByPillarKey, getPostsByAnyTags, getRecentPostPreviews, type BlogPostPreview, urlFor } from '@/lib/sanity'
 
 interface SolutionRelatedArticlesProps {
   currentSlug: string
   tags: string[]
+  pillarKey?: string
 }
 
 export default async function SolutionRelatedArticles({
   currentSlug,
   tags,
+  pillarKey,
 }: SolutionRelatedArticlesProps) {
-  void currentSlug
-  void tags
   let articleCards: BlogPostPreview[] = []
 
   try {
-    articleCards = await getRecentPostPreviews(3)
+    if (pillarKey) {
+      articleCards = await getPostPreviewsByPillarKey(pillarKey, 4)
+    } else if (tags.length > 0) {
+      articleCards = await getPostsByAnyTags(tags, 4)
+    }
+
+    articleCards = articleCards.filter((article) => article.slug.current !== currentSlug).slice(0, 3)
+
+    if (articleCards.length < 3) {
+      const recentArticles = await getRecentPostPreviews(6)
+      const seen = new Set(articleCards.map((article) => article._id))
+
+      for (const article of recentArticles) {
+        if (article.slug.current === currentSlug || seen.has(article._id)) {
+          continue
+        }
+
+        articleCards.push(article)
+        seen.add(article._id)
+
+        if (articleCards.length >= 3) {
+          break
+        }
+      }
+    }
   } catch {
     articleCards = []
   }
