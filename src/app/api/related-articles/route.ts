@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
         // Third priority: more recent
         return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
       })
-      .slice(0, 5) // Get top 5
+      .slice(0, 3)
     
     // Remove the tagMatchCount field before returning
     const articles = sortedPosts.map((post) => {

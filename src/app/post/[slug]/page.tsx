@@ -8,7 +8,6 @@ import { BlogPost, getPostBySlug, urlFor } from '@/lib/sanity'
 import { generateNewsArticleSchema, generateBreadcrumbSchema, generateFAQPageSchema } from '@/lib/schema'
 import { getEditorialCluster } from '@/lib/editorial-clusters'
 import RelatedArticles from '@/components/RelatedArticles'
-import TopArticles from '@/components/TopArticles'
 
 interface PostPageProps {
   params: Promise<{ slug: string }>
@@ -569,9 +568,6 @@ export default async function PostPage({ params }: PostPageProps) {
                 <RelatedArticles currentSlug={post.slug.current} tags={post.tags || []} pillarKey={post.pillarKey} />
               </div>
 
-              <div className="mt-12 max-w-[920px]">
-                <TopArticles />
-              </div>
             </div>
           </article>
         </div>
