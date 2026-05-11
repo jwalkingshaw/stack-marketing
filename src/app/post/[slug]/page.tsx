@@ -80,7 +80,7 @@ type TocItem = {
 
 function getTableOfContents(post: BlogPost): TocItem[] {
   return (post.content || [])
-    .filter((block): block is { _key?: string; style?: string; children?: Array<{ text?: string }> } => {
+    .filter((block): block is { _type: string; _key?: string; style?: string; children?: Array<{ text?: string }> } => {
       if (!block || typeof block !== 'object') return false
       const maybeBlock = block as { style?: string }
       return maybeBlock.style === 'h2' || maybeBlock.style === 'h3'
