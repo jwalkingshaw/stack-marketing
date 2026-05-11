@@ -1,6 +1,8 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import { ArrowRight, BookOpen, CircleHelp, LayoutList } from 'lucide-react'
-import { getHelpCategories, helpArticles } from '@/lib/help-center'
+import { getAllHelpCategories } from '@/lib/sanity'
+
+export const revalidate = 3600
 
 export const metadata = {
   title: 'Help Center | Stackcess',
@@ -22,8 +24,9 @@ export const metadata = {
   },
 }
 
-export default function HelpCenterPage() {
-  const categories = getHelpCategories()
+export default async function HelpCenterPage() {
+  const categories = await getAllHelpCategories()
+  const totalArticles = categories.reduce((sum, cat) => sum + cat.articles.length, 0)
 
   return (
     <div className="bg-[var(--color-background)] px-4 pb-16 pt-10 sm:px-6">
@@ -42,30 +45,30 @@ export default function HelpCenterPage() {
           </p>
           <div className="mt-5 inline-flex items-center gap-2 border border-[var(--color-border)] px-3 py-2 text-xs text-[var(--color-foreground-muted)]">
             <LayoutList className="h-3.5 w-3.5" />
-            {helpArticles.length} guides available
+            {totalArticles} guides available
           </div>
         </section>
 
         <section className="space-y-8">
           {categories.map((group) => (
-            <div key={group.category} className="space-y-3">
-              <h2 className="text-xl font-semibold text-[var(--color-foreground)]">{group.category}</h2>
+            <div key={group._id} className="space-y-3">
+              <h2 className="text-xl font-semibold text-[var(--color-foreground)]">{group.title}</h2>
               <div className="grid gap-3 md:grid-cols-2">
                 {group.articles.map((article) => (
                   <Link
-                    key={article.slug}
-                    href={`/help/${article.slug}`}
+                    key={article._id}
+                    href={`/help/${article.slug.current}`}
                     className="group border-t border-[var(--color-border)] p-5 transition-colors hover:border-[var(--color-border-strong)]"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <span className="inline-flex items-center gap-2 text-xs text-[var(--color-foreground-muted)]">
                         <BookOpen className="h-3.5 w-3.5" />
-                        {article.readTime}
+                        {article.readTime} min
                       </span>
                       <span className="text-xs text-[var(--color-foreground-muted)]">{article.audience}</span>
                     </div>
                     <h3 className="mt-3 text-lg font-semibold text-[var(--color-foreground)]">{article.title}</h3>
-                    <p className="mt-2 text-sm text-[var(--color-foreground-muted)]">{article.summary}</p>
+                    <p className="mt-2 text-sm text-[var(--color-foreground-muted)]">{article.excerpt}</p>
                     <div className="mt-4 inline-flex items-center gap-1 text-sm text-[var(--color-foreground)]">
                       Open guide
                       <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
