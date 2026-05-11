@@ -4,12 +4,12 @@ import type { PortableTextBlock } from '@portabletext/types'
 import type { QueryParams } from '@sanity/client'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
-const sanityProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-const sanityDataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+const sanityProjectId = process.env.SANITY_STUDIO_PROJECT_ID
+const sanityDataset = process.env.SANITY_STUDIO_DATASET
 
 function getSanityConfig() {
   if (!sanityProjectId || !sanityDataset) {
-    throw new Error('Missing NEXT_PUBLIC_SANITY_PROJECT_ID or NEXT_PUBLIC_SANITY_DATASET')
+    throw new Error('Missing SANITY_STUDIO_PROJECT_ID or SANITY_STUDIO_DATASET')
   }
 
   return {

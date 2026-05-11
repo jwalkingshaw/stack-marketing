@@ -11,8 +11,12 @@ type HelpArticlePageProps = {
 }
 
 export async function generateStaticParams() {
-  const articles = await getAllHelpArticles()
-  return articles.map((article) => ({ slug: article.slug.current }))
+  try {
+    const articles = await getAllHelpArticles()
+    return articles.map((article) => ({ slug: article.slug.current }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: HelpArticlePageProps) {
