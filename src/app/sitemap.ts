@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/sanity'
 import { helpArticles } from '@/lib/help-center'
+import { solutionPages } from '@/lib/solution-pages'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
 
@@ -50,41 +51,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.4,
     },
     {
-      url: `${siteUrl}/ai-localization-for-supplement-brands`,
+      url: `${siteUrl}/llms.txt`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.3,
     },
-    {
-      url: `${siteUrl}/pim-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/dam-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/coa-management-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/partner-portal-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/product-content-syndication-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
+  ]
+
+  // Product feature/solution pages are maintained from src/lib/solution-pages.ts so the sitemap updates automatically
+  const solutionLandingPages: MetadataRoute.Sitemap = Object.values(solutionPages).map((solution) => ({
+    url: `${siteUrl}/${solution.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  // Operational/pain-point pages (custom-built, not template-driven)
+  const operationalPages: MetadataRoute.Sitemap = [
     {
       url: `${siteUrl}/product-content-operations-for-supplement-brands`,
       lastModified: new Date(),
@@ -98,76 +81,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${siteUrl}/supplement-product-catalog-management`,
+      url: `${siteUrl}/partner-content-operations-for-supplement-brands`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/supplement-variant-management-software`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/supplement-compliance-document-management`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/supplement-launch-readiness-software`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/retailer-content-portal-for-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/distributor-content-portal-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/marketing-enablement-for-supplement-brand-partners`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/supplement-translation-workflow`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/multilingual-product-content-management`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/supplement-sku-management`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/approved-asset-management-for-supplement-brands`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/llms.txt`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.3,
     },
   ]
 
@@ -195,5 +112,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }))
 
-  return [...staticPages, ...postPages, ...helpPages]
+  return [...staticPages, ...solutionLandingPages, ...operationalPages, ...postPages, ...helpPages]
 }
