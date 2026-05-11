@@ -524,12 +524,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 <section className="mt-10 max-w-[1240px]">
                   <div className="grid gap-10 rounded-[1.75rem] border border-[var(--border-subtle)] bg-white px-8 py-8 shadow-[var(--shadow-soft)] sm:px-12 sm:py-10 lg:grid-cols-[0.72fr_1.28fr] lg:px-16">
                     <div>
-                      <p className="marketing-kicker">Continue Reading</p>
+                      <p className="marketing-kicker">Related Resources</p>
                       <h2 className="pt-5 pb-4 text-[1.75rem] font-medium tracking-[-0.016em] text-[var(--color-foreground)] !leading-[1.1] sm:text-[2.2rem]">
-                        Keep this topic connected to the wider workflow.
+                        Ready to put this into practice?
                       </h2>
                       <p className="text-[1rem] leading-8 text-[var(--text-secondary)]">
-                        Start with the guide, then open the product pages that support this workflow in practice.
+                        Start with the guide, then explore the tools that make it work.
                       </p>
                     </div>
 

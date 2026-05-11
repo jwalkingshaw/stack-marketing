@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getAllPosts } from '@/lib/sanity'
-import { helpArticles } from '@/lib/help-center'
+import { getAllPosts, getAllHelpArticles } from '@/lib/sanity'
 import { solutionPages } from '@/lib/solution-pages'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stackcess.com'
@@ -104,13 +103,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Sanity may not be available at build time in all envs
   }
 
-  // Help articles (static data)
-  const helpPages: MetadataRoute.Sitemap = helpArticles.map((article) => ({
-    url: `${siteUrl}/help/${article.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.5,
-  }))
+  // Help articles from Sanity
+  let helpPages: MetadataRoute.Sitemap = []
+  try {
+    const helpArticles = await getAllHelpArticles()
+    helpPages = helpArticles.map((article) => ({
+      url: `${siteUrl}/help/${article.slug.current}`,
+      lastModified: article.updatedAt ? new Date(article.updatedAt) : new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    }))
+  } catch {
+    // Sanity may not be available at build time in all envs
+  }
 
   return [...staticPages, ...solutionLandingPages, ...operationalPages, ...postPages, ...helpPages]
 }

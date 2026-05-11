@@ -394,3 +394,102 @@ export async function trackBannerClick(bannerId: string) {
   console.log(`Banner clicked: ${bannerId}`)
   // Future: Add analytics tracking here
 }
+
+// ─── Help Center ─────────────────────────────────────────────────────────────
+
+export interface HelpCategory {
+  _id: string
+  title: string
+  slug: { current: string }
+  description?: string
+  order?: number
+}
+
+export interface HelpArticlePreview {
+  _id: string
+  title: string
+  slug: { current: string }
+  excerpt: string
+  category: HelpCategory
+  audience: string
+  readTime: number
+  updatedAt: string
+  order?: number
+}
+
+export interface HelpArticle extends HelpArticlePreview {
+  appPaths?: string[]
+  body: PortableTextBlock[]
+}
+
+export interface HelpCategoryWithArticles extends HelpCategory {
+  articles: Omit<HelpArticlePreview, 'category'>[]
+}
+
+export async function getAllHelpCategories(): Promise<HelpCategoryWithArticles[]> {
+  return getClient().fetch(`
+    *[_type == "helpCategory"] | order(order asc) {
+      _id,
+      title,
+      slug,
+      description,
+      order,
+      "articles": *[_type == "helpArticle" && references(^._id)] | order(order asc, _createdAt asc) {
+        _id,
+        title,
+        slug,
+        excerpt,
+        audience,
+        readTime,
+        updatedAt,
+        order
+      }
+    }
+  `)
+}
+
+export async function getAllHelpArticles(): Promise<HelpArticlePreview[]> {
+  return getClient().fetch(`
+    *[_type == "helpArticle"] | order(category->order asc, order asc, _createdAt asc) {
+      _id,
+      title,
+      slug,
+      excerpt,
+      category->{
+        _id,
+        title,
+        slug,
+        order
+      },
+      audience,
+      readTime,
+      updatedAt,
+      order
+    }
+  `)
+}
+
+export async function getHelpArticleBySlug(slug: string): Promise<HelpArticle | null> {
+  return getClient().fetch(
+    `
+    *[_type == "helpArticle" && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      excerpt,
+      category->{
+        _id,
+        title,
+        slug
+      },
+      audience,
+      readTime,
+      updatedAt,
+      order,
+      appPaths,
+      body
+    }
+  `,
+    { slug }
+  )
+}
