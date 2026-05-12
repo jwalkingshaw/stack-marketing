@@ -240,7 +240,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
         title: 'Market and channel scoping',
         items: [
           'Market-specific fields for localized copy, claims adjustments, and legal wording changes.',
-          'Destination-aware outputs for distributor packs, retailer uploads, ecommerce pages, and internal references.',
+          'Destination-aware outputs for distributor packs, partner portals, file exports, and internal references, with direct ecommerce integrations coming soon.',
           'A cleaner path from one core record to multiple partner-ready versions.',
         ],
       },
@@ -614,14 +614,14 @@ export const solutionPages: Record<string, SolutionPageContent> = {
     kicker: 'Partner Portal',
     heroTitle: 'A partner portal for supplement brands should stop resend work, not create another inbox.',
     heroBody:
-      'A distributor may already have the product, the retailer relationship, and the launch window, but still be blocked because the ecommerce banners, social video, email template, and local-ready product copy are sitting in someone\'s inbox at brand HQ. That is the real partner-portal problem. A partner portal for supplement brands gives external teams controlled access to approved product content, marketing assets, and supporting documents so they can execute in-market without waiting on the brand for every activation step.',
+      'A distributor may already have the product, the retailer relationship, and the launch window, but still be blocked because the current product data, approved campaign assets, and supporting documents are sitting in someone\'s inbox at brand HQ. That is the real partner-portal problem. A partner portal for supplement brands gives external teams controlled access to approved product content, campaign assets, and supporting documents so they can execute in-market without waiting on the brand for every activation step.',
     heroAsideTitle: 'What external teams actually need',
     directAnswer:
-      'Supplement brands need a partner portal when distributor, retailer, and agency requests keep turning into repeat pack assembly. The right portal gives each audience scoped access to current product content, ecommerce assets, campaign materials, and supporting documents without rebuilding the same packs repeatedly.',
+      'Supplement brands need a partner portal when distributor, retailer, and agency requests keep turning into repeat pack assembly. The right portal gives each audience scoped access to current product content, campaign assets, and supporting documents without rebuilding the same packs repeatedly.',
     pointOfView: {
       title: 'Joint business plans only work when the brand side is actually deliverable.',
       body:
-        'When a brand and a distributor or retailer align on a launch, a promotion, or a seasonal activation, the portal becomes the mechanism that makes the brand side of that commitment executable. Without it, every agreed campaign still depends on manual coordination. With it, partners can pick up the right assets, copy, and launch materials and move while the window is still open.',
+        'When a brand and a distributor or retailer align on a launch, a promotion, or a seasonal activation, the portal becomes the mechanism that makes the brand side of that commitment executable. Partners create a free Stackcess workspace in under a minute, with no credit card required, then access the products, assets, copy, and launch materials scoped to them. Without it, every agreed campaign still depends on manual coordination.',
     },
     heroPoints: [
       'Why distributor and retailer requests keep turning into manual resend work.',
@@ -631,7 +631,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
     categoryProblemTitle: 'Partner collaboration breaks down when every request starts from scratch.',
     categoryKicker: 'Why External Delivery Breaks Down',
     categoryProblemBody:
-      'The problem is usually not that teams cannot send files. It is that every external request becomes a fresh assembly job. Someone has to decide which packshot is current, which ecommerce copy is approved for that market, which launch email can be reused, which social asset is still on-brand, and whether the partner is seeing the right version. The more brands work across distributors, retailers, and agencies, the more expensive that manual coordination becomes.',
+      'The problem is usually not that teams cannot send files. It is that every external request becomes a fresh assembly job. Someone has to decide which packshot is current, which ecommerce copy is approved for that market, which campaign asset is still on-brand, and whether the partner is seeing the right version. The more brands work across distributors, retailers, and agencies, the more expensive that manual coordination becomes.',
     categoryProblems: [
       {
         title: 'Partners work from stale content',
@@ -649,7 +649,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
     platformTitle: 'What a supplement partner portal should actually do.',
     platformKicker: 'What Partners Need From The Portal',
     platformBody:
-      'A useful partner portal is not just a branded download page. It should give external teams access to the right products, assets, Supplement Facts panels, launch materials, ecommerce images, reusable copy, and brand content based on who they are, what market they support, and what has actually been approved for them to use.',
+      'A useful partner portal is not just a branded download page. It should give external teams access to the right products, assets, Supplement Facts panels, launch materials, ecommerce images, reusable copy, and brand content based on who they are, what market they support, and what has actually been approved for them to use through their workspace.',
     capabilityGroups: [
       {
         title: 'Scoped partner access',
@@ -672,7 +672,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
         items: [
           'Give distributors and retailers easy access to social media videos, influencer content, and campaign assets they can quickly reuse in-market.',
           'Share ecommerce banners, optimized marketplace images, and approved product copy adapted for local channels and retailer requirements.',
-          'Provide launch email templates, logos, brand guidelines, and raw footage so partners can move fast without going off-brand.',
+          'Provide logos, brand guidelines, and raw footage so partners can move fast without going off-brand.',
         ],
       },
       {
@@ -696,14 +696,14 @@ export const solutionPages: Record<string, SolutionPageContent> = {
       kicker: 'Email Vs Portal',
       title: 'A portal is not about replacing file sharing. It is about making file sharing governable.',
       body:
-        'Email and shared-drive handoffs can work for occasional requests. They break down when multiple partners, markets, and content updates are moving at once. A portal gives teams a stable destination for approved content instead of a constant stream of one-off sends.',
+        'Email and shared-drive handoffs can work for occasional requests. They break down when multiple partners, markets, and content updates are moving at once. A portal gives teams a stable workspace destination for approved content instead of a constant stream of one-off sends.',
       leftTitle: 'Manual sharing',
       rightTitle: 'Partner portal',
       rows: [
         {
           label: 'Access model',
           left: 'Files are pushed out one request at a time and copied into local folders outside your control.',
-          right: 'Partners return to a controlled destination where access is scoped by brand, market, and content set.',
+          right: 'Partners create a free workspace account, then return to a controlled destination where access is scoped by brand, market, and content set.',
         },
         {
           label: 'Version control',
@@ -725,11 +725,11 @@ export const solutionPages: Record<string, SolutionPageContent> = {
     operatingTitle: 'The value shows up anywhere external teams depend on your product content.',
     operatingKicker: 'Where The Portal Pays Off',
     operatingBody:
-      'The brands that feel this fastest are usually not trying to build a flashy partner experience. They are trying to stop operational drag and make market execution easier for partners. Every retailer update, distributor onboarding, launch, and agency handoff becomes easier when partners can get the right approved content without waiting for someone internally to rebuild the pack.',
+      'The brands that feel this fastest are usually not trying to build a flashy partner experience. They are trying to stop operational drag and make market execution easier for partners. Every retailer update, distributor onboarding, launch, and agency handoff becomes easier when partners can get the right approved content through their workspace without waiting for someone internally to rebuild the pack.',
     operatingSections: [
       {
         title: 'Distributor onboarding',
-        body: 'New distributor setups move faster when product content, labels, imagery, launch materials, and support documents are already organized in a controlled external view.',
+        body: 'New distributor setups move faster when product content, labels, imagery, launch materials, and support documents are already organized in a controlled workspace view.',
       },
       {
         title: 'Retailer support',
@@ -737,7 +737,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
       },
       {
         title: 'Marketing reuse in-market',
-        body: 'Partners often need more than one file to activate a launch. They need social media videos in the right format and aspect ratio, influencer content they can reshare, ecommerce banners sized for the retailer platform, an email template they can drop their own header into, and product copy already adapted for their market so they are not rewriting from English at the last minute.',
+        body: 'Partners often need more than one file to activate a launch. They need approved social media assets, campaign content, ecommerce banners, product copy, and supporting documents in one place so they are not rebuilding from old emails and mixed download folders.',
       },
       {
         title: 'Multi-market delivery',
@@ -745,18 +745,18 @@ export const solutionPages: Record<string, SolutionPageContent> = {
       },
       {
         title: 'Agency handoff',
-        body: 'Agencies get access to approved launch assets, logos, raw footage, and product information without working from stale download folders.',
+        body: 'Agencies get access to approved campaign assets, logos, raw footage, and product information without working from stale download folders.',
       },
     ],
     faqTitle: 'Common questions about partner portals for supplement brands',
     faqs: [
       {
         question: 'What should a supplement partner portal include?',
-        answer: 'It should let approved external users access current product content, assets, and supporting documents in a scoped way by brand, market, product set, or partner relationship. In practice that usually means labels, Supplement Facts panels, packshots, ecommerce images, PDFs, launch materials, approved copy, and reusable social content tied to current product records.',
+        answer: 'It should let approved external users access current product content, assets, and supporting documents in a scoped way by brand, market, product set, or partner relationship. In practice that usually means labels, Supplement Facts panels, packshots, ecommerce images, PDFs, campaign assets, approved copy, and reusable social content tied to current product records.',
       },
       {
         question: 'How is a partner portal different from a shared drive?',
-        answer: 'A shared drive stores files. A partner portal controls who sees what, keeps content tied to approved source records, and gives external teams a clearer destination for current materials.',
+        answer: 'A shared drive stores files. A partner portal controls who sees what, keeps content tied to approved source records, requires approved external users to access content through their own workspace account, and gives external teams a clearer destination for current materials.',
       },
       {
         question: 'Do brands need separate portals for distributors, retailers, and agencies?',
@@ -801,7 +801,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
     kicker: 'Content Syndication',
     heroTitle: 'Product content syndication for supplement brands should start from one approved source, not one more export.',
     heroBody:
-      'Syndication is usually where product content starts to fragment. One partner needs a portal view. Another needs a file export. Another wants a retailer-ready pack or a 1WorldSync-style data handoff. If those outputs are built separately, they drift separately. Product content syndication for supplement brands works best when every destination starts from the same structured product record, linked assets, and approved market-specific content.',
+      'Syndication is usually where product content starts to fragment. One partner needs a portal view. Another needs a file export. Another wants a retailer-ready pack or a structured partner delivery flow. If those outputs are built separately, they drift separately. Product content syndication for supplement brands works best when every destination starts from the same structured product record, linked assets, and approved market-specific content.',
     heroAsideTitle: 'What syndication should solve',
     directAnswer:
       'Supplement brands need product content syndication when partners keep receiving different versions of the same product. It works when every output starts from the same approved product record, linked assets, and market-specific content instead of disconnected exports built one by one.',
@@ -849,7 +849,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
       {
         title: 'Destination-aware outputs',
         items: [
-          'Prepare content for portal views, file exports, retailer packs, distributor handoffs, and other partner-facing outputs.',
+          'Prepare content for portal views, file exports, partner portals, distributor handoffs, and other partner-facing outputs, with more formats coming soon.',
           'Scope what is shared by market, locale, channel, or audience instead of publishing one generic content set everywhere.',
           'Support different destination requirements without losing the approved source context.',
         ],
@@ -1032,7 +1032,7 @@ export const solutionPages: Record<string, SolutionPageContent> = {
       {
         title: 'Channel and partner preparation',
         items: [
-          'Prepare the same product record for ecommerce, retail, distributors, and portal-based partner access.',
+          'Prepare the same product record for distributors and portal-based partner access, with ecommerce channels coming soon.',
           'Scope differences by market and destination without losing the core source record.',
           'Treat catalog management as the foundation for syndication, not as a separate upstream database.',
         ],
